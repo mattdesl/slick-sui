@@ -1,4 +1,5 @@
 #summary how to create your own skins.
+#labels Phase-Implementation
 
 = Introduction =
 
@@ -23,9 +24,11 @@ public class MyButton extends SuiButton {
     //set up a "dummy" rectangle which we can reuse for this component
     private Rectangle rect = new Rectangle(0f,0f,0f,0f);
 
+    //set up the border
+    private SuiBorder border = new LineBorder(new Color(Color.darkGray));
+
     public MyButton() {
         //the border
-        SuiBorder border = new LineBorder(new Color(Color.darkGray));
         setBorder(border);
     }
 
@@ -83,6 +86,9 @@ public class MyButtonUI extends SuiSkin.ButtonUI {
     //this will be reused for any components registered with this UI's instance
     private Rectangle rect = new Rectangle(0f,0f,0f,0f);
 
+    //set up our border
+    private SuiBorder bord = new LineBorder(new Color(Color.gray));
+
     //called to render the UI for the specified component
     public void renderUI(Graphics g, SuiTheme theme, SuiContainer c) {
         //match the rectangle to the given component
@@ -96,7 +102,7 @@ public class MyButtonUI extends SuiSkin.ButtonUI {
         grad.setEndColor(t.getSecondary2());
 
         //horizontal linear gradient
-        float midpoint = getWidth()/2.0f;
+        float midpoint = c.getWidth()/2.0f;
         grad.setStart(-midpoint, 0);
         grad.setEnd(midpoint, 0);
 
@@ -106,7 +112,6 @@ public class MyButtonUI extends SuiSkin.ButtonUI {
 
     //called to install this UI delegate for the specified component
     public void installUI(SuiContainer c, SuiTheme t) {
-        SuiBorder bord = new LineBorder(new Color(Color.gray));
         c.setBorder(bord);
     }
 }
@@ -118,20 +123,46 @@ We can even go a step further and make our UI client-friendly. Let's say the cli
 
 What we want to accomplish is to set the border only when necessary. In other words, we will only use our darkGray border if the client hasn't already set their own. We will need to make some slight changes to the installUI method because of this.
 {{{
+    //we use BorderUIResource to flag it as a non-client property
+    private SuiBorder bord = new BorderUIResource.LineBorder(new Color(Color.gray));
+
     //called to install this UI delegate for the specified component
     public void installUI(SuiContainer c, SuiTheme t) {
-        //we use BorderUIResource to flag it as a non-client property
-        SuiBorder bord = new BorderUIResource.LineBorder(new Color(Color.gray));
-
         //instead of setting the border, we will install it
         SkinManager.installBorder(c, bord);
     }
 }}}
 
-Installing a border will attempt to set the border and will return true if the border has changed. If the container's border is `null` OR if the container's border is an instance of BorderUIResource, then the border will be changed. Otherwise the border will not be changed.
+The SkinManager class has a number of convenience methods for dealing with skins and UIs.
+
+Installing a border will attempt to set the border, returning true if successful. If the container's border is `null` _or_ if the container's border is an instance of BorderUIResource, then the border will be changed. Otherwise the border will not be changed.
 
 
 
-*... more to come*
+= Skins =
+
+Simply put, skins are a collection of component UIs. You can smoothly interchange between skins and fire "global" changes to UIs. Custom skins are generally set before initializing the Sui context:
+{{{
+    ...
+    EasySkin mySkin = new EasySkin();
+    try {
+        //attempt to set the new skin, which may throw an exception
+        Sui.setSkin(mySkin);
+    } catch (SlickException e) {
+        Log.error("Error occurred while setting custom skin. Using default.", e);
+    }
+
+    display = Sui.init(container);
+    ...
+}}}
+
+
+If you wish to set a skin after components have been created, you will need to fire a call to `updateUI` for any components that should be affected by the skin change. A convenience method exists for easily updating all components in a given tree:
+ `Sui.updateComponentTreeUI(display);`
+
+Skins might seem rather frightening at first, but they should be no more difficult to use than the rest of SUI. 
+
+See the EasySkin and EasySkinTest examples for further details on custom skins.
+
 
 
