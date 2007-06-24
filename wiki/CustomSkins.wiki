@@ -13,7 +13,7 @@ There are a few ways to give your components custom rendering. For now I'll disc
 
 Just like in the earlier versions of SUI, you can subclass components and override their render methods. However, component rendering has changed slightly to make the system easier to work with. When rendering, the `renderSkin(GUIContext, Graphics, SuiTheme)` method is called prior to rendering the component tree (`renderComponent`, `renderBorder`, and `renderChildren`).
 
-Here's how one would extend a component to create a custom look. This example will render a linear gradient using the current theme's colours. 
+Here's how one would extend a component to create a custom look. This example will render a linear gradient using the current theme's colours. The look will also add a dark gray border to the component.
 {{{
 public class MyButton extends SuiButton {
 
@@ -22,6 +22,12 @@ public class MyButton extends SuiButton {
 
     //set up a "dummy" rectangle which we can reuse for this component
     private Rectangle rect = new Rectangle(0f,0f,0f,0f);
+
+    public MyButton() {
+        //the border
+        SuiBorder border = new LineBorder(new Color(Color.darkGray));
+        setBorder(border);
+    }
 
 
     //called before renderComponent
@@ -51,16 +57,81 @@ public class MyButton extends SuiButton {
 
 = Individual Component UI =
 
-Instead of having to deal with subclasses, one may wish to develop a UI delegate for use on individual components. For example:
-
+Instead of having to deal with subclasses, one may wish to develop a UI delegate for use on individual components. For example, the following will create two buttons. One button will use a custom UI, and the other will use the default.
 {{{
         ...
+        MyButtonUI myButtonUI = new MyButtonUI();
+
         SuiButton button1 = new SuiButton("Custom Skin");
         SuiButton button2 = new SuiButton("Normal Skin");
 
         button1.setUI(myButtonUI);
+        ...
 }}}
+
+Component UIs are located in the SuiSkin interface as inner-interfaces. We will use the rendering code from the *Subclassing* section above to create our own pluggable button UI. The SuiSkin.ButtonUI class is used on SuiButtons and any button subclasses (including SuiCheckBox). Most components will have their own UI delegates (such as CheckBoxUI, LabelUI, etc). 
+
+Here's our custom UI class:
+{{{
+public class MyButtonUI extends SuiSkin.ButtonUI {
+
+    //set up a "dummy" fill
+    //this will be reused for any components registered with this UI's instance
+    private GradientFill grad = new GradientFill(0,0,Color.white,0,0,Color.white);
+
+    //set up a "dummy" rectangle
+    //this will be reused for any components registered with this UI's instance
+    private Rectangle rect = new Rectangle(0f,0f,0f,0f);
+
+    //called to render the UI for the specified component
+    public void renderUI(Graphics g, SuiTheme theme, SuiContainer c) {
+        //match the rectangle to the given component
+        rect.setX(c.getAbsoluteX());
+        rect.setY(c.getAbsoluteY());
+        rect.setWidth(c.getWidth());
+        rect.setHeight(c.getHeight());
+
+        //set up our gradient based on size and theme
+        grad.setStartColor(t.getPrimary1());
+        grad.setEndColor(t.getSecondary2());
+
+        //horizontal linear gradient
+        float midpoint = getWidth()/2.0f;
+        grad.setStart(-midpoint, 0);
+        grad.setEnd(midpoint, 0);
+
+        //render
+        g.fill(rect, grad);
+    }
+
+    //called to install this UI delegate for the specified component
+    public void installUI(SuiContainer c, SuiTheme t) {
+        SuiBorder bord = new LineBorder(new Color(Color.gray));
+        c.setBorder(bord);
+    }
+}
+}}}
+
+Now, when we install this UI through a call to `setUI(SuiSkin.ContainerUI)`, the rendering and border will be changed.
+
+We can even go a step further and make our UI client-friendly. Let's say the client using your UI wishes to use their own borders. Every time they install your UI on the components, their client-set borders will be replaced with your gray border.
+
+What we want to accomplish is to set the border only when necessary. In other words, we will only use our darkGray border if the client hasn't already set their own. We will need to make some slight changes to the installUI method because of this.
+{{{
+    //called to install this UI delegate for the specified component
+    public void installUI(SuiContainer c, SuiTheme t) {
+        //we use BorderUIResource to flag it as a non-client property
+        SuiBorder bord = new BorderUIResource.LineBorder(new Color(Color.gray));
+
+        //instead of setting the border, we will install it
+        SkinManager.installBorder(c, bord);
+    }
+}}}
+
+Installing a border will attempt to set the border and will return true if the border has changed. If the container's border is `null` OR if the container's border is an instance of BorderUIResource, then the border will be changed. Otherwise the border will not be changed.
 
 
 
 *... more to come*
+
+
