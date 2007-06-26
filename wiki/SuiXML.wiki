@@ -64,24 +64,24 @@ It's important to note that the text inside the String is actually what you are 
   `<button id="myButton" text="&quot;Hello there!&quot;" />`
 
 It also means full expressions can be used as the value:
-  `<button id="myButton" width="Math::PI + Math::max(0, myLabel.getX())" />
+  `<button id="myButton" width="Math::PI + Math::max(0, myLabel.getX())" />`
 
 
-Properties for components are only good for single-parameter calls (such as individual bounds). If you want to get into methods with multiple parameters or none at all, you must use the <eval> block or the <invoke> block. Let's take a look at the <invoke> block:
+Properties for components are only good for single-parameter calls (such as individual bounds). If you want to get into methods with multiple parameters or none at all, you must use the <eval> block or the <invoke> block. Here's an example using the <invoke> block:
 {{{
   ...
-  <button id="myButton" x="10" y="20" 
+  <button text="&quot;Test&quot;">
+    <invoke method="pack" />
+    <invoke method="setLocation">50, 20</invoke>
+  </button>
 }}}
 
-= Simple Example =
-
-SUI xml scripts are nothing more than a well-formed XML document.
 
 
+= Examples =
 
-
-
-==simplegui.xml==
+*The following depends on the SimpleXML client. This is an example
+of hardcoding certain listeners and interacting between client and script.*
 {{{
 <sui id="client">
     
@@ -105,12 +105,7 @@ SUI xml scripts are nothing more than a well-formed XML document.
 </sui>
 }}}
 
-
-
-
-= Advanced Example =
-
-==testgui.xml==
+*The following depends on the TestXML client.*
 {{{
 <sui id="test_xml">
     <!-- 
