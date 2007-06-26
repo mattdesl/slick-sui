@@ -1,11 +1,10 @@
 #summary a quick base for scripting with SUI
 
-= THIS PAGE IS NOT YET COMPLETE. =
-
-
 = Introduction =
 
 SuiXML is a small side project which allows for a scriptable GUI system. It's flexible in the sense that variables (such as positions, text, listeners, etc) can be either hardcoded or scripted. It currently depends on Pnuts for scripting, but hopefully JavaScript or even Java will be supported at a later date.
+
+Make sure you know the Pnuts language before you begin! It's mostly similar to Java but it has a few quirks you might not be expecting.
 
 = Basics =
 
