@@ -7,7 +7,50 @@
 
 SuiXML is a small side project which allows for a scriptable GUI system. It's flexible in the sense that variables (such as positions, text, listeners, etc) can be either hardcoded or scripted. It currently depends on Pnuts for scripting, but hopefully JavaScript or even Java will be supported at a later date.
 
+= Basics =
+
+A SuiXML object sends calls to the interpreters and parses the XML as needed. A SuiXML object must be constructed with a _client_. The client can be any object. Often the client is used to access certain hardcoded features, such as listeners, from within the XML document.
+  `SuiContainer c = new SuiXML(this).read(input);`
+
+
+The root element of any SUI xml script should be a <sui> element. This element can have an optional `id` attribute. This is an identifier for the client object which was passed to SuiXML upon construction. If the attribute is left out, it is declared as `"__client__"`.
+Identifiers are the variable name of the object defined in the Interpreter. We will come to this later.
+  `<sui id="myClient">`
+
+The root element consists of one container, the component to build, and any number of <eval> blocks. For example:
+{{{
+<sui>
+    <eval>System.out.println("before building component")</eval>
+    <container x="10" y="10" />
+    <eval>System.out.println("after building component")</eval>
+</sui>
+}}}
+
+The return value of the script, the component we are building, is declared as follows:
+{{{
+<container prop="val">
+    ...
+</container>
+}}}
+
+SuiXML includes an "alias" feature for easier reading. A container is found by the fully qualified class name. Using the built-in aliases such as `container`, `button`, `window`, etc. we can reduce the need for clutter. The above code is equivalent to:
+{{{
+<mdes.slick.sui.SuiContainer prop="val">
+    ...
+</mdes.slick.sui.SuiContainer>
+}}}
+
+You can add your own aliases using the `alias(String, String)` method in SuiXML.
+
+
+
 = Simple Example =
+
+SUI xml scripts are nothing more than a well-formed XML document.
+
+
+
+
 
 ==simplegui.xml==
 {{{
