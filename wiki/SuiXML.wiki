@@ -1,0 +1,89 @@
+#summary a quick base for scripting with SUI
+
+= THIS PAGE IS NOT YET COMPLETE. =
+
+
+= Introduction =
+
+SuiXML is a small side project which allows for a scriptable GUI system. It's flexible in the sense that variables (such as positions, text, listeners, etc) can be either hardcoded or scripted. It currently depends on Pnuts for scripting, but hopefully JavaScript or even Java will be supported at a later date.
+
+= Simple Example =
+
+==simplegui.xml==
+{{{
+<sui id="client">
+    
+    <container x="100" y="100" width="200" height="200" 
+               background="Color(225, 200, 200)" opaque="true">
+        
+        <label id="theLabel" x="10" y="20" text="&quot;Hello, World!&quot;" />
+        
+        <button id="theButton" x="theLabel.getX()" y="theLabel.getY() + theLabel.getHeight()+5">
+            
+            <invoke method="addActionListener">client.getClickListener()</invoke>
+            
+            <eval>
+                client.initButton(theButton)
+            </eval>
+            
+            <invoke method="pack" />
+            <invoke method="setWidth">100</invoke>
+        </button>
+    </container>
+</sui>
+}}}
+
+
+
+
+= Advanced Example =
+
+==testgui.xml==
+{{{
+<sui id="test_xml">
+    <!-- 
+        An <eval> block will evaluate a pnuts script into the interpreter. 
+        Since this is XML, special symbols like '>' need to be escaped!
+        
+        See Also: http://www.xml.com/pub/a/2001/01/31/qanda.html
+    -->
+    <eval>
+        /////// Below is a Pnut script
+        
+        //Mock localization
+        button_save = "Save"
+        button_load = "Load"
+        window_title = "Welcome Dialog"
+
+        //Here we create a listener using Pnuts
+        save_listener = new SuiActionListener() {
+            actionPerformed(SuiActionEvent e) {
+                System.out.println("Save")
+            }
+        }
+
+        //We can also retrieve hardcoded objects from our client (ie: TestXML).
+        //We declared the client's identifier as "test_xml" in the top-level 'sui' element.
+        load_listener = test_xml.getLoadListener();
+    </eval>
+    
+    <!-- 
+        Below we start our top-level container. A SUI xml script can only have 
+        one top-level container element. In this case, the container which will 
+        be returned is a SuiWindow.
+    -->
+    <window id="window" x="100" y="100" width="200" height="200" visible="true" title="window_title">       
+        <!-- A button as a child of this top level container. -->
+        <button id="save" x="10" y="20" text="button_save">
+            <invoke method="pack" />
+            <invoke method="addActionListener">save_listener</invoke>
+        </button>
+        
+        <button id="load" text="button_load">
+            <invoke method="setLocation">save.getX()+save.getWidth()+5, save.getY()</invoke>
+            <invoke method="pack" />
+            <invoke method="addActionListener">load_listener</invoke>
+        </button>
+    </window>
+</sui>
+}}}
