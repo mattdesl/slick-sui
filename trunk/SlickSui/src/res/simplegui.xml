@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : simplegui.xml.xml
+    Created on : June 25, 2007, 11:57 PM
+    Author     : J
+    Description:
+        Purpose of the document follows.
+-->
+
+<sui id="client">
+    
+    <container x="100" y="100" width="200" height="200" 
+               background="Color(225, 200, 200)" opaque="true">
+        
+        <label id="theLabel" x="10" y="20" text="&quot;Hello, World!&quot;" />
+        
+        <button id="theButton" x="theLabel.getX()"  y="theLabel.getY() + theLabel.getHeight()+5">
+            
+            <invoke method="addActionListener">client.getClickListener()</invoke>
+            
+            <eval>
+                client.initButton(theButton)
+            </eval>
+            
+            <invoke method="pack" />
+            <invoke method="setWidth">100</invoke>
+        </button>
+    </container>
+</sui>

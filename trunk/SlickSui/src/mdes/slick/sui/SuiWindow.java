@@ -1,6 +1,16 @@
+/*
+ * SuiWindow.java
+ *
+ * Created on June 14, 2007, 6:06 PM
+ */
+
 package mdes.slick.sui;
 
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import mdes.slick.sui.border.LineBorder;
 import org.newdawn.slick.*;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.*;
@@ -8,35 +18,24 @@ import mdes.slick.sui.event.*;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
- * SuiWindow is the basic top-level dialog window which
- * can be dragged and resized.
+ * A dialog window which can be moved, resized, and hidden.
  * <p>
- * Windows can be set to be non-draggable, non-resizable,
- * have resize limits (max of x, y) and other features.
- *
+ * <code>SuiWindow</code> uses a content pane to hold its children. The following
+ * methods make calls to the content pane for convenience: add, remove, setBackground
+ * and remove. It's good practice to always call getContentPane() first when dealing 
+ * with the window's children.
  * @author davedes
- * @since b.0.1
  */
 public class SuiWindow extends SuiContainer {
     
     /**
-     * The title bar for SuiWindow is a SuiLabel itself.
+     * the title pane
      */
-    protected SuiLabel titlePane = new SuiLabel() {
-        protected void renderComponent(GUIContext c, Graphics g) {
-            super.renderComponent(c, g);
-        }
-        
-        public void setText(String s) {
-            super.setText(s);
-            pack();
-        }
-    };
-    
+    private SuiTitleBar titlePane;
     /**
-     * The resizer component is a small triangle in the bottom-right corner.
+     * the resizer component
      */
-    protected SuiContainer resizer = new SuiContainer() {
+    private SuiContainer resizer = new SuiContainer() {
         {
             setSize(8, 8);
             addMouseListener(new WindowResizeListener());
@@ -46,27 +45,34 @@ public class SuiWindow extends SuiContainer {
             if (!SuiWindow.this.isResizable())
                 return;
             
-            Color t = Sui.getTheme().getForeground();
+            SlickCallable.enterSafeBlock();
+            Color t = Sui.getTheme().getPrimaryBorder1();
             
             //bind texture & color before entering gl
             t.bind();
             
+            float x = getAbsoluteX()-2 , y = getAbsoluteY()-1;
+            int w = getWidth(), h = getHeight();
+            
             //begin drawing the triangle
             GL11.glBegin(GL11.GL_TRIANGLES);
-            GL11.glVertex3f(getAbsoluteX()+getWidth(), getAbsoluteY(), 0);
-            GL11.glVertex3f(getAbsoluteX()+getWidth(), getAbsoluteY()+getHeight(), 0);
-            GL11.glVertex3f(getAbsoluteX(), getAbsoluteY()+getHeight(), 0);
+                GL11.glVertex3f(x+w, y, 0);
+                GL11.glVertex3f(x+w, y+h, 0);
+                GL11.glVertex3f(x, y+h, 0);
             GL11.glEnd();
-        }
-        
-        public float getAbsoluteX() {
-            return SuiWindow.this.getAbsoluteX()+SuiWindow.this.getWidth()-getWidth();
-        }
-        
-        public float getAbsoluteY() {
-            return SuiWindow.this.getAbsoluteY()+SuiWindow.this.getHeight()-getHeight()-1;
+            SlickCallable.leaveSafeBlock();
         }
     };
+        
+    /**
+     * the content pane
+     */
+    private SuiContainer contentPane = new SuiContainer();
+    
+    //TODO: minimum resize width for title
+    //TODO: concact title with "..."
+    //TODO: fix absolute Y coord for window
+    //TODO: fix background color & change of theme
     
     /** Specifies that the window can be resized infinitely. */
     public static final int MAX_RESIZE = Integer.MAX_VALUE;
@@ -85,34 +91,19 @@ public class SuiWindow extends SuiContainer {
     
     /** Used internally, the initial width of the dialog. */
     private final int INITIAL_WIDTH = 200;
-    
-    /** The close button in the window. */
-    protected SuiButton closeButton;
+    /**
+     * the initial height of the titlebar
+     */
+    private final int TITLEBAR_HEIGHT = 20;
     
     /** Whether this window is resizable. */
     private boolean resizable = true;
     
     /** Whether this window is draggable. */
     private boolean draggable = true;
-    
-    /** The background color of this window. */
-    protected Color background = Color.gray;
-    
-    /** Whether this window is active (one of its children has the focus). */
-    boolean active = false;
-    
-    /** Window drop shadow color. */
-    protected Color shadow = new Color(Color.gray);
-    
-    /** The width of the drop shadow for this window. */
-    protected int shadowWidth = 2;
-    
-    protected SuiMouseListener dragListener = new WindowDragListener();
-    
-    //TODO: minimum resize width for title
-    //TODO: concact title with "..."
-    //TODO: fix absolute Y coord for window
-    //TODO: fix background color & change of theme
+        
+    /** Whether this window is active (ie: one of its children has the focus). */
+    private boolean active = false;
     
     /**
      * Creates a new SuiWindow with the specified title.
@@ -122,33 +113,27 @@ public class SuiWindow extends SuiContainer {
     public SuiWindow(String title) {
         super();
         
-        //set up title bar, which is a label
-        titlePane.setPadding(5);
-        titlePane.setHorizontalAlignment(SuiLabel.LEFT_ALIGNMENT);
-        titlePane.setLocation(0, 0);
+        titlePane = createTitleBar();
         
-        //quick hack to pack the label height
+        setFocusable(true);
+        contentPane.setFocusable(true);
+        setOpaque(true);
+        contentPane.setOpaque(true);
+        
+        resizer.setZIndex(SuiContainer.DRAG_LAYER);
+        setZIndex(SuiContainer.MODAL_LAYER);
+        
         titlePane.setText(title);
-        titlePane.setHeight(20);
+        titlePane.setForeground(Sui.getTheme().getForeground());
         
-        titlePane.setWidth(INITIAL_WIDTH);
-        titlePane.addMouseListener(dragListener);
+        contentPane.setLocation(0,titlePane.getHeight());
+        contentPane.setWidth(INITIAL_WIDTH);
         
-        //set up close button
-        closeButton = new SuiButton("x");
-        closeButton.setPadding(2);
-        closeButton.pack();
-        closeButton.setY( titlePane.getHeight()/2 - closeButton.getHeight()/2 );
-        closeButton.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
-                SuiWindow.this.setVisible(false);
-            }
-        });
+        super.add(titlePane);
+        super.add(contentPane);
+        super.add(resizer);
         
-        //add close button to titlepane
-        titlePane.add(closeButton);
-        
-        setMinimumSize(resizer.getWidth(), resizer.getHeight()+1);
+        setMinimumSize(100, resizer.getHeight()+10);
         setMaximumSize(MAX_RESIZE, MAX_RESIZE);
         
         setSize(INITIAL_WIDTH, titlePane.getHeight());
@@ -161,6 +146,28 @@ public class SuiWindow extends SuiContainer {
     public SuiWindow() {
         this("");
     }
+    
+    protected SuiTitleBar createTitleBar() {
+        return new SuiTitleBar();
+    }
+    
+    public void setFont(Font f) {
+        titlePane.setFont(f);
+        super.setFont(f);
+    }
+    
+    public Font getFont() {
+        return titlePane.getFont();
+    }
+    
+    void renderTree(GUIContext container, Graphics g) {
+        renderComponent(container, g);
+        renderChildren(container, g);
+        renderBorder(container, g);
+    }
+    
+    //TODO: @URGENT fix isVisible with windows
+            //use a system like isClipEnabled instead
     
     /**
      * Adds the specified listener to the list.
@@ -229,7 +236,7 @@ public class SuiWindow extends SuiContainer {
      * @param c the content pane color
      */
     public void setBackground(Color c) {
-        this.background = c;
+        contentPane.setBackground(c);
     }
     
     /**
@@ -239,7 +246,7 @@ public class SuiWindow extends SuiContainer {
      * @return the content pane color
      */
     public Color getBackground() {
-        return background;
+        return contentPane.getBackground();
     }
     
     /**
@@ -249,14 +256,14 @@ public class SuiWindow extends SuiContainer {
      *
      * @return this window's title bar
      */
-    public SuiLabel getTitleBar() {
+    public SuiTitleBar getTitleBar() {
         return titlePane;
     }
     
     public SuiContainer getResizer() {
         return resizer;
     }
-    
+        
     /**
      * Sets the title of this window.
      *
@@ -276,145 +283,63 @@ public class SuiWindow extends SuiContainer {
     }
     
     /**
-     * Sets the x position of this SuiContainer, relative
-     * to its parent.
+     * Adds a child to this frame's content pane.
      *
-     * @param x the x position of this component
-     * @see mdes.slick.sui.SuiContainer#setLocation(float, float)
+     * @param child the child container to add
      */
-    public void setX(float x) {
-        super.setX(x);
-        titlePane.setX(x);
+    public void add(SuiContainer child) {
+        contentPane.add(child);
     }
     
     /**
-     * Sets the y position of this SuiContainer, relative
-     * to its parent.
+     * Inserts a child to this SuiContainer at the specified index.
      *
-     * @param y the y position of this component
-     * @see mdes.slick.sui.SuiContainer#setLocation(float, float)
+     * @param child the child container to add
+     * @param index the index to insert it to
      */
-    public void setY(float y) {
-        super.setY(y);
-        titlePane.setY(y-titlePane.getHeight());
+    public void add(SuiContainer child, int index) {
+        contentPane.add(child, index);
     }
     
     /**
-     * Used internally to render the drop shadow and titlebar properly.
+     * Removes the child from this SuiContainer if it exists.
      *
-     * @param c The container displaying this component
-     * @param g The graphics context used to render to the display
-     * @param topLevel <tt>true</tt> if this is a top-level component
+     * @param child the child container to remove
+     * @return <tt>true</tt> if the child was removed
      */
-    void render(GUIContext c, Graphics g) {
-        if (isVisible())
-            drawDropShadow(g, shadowWidth);
-        g.setClip((int)getAbsoluteX(),
-                (int)getAbsoluteY()-titlePane.getHeight()-1,
-                getWidth()+1, getHeight()+1+titlePane.getHeight());
-        super.render(c, g);
-        if (isVisible())
-            resizer.render(c, g);
+    public boolean remove(SuiContainer child) {
+        return contentPane.remove(child);
     }
     
-    /**
-     * Draws a drop shadow for this window.
-     *
-     * @param width the width
-     */
-    protected void drawDropShadow(Graphics g, int width) {
-        if (width==0)
-            return;
-        
-        float fact = (65f/width)/100f;
-        shadow.a = 0f;
-        
-        //original values
-        final int ox = (int)getAbsoluteX();
-        final int oy = (int)getAbsoluteY()-titlePane.getHeight();
-        final int w = getWidth();
-        final int h = getHeight()+titlePane.getHeight();
-        
-        for (int i=width; i>=1; i--) {
-            shadow.a += fact;
-            if (shadow.a>1.0f)
-                shadow.a = 1.0f;
-            
-            g.setColor(shadow);
-            
-            int nx = ox + i;
-            int ny = oy + i;
-            
-            //bottom line (horizontal)
-            g.drawLine(nx, ny+h, nx+w, ny+h);
-            
-            //right line (vertical)
-            g.drawLine(nx+w, ny, nx+w, ny+h);
-        }
-        shadow.a = 1.0f;
-    }
-    
-    /**
-     * Called to render the content pane and title bar.
-     * SuiWindows wanting custom rendering on content panes
-     * should override
-     * {@link mdes.slick.sui.SuiWindow#renderContentPane(GUIContext, Graphics)}.
-     *
-     * @param c the GUIContext we are rendering to
-     * @param g the Graphics context we are rendering with
-     */
-    protected void renderComponent(GUIContext c, Graphics g) {
-        renderContentPane(c, g);
-        titlePane.render(c, g);
-    }
-    
-    
-    /**
-     * Called to render the window's content pane. Initially this method
-     * fills a rectangle using the background color. Override without
-     * calling super for completely custom container rendering.
-     *
-     * @param c the GUIContext we are rendering to
-     * @param g the Graphics context we are rendering with
-     */
-    protected void renderContentPane(GUIContext c, Graphics g) {
-        Color old = g.getColor();
-        g.setColor(background);
-        g.fillRect(getAbsoluteX(), getAbsoluteY(),
-                getWidth(), getHeight());
-        g.setColor(old);
-    }
-    
-    /**
-     * Called to render this component's border.
-     *
-     * @param c the GUIContext we are rendering to
-     * @param g the Graphics context we are rendering with
-     */
-    protected void renderBorder(GUIContext c, Graphics g) {
-        Color old = g.getColor();
-        
-        g.setColor(Sui.getTheme().getSecondary3());
-        g.drawRect(getAbsoluteX(), getAbsoluteY()-titlePane.getHeight(),
-                getWidth(), getHeight()+titlePane.getHeight());
-        g.drawLine(getAbsoluteX(), getAbsoluteY(),
-                getAbsoluteX()+getWidth(), getAbsoluteY());
-        g.setColor(old);
-    }
-    
+                
     public SuiButton getCloseButton() {
-        return closeButton;
+        return titlePane.getCloseButton();
     }
     
     public void setWidth(int width) {
         super.setWidth(width);
         titlePane.setWidth(width);
-        closeButton.setX(titlePane.getWidth()
-        - closeButton.getWidth() - titlePane.getPadding());
+        contentPane.setWidth(width);
+        resizer.setX(width - resizer.getWidth());
+    }
+    
+    public void setHeight(int height) {
+        super.setHeight(height);
+        contentPane.setHeight(Math.max(0, height-titlePane.getHeight()));
+        resizer.setY(height - resizer.getHeight()-1);
     }
     
     public boolean isActive() {
-        return active;
+        return active && isVisible();
+    }
+    
+    public SuiContainer getContentPane() {
+        return contentPane;
+    }
+    
+    public void setContentPane(SuiContainer cp) {
+        this.contentPane = cp;
+        contentPane.setFocusable(true);
     }
     
     public void setDraggable(boolean b) {
@@ -487,34 +412,114 @@ public class SuiWindow extends SuiContainer {
         return resizable;
     }
     
+    /** Called on creation. Initially does nothing. */
+    public void updateUI(SuiSkin skin) {
+        setUI(skin.getWindowUI());
+    }
+        
+    void setActive(boolean active) {
+        this.active = active;
+        if (active)
+            setZIndex(SuiLabel.MODAL_LAYER+1);
+        else
+            setZIndex(SuiLabel.MODAL_LAYER);
+    }
+       
+    //TODO: setSize w/ min/max
+    
+    public SuiSkin.WindowUI getUI() {
+        return (SuiSkin.WindowUI)super.getUI();
+    }
+        
+    public class SuiTitleBar extends SuiLabel {
+        
+        protected SuiButton closeButton = new SuiButton("x");
+        
+        public SuiTitleBar() {
+            super();
+            
+            //set up title bar, which is a label
+            setPadding(5);
+            setHorizontalAlignment(SuiLabel.LEFT_ALIGNMENT);
+            setLocation(0, 0);
+            setHeight(TITLEBAR_HEIGHT);
+            
+            setWidth(INITIAL_WIDTH);
+            
+            addMouseListener(new WindowDragListener());
+            
+            //set up close button
+            closeButton.setSkinEnabled(false);
+            closeButton.setToolTipText("Close");
+            closeButton.setVerticalPadding(3);
+            closeButton.setHorizontalPadding(3);
+            closeButton.pack();
+            closeButton.setY( this.getHeight()/2f - closeButton.getHeight()/2f );
+            
+            closeButton.addActionListener(new SuiActionListener() {
+                public void actionPerformed(SuiActionEvent e) {
+                    SuiWindow.this.setVisible(false);
+                }
+            });
+
+            //add close button to titlepane
+            add(closeButton);
+        }
+        
+        /** Called on creation. Initially does nothing. */
+        public void updateUI(SuiSkin skin) {
+            setUI(skin.getTitleBarUI());
+        }
+
+        public SuiSkin.TitleBarUI getUI() {
+            return (SuiSkin.TitleBarUI)super.getUI();
+        }
+                
+        public void setWidth(int width) {
+            super.setWidth(width);
+            closeButton.setX(getWidth() - closeButton.getWidth() 
+                        - getHorizontalPadding());
+        }
+        
+        public SuiButton getCloseButton() {
+            return closeButton;
+        }
+        
+        public void setCloseButton(SuiButton b) {
+            this.closeButton = b;
+        }
+    }
+    
     /** Used internally to determine how to resize the window. */
-    protected class WindowResizeListener extends SuiMouseAdapter {
+    private class WindowResizeListener extends SuiMouseAdapter {
         public void mouseDragged(SuiMouseEvent e) {
+            if (!resizable)
+                return;
+            
             int b = e.getButton();
             int ox = e.getOldX();
             int oy = e.getOldY();
             int nx = e.getX();
             int ny = e.getY();
             
-            if (b==SuiMouseEvent.BUTTON1 && resizable) {
-                //get absolute mouse coordinates
-                int abX = nx+getWidth()-resizer.getWidth();
-                int abY = ny+(getHeight())-resizer.getHeight();
+            if (b==SuiMouseEvent.BUTTON1) {
+                int abX = e.getAbsoluteX() - (int)getAbsoluteX();
+                int abY = e.getAbsoluteY() - (int)getAbsoluteY();
                 
                 if (minWidth==MAX_RESIZE || abX>=minWidth)
                     if (maxWidth==MAX_RESIZE || abX<maxWidth)
                         setWidth(abX);
-                if (minHeight==MAX_RESIZE || abY>=minHeight)
-                    if (maxHeight==MAX_RESIZE || abY<maxHeight)
+                if (minHeight==MAX_RESIZE || abY-titlePane.getHeight()>=minHeight)
+                    if (maxHeight==MAX_RESIZE || abY-titlePane.getHeight()<maxHeight)
                         setHeight(abY);
             }
         }
     }
     
-    protected class WindowDragListener extends SuiMouseAdapter {
+    private class WindowDragListener extends SuiMouseAdapter {
         
         public void mouseDragged(SuiMouseEvent e) {
-            if (!isDraggable())
+            if (!draggable)
                 return;
             
             int b = e.getButton();
@@ -530,4 +535,6 @@ public class SuiWindow extends SuiContainer {
             }
         }
     }
+
+             
 }

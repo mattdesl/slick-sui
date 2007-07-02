@@ -55,7 +55,7 @@ public class SimpleSkin implements SuiSkin {
         SkinManager.put("CheckBox.image", checkboxImage);
         SkinManager.put("Window.border", windowBorder);
         SkinManager.put("ToolTip.border", toolTipBorder);
-        //SkinManager.put("font", font);
+        SkinManager.put("font", font);
     }
     
     private Image tryImage(String s) {
@@ -72,7 +72,7 @@ public class SimpleSkin implements SuiSkin {
     }
     
     public String getName() {
-        return "Simple";
+        return "Simple Skin";
     }
     
     public SuiSkin.ButtonUI getButtonUI() { 
@@ -218,8 +218,8 @@ public class SimpleSkin implements SuiSkin {
             float x1=c.getAbsoluteX(), y1=c.getAbsoluteY();
             float width=c.getWidth(), height=c.getHeight();
                       
-            SuiWindow2 win = (SuiWindow2)c;
-            SuiWindow2.SuiTitleBar bar = win.getTitleBar();
+            SuiWindow win = (SuiWindow)c;
+            SuiWindow.SuiTitleBar bar = win.getTitleBar();
             
             g.setColor(light);
             
@@ -289,7 +289,7 @@ public class SimpleSkin implements SuiSkin {
     public static class SimpleWindowUI extends WindowUI {
         
         public void installUI(SuiContainer c, SuiTheme t) {
-            SuiWindow2 w = (SuiWindow2)c;
+            SuiWindow w = (SuiWindow)c;
             w.setBackground(t.getBackground());
             
             windowBorder.theme = t;
@@ -332,7 +332,7 @@ public class SimpleSkin implements SuiSkin {
         }
 
         public void renderUI(Graphics g, SuiTheme theme, SuiContainer c) {
-            SuiWindow2.SuiTitleBar t = (SuiWindow2.SuiTitleBar)c;
+            SuiWindow.SuiTitleBar t = (SuiWindow.SuiTitleBar)c;
             
             float x1=t.getAbsoluteX(), y1=t.getAbsoluteY();
             int width=t.getWidth(), height=t.getHeight();
@@ -343,7 +343,7 @@ public class SimpleSkin implements SuiSkin {
             
             Color start, end;
             
-            boolean active = ((SuiWindow2)t.getParent()).isActive();
+            boolean active = ((SuiWindow)t.getParent()).isActive();
             
             if (active) {
                 start = theme.getActiveTitleBar1();

@@ -54,7 +54,7 @@ public class EasySkinTest extends BasicGame {
         display = Sui.init(container);
         display.setClipEnabled(false);
         
-        SuiWindow2 win = new SuiWindow2("Test Skin");
+        SuiWindow win = new SuiWindow("Test Skin");
         win.setSize(200,200);
         win.setLocation(300,200);
         win.setResizable(false);

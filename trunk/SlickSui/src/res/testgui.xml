@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : testgui.xml.xml
+    Created on : June 24, 2007, 6:14 PM
+    Author     : davedes
+    Description:
+        Purpose of the document follows.
+-->
+
+<!-- 
+    All SUI xml scripts start with the <sui> element. 
+    The 'id' attribute is the variable's identifier which is stored
+    in the Pnuts interpreter. This should be a valid identifier name 
+    (ie: cannot start with a number) which is unique.
+-->
+<sui id="test_xml">
+    <!-- 
+        An <eval> block will evaluate a pnuts script into the interpreter. 
+        Since this is XML, special symbols like '>' need to be escaped!
+        
+        See Also: http://www.xml.com/pub/a/2001/01/31/qanda.html
+    -->
+    <eval>
+        /////// Below is a Pnut script
+        
+        //Mock localization
+        button_save = "Save"
+        button_load = "Load"
+        window_title = "Welcome Dialog"
+
+        //Here we create a listener using Pnuts
+        save_listener = new SuiActionListener() {
+            actionPerformed(SuiActionEvent e) {
+                System.out.println("Save")
+            }
+        }
+
+        //We can also retrieve hardcoded objects from our client (ie: TestXML).
+        //We declared the client's identifier as "test_xml" in the top-level 'sui' element.
+        load_listener = test_xml.getLoadListener();
+    </eval>
+    
+    <!-- 
+        Below we start our top-level container. A SUI xml script can only have 
+        one top-level container element. In this case, the container which will 
+        be returned is a SuiWindow.
+    -->
+    <window id="window" x="100" y="100" width="200" height="200" visible="true" title="window_title">       
+        <!-- A button as a child of this top level container. -->
+        <button id="save" x="10" y="20" text="button_save">
+            <invoke method="pack" />
+            <invoke method="addActionListener">save_listener</invoke>
+        </button>
+                
+        <button id="load" text="button_load">
+            <invoke method="setLocation">save.getX()+save.getWidth()+5, save.getY()</invoke>
+            <invoke method="pack" />
+            <invoke method="addActionListener">load_listener</invoke>
+        </button>
+        
+        <textfield id="field" text="button_load" x="save.getX()" y="save.getY()+save.getHeight()+5" width="100" height="20" />
+    </window>
+</sui>

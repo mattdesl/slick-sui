@@ -33,7 +33,7 @@ public class SimpleWindowTest extends BasicGame {
     }
     
     private SuiDisplay display = null;
-    private SuiWindow2 w = null;
+    private SuiWindow w = null;
     
     public void init(GameContainer container) throws SlickException {
         display = Sui.init(container);
@@ -41,19 +41,19 @@ public class SimpleWindowTest extends BasicGame {
         
         //TODO: fix top left
         
-        w = new SuiWindow2("Test");
+        w = new SuiWindow("Test");
         w.setSize(200,200);
         w.setLocation(50,190);
         w.setVisible(true);
         display.add(w);
                 
-        SuiWindow2 w2 = new SuiWindow2("Test 2");
+        SuiWindow w2 = new SuiWindow("Test 2");
         w2.setSize(90,50);
         w2.setLocation(15,105);
         w2.setVisible(true);
         display.add(w2);
         
-        SuiWindow2 w3 = new SuiWindow2("Test 2");
+        SuiWindow w3 = new SuiWindow("Test 2");
         w3.setSize(90,50);
         w3.setLocation(100,150);
         w3.setVisible(true);

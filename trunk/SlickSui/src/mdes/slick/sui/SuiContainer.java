@@ -866,8 +866,8 @@ public class SuiContainer implements java.io.Serializable {
     void setWindowsActive(boolean b) {
         SuiContainer top = this;
         while (top!=null) {
-            if (top instanceof SuiWindow2) {
-                SuiWindow2 win = (SuiWindow2)top;
+            if (top instanceof SuiWindow) {
+                SuiWindow win = (SuiWindow)top;
                 win.setActive(b);
                 if (b)
                     SuiDisplay.activeWindows.add(win);
