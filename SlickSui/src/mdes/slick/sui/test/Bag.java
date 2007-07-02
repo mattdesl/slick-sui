@@ -9,7 +9,7 @@ package mdes.slick.sui.test;
 import java.util.HashMap;
 
 /**
- *
+ * 
  * @author oNyx, touched up by davedes
  */
 public class Bag<T> {

@@ -13,11 +13,9 @@ import org.newdawn.slick.gui.*;
 
 /**
  * Sui is a utility class for the GUI library. It should be used
- * for initializing the system and global gui settings. 
+ * for initializing the system and changing global settings. 
  * <p>
- * It's best to change global settings (tooltip, themes, skins, etc.) before
- * component creation.
- * 
+ * The skin is first installed when one of the init() methods is called.
  * @author davedes
  */
 public class Sui {
@@ -43,9 +41,18 @@ public class Sui {
      */
     private static SuiSkin skin = new SimpleSkin();
     
+    /**
+     * Whether or not to install the default skin.
+     */
     private static boolean defaultSkinSet=false;
+    /**
+     * Whether or not to install the default theme.
+     */
     private static boolean defaultThemeSet=false;
     
+    /**
+     * The maximum delay for tooltips.
+     */
     public static final int MAX_DELAY = Integer.MAX_VALUE;
     
     /** Creates a new instance of Sui. */
@@ -92,8 +99,9 @@ public class Sui {
      * 
      * This is equivalent to:
      * <pre><code>init(new SuiDisplay(c))<code></pre>
-     * @param c the context to initialize with
      * @return a top-level Sui display
+     * @param c the context to initialize with
+     * @throws org.newdawn.slick.SlickException if an error occurred when initializing
      */
     public static SuiDisplay init(GUIContext c) throws SlickException {
         SuiDisplay d = new SuiDisplay(c);
@@ -105,12 +113,18 @@ public class Sui {
      * Initializes the system and returns the passed SuiDisplay.
      * @param d the display to initialize with
      * @return the passed display, <CODE>d</CODE>
+     * @throws SlickException if an error occurred when initializing
      */
     public static SuiDisplay init(SuiDisplay d) throws SlickException {
         checkDefaultLAF(d);
         return d;
     }
     
+    /**
+     * Checks whether or not to install the defaults.
+     * @param d the display
+     * @throws org.newdawn.slick.SlickException problem installing
+     */
     private static void checkDefaultLAF(SuiDisplay d) throws SlickException {
         if (!defaultSkinSet) {
             setSkin(skin);
@@ -123,7 +137,8 @@ public class Sui {
     }
     
     /**
-     * Sets the default font to use when creating new text components.
+     * Sets the default font to use when creating new components. This
+     * font can be overridden by skins and UIs.
      * @param f the new font
      */
     public static void setDefaultFont(Font f) {
@@ -131,7 +146,7 @@ public class Sui {
     }
     
     /**
-     * Returns the default font used when creating new text components.
+     * Returns the default font.
      * @return the default font
      */
     public static Font getDefaultFont() {
@@ -213,12 +228,12 @@ public class Sui {
      *  Sui.updateComponentTreeUI(myDisplay);</PRE></CODE>
      * <p>
      * When a new skin is set, the old skin is uninstalled. The 
-     * passed skin will be installed to initialize resources,
-     * which could potentially cause problems.
-     * 
-     * @param skin the new skin to use
-     * @throws SlickException if there was a problem uninstalling
-     *              the old skin or reinstalling the new skin
+     * passed skin will be installed to initialize resources. 
+     * Most skins will "cache" their resources to make installation 
+     * fast.
+     * @param s the new skin to set
+     * @throws SlickException if there was a problem uninstalling 
+     * the old skin or reinstalling the new skin
      */
     public static void setSkin(SuiSkin s) throws SlickException {
         if (s==null)
@@ -240,39 +255,32 @@ public class Sui {
      *    primary1 = 37, 78, 102
      *    primary2 = 16, 36, 46
      *    primary3 = 54, 123, 163
-     *
+     * 
      *    //alphas of .85f
      *    secondary1 = 37, 78, 102
      *    secondary2 = 62, 70, 75
      *    secondary3 = 20, 48, 64
-     *
+     * 
      *    //alpha of 1.0f
      *    foreground = white
      * </pre></code>
-     *
      * @see mdes.slick.sui.SuiTheme
+     * @deprecated use ClassicTheme instead
      */
     public static class DefaultTheme implements SuiTheme {
         
-        /** The button top color (up). */
         private final Color p1 = new ColorUIResource(37, 78, 102);
         
-        /** The button bottom color. */
         private final Color p2 = new ColorUIResource(16, 36, 46);
         
-        /** The button top color (rollover). */
         private final Color p3 = new ColorUIResource(54, 123, 163);
         
-        /** The titlebar top color. */
         private final Color s1 = new ColorUIResource(37, 78, 102);
         
-        /** The titlebar bottom color. */
         private final Color s2 = new ColorUIResource(62, 70, 75);
         
-        /** The border & button top color (down). */
         private final Color s3 = new ColorUIResource(20, 48, 64);
         
-        /** The text and window resizing triangle color. */
         private final Color txt = new ColorUIResource(Color.white);
         
         private Color disabled = new ColorUIResource(.25f, .25f, .25f, .55f);
@@ -324,6 +332,5 @@ public class Sui {
         public Color getActiveTitleBar2() { return p2; }
         
         public Color getDisabledMask() { return disabled; }
-        
     }
 }

@@ -38,7 +38,7 @@ public class LessonA extends BasicGame implements SuiActionListener {
     private SuiButton btn = null;
     private SuiCheckBox check1, check2, check3;
     private int regDelay;
-    private SuiWindow2 win1, win2;
+    private SuiWindow win1, win2;
     
     public void init(GameContainer container) throws SlickException {
         regDelay = Sui.getToolTipDelay(); //default
@@ -97,7 +97,7 @@ public class LessonA extends BasicGame implements SuiActionListener {
         check2.addActionListener(this);
         check3.addActionListener(this);
         
-        win1 = new SuiWindow2("Hello!");
+        win1 = new SuiWindow("Hello!");
         win1.setSize(200, 200);
         win1.setLocation(195, 95);
         win1.setVisible(true);
@@ -144,7 +144,7 @@ public class LessonA extends BasicGame implements SuiActionListener {
         skinChange.addActionListener(changeListener);
         themeChange.addActionListener(changeListener);
         
-        win2 = new SuiWindow2("Resizable Window");
+        win2 = new SuiWindow("Resizable Window");
         win2.setSize(200, 100);
         win2.setLocation(225, 125);
         win2.setVisible(true);

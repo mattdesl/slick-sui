@@ -272,7 +272,7 @@ public class SuiDisplay extends SuiContainer {
             }
             
             for (int i=0; i<activeWindows.size(); i++) {
-                ((SuiWindow2)activeWindows.get(i)).setActive(false);
+                ((SuiWindow)activeWindows.get(i)).setActive(false);
             }
             activeWindows.clear();
             
