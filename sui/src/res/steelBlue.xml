@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme name="Steel Blue (XML)">
+    <color a="255" b="193" g="174" r="154" type="activeTitleBar1"/>
+    <color a="255" b="238" g="232" r="228" type="activeTitleBar2"/>
+    <color a="255" b="255" g="248" r="244" type="background"/>
+    <color a="127" b="140" g="140" r="140" type="disabledMask"/>
+    <color a="255" b="62" g="59" r="57" type="foreground"/>
+    <color a="255" b="213" g="208" r="206" type="primary1"/>
+    <color a="255" b="246" g="239" r="235" type="primary2"/>
+    <color a="255" b="232" g="226" r="223" type="primary3"/>
+    <color a="255" b="148" g="142" r="139" type="primaryBorder1"/>
+    <color a="255" b="70" g="66" r="64" type="primaryBorder2"/>
+    <color a="255" b="193" g="174" r="154" type="secondary1"/>
+    <color a="255" b="246" g="239" r="235" type="secondary2"/>
+    <color a="255" b="232" g="226" r="223" type="secondary3"/>
+    <color a="255" b="167" g="161" r="156" type="secondaryBorder1"/>
+    <color a="255" b="144" g="137" r="133" type="secondaryBorder2"/>
+    <color a="255" b="221" g="201" r="182" type="titleBar1"/>
+    <color a="255" b="238" g="232" r="228" type="titleBar2"/>
+</theme>
