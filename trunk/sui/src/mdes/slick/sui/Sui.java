@@ -96,6 +96,8 @@ public class Sui {
      * @return a top-level Sui display
      * @param c the context to initialize with
      * @throws org.newdawn.slick.SlickException if an error occurred when initializing
+     *
+     * @deprecated no longer needed, will be removed soon
      */
     public static SuiDisplay init(GUIContext c) throws SlickException {
         SuiDisplay d = new SuiDisplay(c);
@@ -107,6 +109,8 @@ public class Sui {
      * @param d the display to initialize with
      * @return the passed display, <CODE>d</CODE>
      * @throws SlickException if an error occurred when initializing
+     *
+     * @deprecated no longer needed, will be removed soon
      */
     public static SuiDisplay init(SuiDisplay d) throws SlickException {
         return d;
