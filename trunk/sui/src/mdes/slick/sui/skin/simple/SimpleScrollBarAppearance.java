@@ -22,8 +22,8 @@ import mdes.slick.sui.skin.*;
 public class SimpleScrollBarAppearance extends SimpleContainerAppearance implements ScrollBarAppearance {
     
     public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
-        SkinManager.installFont(comp, "font");
-        boolean b = SkinManager.installColors(comp, theme.getPrimary1(), theme.getForeground());
+        SkinUtil.installFont(comp, ((SimpleSkin)skin).getFont());    
+        SkinUtil.installColors(comp, theme.getPrimary1(), theme.getForeground());
     }
     
     public SuiButton createScrollButton(SuiScrollBar bar, int direction) {

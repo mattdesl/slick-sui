@@ -18,6 +18,8 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public interface ComponentAppearance {
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme);
+    public void update(GUIContext ctx, int delta, SuiComponent comp, SuiSkin skin, SuiTheme theme);
+    
     public boolean contains(SuiComponent comp, float x, float y);
     
     public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme);

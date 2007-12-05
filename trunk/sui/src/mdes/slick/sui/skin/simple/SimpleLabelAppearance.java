@@ -19,9 +19,8 @@ import org.newdawn.slick.gui.*;
  */
 public class SimpleLabelAppearance extends SimpleContainerAppearance {
     
-    
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         super.render(ctx, g, comp, skin, theme);
-        RenderUtil.renderLabelBase(g, (SuiLabel)comp);
+        SkinUtil.renderLabelBase(g, (SuiLabel)comp);
     }
 }

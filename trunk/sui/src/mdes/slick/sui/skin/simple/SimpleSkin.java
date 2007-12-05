@@ -24,25 +24,38 @@ import org.newdawn.slick.gui.*;
  */
 public class SimpleSkin implements SuiSkin {
     
-    
-    private Image checkboxImage;
+    private Image checkBoxImage;
     private Image closeButtonImage;
     private Image resizerImage;
     private Font font;
     
-    private ComponentAppearance containerSkin = new SimpleContainerAppearance();
-    private ComponentAppearance checkBoxSkin = new SimpleCheckBoxAppearance();
-    private WindowAppearance windowSkin = new SimpleWindowAppearance();
-    private ComponentAppearance buttonSkin = new SimpleButtonAppearance();
-    private ComponentAppearance toolTipSkin = new SimpleToolTipAppearance();
-    private ComponentAppearance labelSkin = new SimpleLabelAppearance();
-    private ScrollBarAppearance scrollBarAppearance = new SimpleScrollBarAppearance();
-    private ComponentAppearance scrollPaneAppearance = new SimpleScrollPaneAppearance();
-    
     private static boolean roundRectanglesEnabled = true;
-                
+           
+    //we can cache some of our appearances, others need to be created & attached to components
+    private ComponentAppearance containerAppearance = new SimpleContainerAppearance();
+    private ComponentAppearance toolTipAppearance = new SimpleToolTipAppearance();
+    private ComponentAppearance labelAppearance = new SimpleLabelAppearance();
+    private ComponentAppearance scrollPaneAppearance = new SimpleScrollPaneAppearance();
+    private ComponentAppearance textFieldAppearance = new SimpleTextFieldAppearance();
+    
+    private WindowAppearance windowAppearance = new SimpleWindowAppearance();
+    private ScrollBarAppearance scrollBarAppearance = new SimpleScrollBarAppearance();
+    private SliderAppearance sliderAppearance = new SimpleSliderAppearance();
+        
+    public static boolean isRoundRectanglesEnabled() {
+        return roundRectanglesEnabled;
+    }
+
+    public static void setRoundRectanglesEnabled(boolean aRoundRectanglesEnabled) {
+        roundRectanglesEnabled = aRoundRectanglesEnabled;
+    }
+    
     public String getName() {
         return "Simple";
+    }
+    
+    public boolean isThemeable() {
+        return true;
     }
     
     public void install() throws SlickException {
@@ -54,24 +67,14 @@ public class SimpleSkin implements SuiSkin {
         //ResourceLoader will spit out a log message if there are problems
         
         //images
-        if (checkboxImage==null)
-            checkboxImage = tryImage("res/skin/simple/checkbox.png");
+        if (checkBoxImage==null)
+            checkBoxImage = tryImage("res/skin/simple/checkbox.png");
         if (closeButtonImage==null)
             closeButtonImage = tryImage("res/skin/simple/closewindow.png");
-        if (resizerImage==null)
-            resizerImage = tryImage("res/skin/simple/resizer.png");
         
         //fonts
         if (font==null)
             font = tryFont("res/skin/shared/verdana.fnt", "res/skin/shared/verdana.png");
-                
-        //TODO: remove this
-        //Sui.setDefaultFont(font);
-        
-        SkinManager.put("font", font);
-        SkinManager.put("CheckBox.image", checkboxImage);
-        SkinManager.put("Window.CloseButton.image", closeButtonImage);
-        //SkinManager.put("Window.Resizer.image", resizerImage);
     }
     
     private Image tryImage(String s) {
@@ -87,55 +90,59 @@ public class SimpleSkin implements SuiSkin {
     public void uninstall() throws SlickException {
     }
     
-    public ComponentAppearance getContainerAppearance() {
-        return containerSkin;
-    }
-
-    public ComponentAppearance getCheckBoxAppearance() {
-        return checkBoxSkin;
-    }
-
-    public WindowAppearance getWindowAppearance() {
-        return windowSkin;
-    }
-
-    public ComponentAppearance getButtonAppearance() {
-        return buttonSkin;
-    }
-
-    public ComponentAppearance getToolTipAppearance() {
-        return toolTipSkin;
-    }
-
-    public ComponentAppearance getLabelAppearance() {
-        return labelSkin;
+    public Image getCheckBoxImage() {
+        return checkBoxImage;
     }
     
-    public ComponentAppearance getToggleButtonAppearance() {
-        return buttonSkin;
+    public Image getCloseButtonImage() {
+        return closeButtonImage;
+    }
+    
+    public Font getFont() {
+        return font;
+    }
+    
+    public ComponentAppearance getContainerAppearance(SuiContainer comp) {
+        return containerAppearance;
     }
 
-    public static boolean isRoundRectanglesEnabled() {
-        return roundRectanglesEnabled;
+    public ComponentAppearance getCheckBoxAppearance(SuiCheckBox comp) {
+        return new SimpleCheckBoxAppearance(comp);
     }
 
-    public static void setRoundRectanglesEnabled(boolean aRoundRectanglesEnabled) {
-        roundRectanglesEnabled = aRoundRectanglesEnabled;
+    public WindowAppearance getWindowAppearance(SuiWindow comp) {
+        return windowAppearance;
     }
 
-    public ScrollBarAppearance getScrollBarAppearance() {
+    public ComponentAppearance getButtonAppearance(SuiButton comp) {
+        return new SimpleButtonAppearance(comp);
+    }
+
+    public ComponentAppearance getToolTipAppearance(SuiToolTip comp) {
+        return toolTipAppearance;
+    }
+
+    public ComponentAppearance getLabelAppearance(SuiLabel comp) {
+        return labelAppearance;
+    }
+    
+    public ComponentAppearance getToggleButtonAppearance(SuiToggleButton comp) {
+        return new SimpleButtonAppearance(comp);
+    }
+
+    public ScrollBarAppearance getScrollBarAppearance(SuiScrollBar comp) {
         return scrollBarAppearance;
     }
 
-    public ComponentAppearance getScrollPaneAppearance() {
+    public ComponentAppearance getScrollPaneAppearance(SuiScrollPane comp) {
         return scrollPaneAppearance;
     }
     
-    public SliderAppearance getSliderAppearance() {
-        return new SimpleSliderAppearance();
+    public SliderAppearance getSliderAppearance(SuiSlider comp) {
+        return sliderAppearance;
     }
     
-    public ComponentAppearance getTextFieldAppearance() {
-        return new SimpleTextFieldAppearance();
+    public ComponentAppearance getTextFieldAppearance(SuiTextField comp) {
+        return textFieldAppearance;
     }
 }

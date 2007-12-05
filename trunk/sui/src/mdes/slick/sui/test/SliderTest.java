@@ -91,7 +91,7 @@ public class SliderTest extends BasicGame {
         dragger3.add(btn);
         
         //we update for testing purposes
-        Sui.updateComponentTreeUI(disp);
+        Sui.updateComponentTreeSkin(disp);
     }
     
     public void update(GameContainer container, int delta) throws SlickException {

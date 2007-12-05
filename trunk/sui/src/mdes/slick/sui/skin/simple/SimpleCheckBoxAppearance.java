@@ -22,13 +22,22 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
     
-    private Image defaultImage = null;
+    protected Image defaultImage;
+    protected RoundedRectangle roundBoxBounds;
+    
     private boolean drawOutline = true;
-        
+    
+    public SimpleCheckBoxAppearance(SuiCheckBox checkBox) {
+        super(checkBox);
+        this.roundBoxBounds = createRoundedBoxBounds();
+    }
+    
     public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         super.install(comp, skin, theme);
-        this.defaultImage = SkinManager.getImage("CheckBox.image");
+        if (skin instanceof SimpleSkin)
+            this.defaultImage = ((SimpleSkin)skin).getCheckBoxImage();
     }
+    
     //TODO: disabled colours
     
     protected RoundedRectangle createRoundedBounds() {
@@ -38,33 +47,14 @@ public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
     protected RoundedRectangle createRoundedBoxBounds() {
         return new RoundedRectangle(0f,0f,0f,0f,3f,50);
     }
-    
-    protected ButtonData createData(SuiComponent comp) {
-        CheckBoxButtonData data = new CheckBoxButtonData();
-        RoundedRectangle rect = createRoundedBounds();
-        data.roundBounds = rect;
-        RoundedRectangle rect2 = createRoundedBoxBounds();
-        data.roundBoxBounds = rect2;
-        return data;
-    }
-    
-    protected ButtonData getButtonData(SuiComponent comp) {
-        Object obj = comp.getSkinData();
-        CheckBoxButtonData ret = null;
-        if (obj!=null && obj instanceof CheckBoxButtonData) {
-            ret = (CheckBoxButtonData)obj;
-        } else {
-            ret = (CheckBoxButtonData)createData(comp);
-            comp.setSkinData(ret);
-        }
-        return ret;
-    }
-    
+        
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+        //makes sure it's the same as what we're attached to
+        checkComponent(comp);
+        
         SuiCheckBox check = (SuiCheckBox)comp;
         Rectangle cachedRect = null;
         boolean roundRectEnabled = SimpleSkin.isRoundRectanglesEnabled();
-        CheckBoxButtonData data = (CheckBoxButtonData)getButtonData(check);
         
         //make sure we are showing outline
         //also, the outline will only render if we aren't rendering a background
@@ -73,14 +63,10 @@ public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
             cachedRect = check.getAbsoluteBounds();
             Rectangle bounds = cachedRect;
             
-            if (roundRectEnabled) {
-                if (data!=null && data.roundBounds!=null) {
-                    bounds = data.roundBounds;
-                    bounds.setX(cachedRect.getX());
-                    bounds.setY(cachedRect.getY());
-                    bounds.setWidth(cachedRect.getWidth());
-                    bounds.setHeight(cachedRect.getHeight());
-                }
+            //if we have round rectangles, use them
+            if (roundRectEnabled && roundBounds!=null) {
+                roundBounds.setBounds(bounds);
+                bounds = roundBounds;
             }
             
             Color oldCol = g.getColor();
@@ -101,25 +87,23 @@ public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
         }
         
         //renders base
-        RenderUtil.renderComponentBase(g, check);
+        SkinUtil.renderComponentBase(g, check);
                 
         //renders text/image
-        RenderUtil.renderCheckBoxBase(g, check);
+        SkinUtil.renderCheckBoxBase(g, check);
         
         //get cached bounds from the "check" box button area
         Rectangle cachedBox = check.getAbsoluteBoxBounds();
         Rectangle btnRect = cachedBox;
         
-        if (roundRectEnabled && data!=null && data.roundBoxBounds!=null) {
-            Rectangle bounds = data.roundBoxBounds;
-            bounds.setLocation(cachedBox.getX(), cachedBox.getY());
-            bounds.setWidth(cachedBox.getWidth());
-            bounds.setHeight(cachedBox.getHeight());
-            btnRect = bounds;
+        //try to use round rectangle
+        if (roundRectEnabled && roundBoxBounds!=null) {
+            roundBoxBounds.setBounds(cachedBox);
+            btnRect = roundBoxBounds;
         }
         
         //renders the actual button state for the small box area, using rounded edges
-        SimpleButtonAppearance.renderButtonState(g, theme, check, btnRect);
+        SimpleButtonAppearance.renderButtonState(g, theme, check, btnRect, grad);
         
         Image def = getDefaultImage();
         if (def!=null && check.isSelected()) {
@@ -139,9 +123,5 @@ public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
 
     public void setShowOutline(boolean drawOutline) {
         this.drawOutline = drawOutline;
-    }
-    
-    public static class CheckBoxButtonData extends ButtonData {
-        RoundedRectangle roundBoxBounds;
     }
 }

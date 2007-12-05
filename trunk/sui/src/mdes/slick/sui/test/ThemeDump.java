@@ -61,7 +61,7 @@ public class ThemeDump extends BasicGame {
     
     public void init(GameContainer container) throws SlickException {
         //Sui.setSkin(new WireframeSkin());
-        display = Sui.init(container);
+        display = new SuiDisplay(container);
         display.setSendingGlobalEvents(false);
         display.setFocusable(true);
         
@@ -245,7 +245,7 @@ public class ThemeDump extends BasicGame {
         nameLabel.setForeground(theme.getForeground());
         nameLabel.setText(theme.getName());
         
-        Sui.updateComponentTreeUI(display);
+        Sui.updateComponentTreeTheme(display);
     }
     
     public void updateButtons() {

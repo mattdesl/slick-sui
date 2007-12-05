@@ -38,7 +38,7 @@ public class DemoWindowTest extends BasicGame {
     private SuiDisplay disp;
     
     public void init(GameContainer container) throws SlickException {
-        disp = Sui.init(container);
+        disp = new SuiDisplay(container);
         
         SuiContainer demo = new DemoWindow();
         demo.setLocationRelativeTo(disp);
