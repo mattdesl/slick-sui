@@ -1,5 +1,5 @@
+#summary a quick base for scripting with SUI (old version)
 #labels Deprecated
-#(outdated) summary a quick base for scripting with SUI
 
 = Introduction =
 
