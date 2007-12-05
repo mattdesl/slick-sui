@@ -409,7 +409,9 @@ public abstract class SuiComponent {
     }
     
     /**
-     * Used internally for top-level components.
+     * Called to render this component as a whole. For subclasses looking
+     * for custom rendering (outside of skins), it is suggested that you
+     * override renderComponent and disable the appearance.
      *
      * @param container The container displaying this component
      * @param g The graphics context used to render to the display
@@ -420,16 +422,16 @@ public abstract class SuiComponent {
             Color c = g.getColor();
             Font f = g.getFont();
                         
-            ComponentAppearance skin = getAppearance();
-            if (this.isAppearanceEnabled() && skin!=null) {
-                skin.render(container, g, this, Sui.getSkin(), Sui.getTheme());
+            ComponentAppearance appearance = getAppearance();
+            if (this.isAppearanceEnabled() && appearance!=null) {
+                appearance.render(container, g, this, Sui.getSkin(), Sui.getTheme());
             }
             
             renderComponent(container, g);
             
             if (debugRender) {
                 g.setColor(Color.red);
-                g.drawRect(getAbsoluteX(), getAbsoluteY(), getWidth(), getHeight());
+                g.draw(getAbsoluteBounds());
             }
             
             g.setColor(c);
@@ -453,7 +455,11 @@ public abstract class SuiComponent {
      * @param container The container displaying this component
      * @param delta The delta to update by
      */
-    public void update(GUIContext container, int delta) {        
+    public void update(GUIContext container, int delta) {     
+        if (this.isAppearanceEnabled() && appearance!=null) {
+            appearance.update(container, delta, this, Sui.getSkin(), Sui.getTheme());
+        }
+        
         //TODO: update only while visible?
         updateComponent(container, delta);
     }
@@ -807,9 +813,9 @@ public abstract class SuiComponent {
      *			point
      */
     public boolean contains(float x, float y) {
-        ComponentAppearance skin = getAppearance();
-        if (skin!=null)
-            return skin.contains(this, x, y);
+        ComponentAppearance appearance = getAppearance();
+        if (appearance!=null)
+            return appearance.contains(this, x, y);
         else
             return inside(x,y);
     }

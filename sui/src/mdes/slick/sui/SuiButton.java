@@ -88,7 +88,7 @@ public class SuiButton extends SuiLabel {
     }
     
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getButtonAppearance());
+        setAppearance(Sui.getSkin().getButtonAppearance(this));
     }
         
     /**

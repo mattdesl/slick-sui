@@ -61,7 +61,7 @@ public class SuiCheckBox extends SuiToggleButton {
     }
         
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getCheckBoxAppearance());
+        setAppearance(Sui.getSkin().getCheckBoxAppearance(this));
     }
     
     public void setHorizontalBoxPosition(int type) {
@@ -122,7 +122,7 @@ public class SuiCheckBox extends SuiToggleButton {
         }
         
         int vert = getVerticalAlignment();
-        float y = RenderUtil.getObjectY(vert, getAbsoluteY(), getHeight(), pad, height);
+        float y = SkinUtil.getObjectY(vert, getAbsoluteY(), getHeight(), pad, height);
         
         boxBounds.setLocation(x, y);
         boxBounds.setWidth(width);

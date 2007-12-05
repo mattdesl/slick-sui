@@ -21,7 +21,7 @@ public class SuiToolTip extends SuiLabel {
     }
     
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getToolTipAppearance());
+        setAppearance(Sui.getSkin().getToolTipAppearance(this));
     }
 
     public SuiComponent getOwner() {

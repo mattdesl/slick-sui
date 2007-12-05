@@ -73,17 +73,42 @@ public class Sui {
     
     /**
      * Updates the current skin/theme, asking each node in the given
-     * tree to update their appearance.
+     * tree to update their appearance by calling:<br />
+     * <code>comp.updateAppearance()</code>
+     * <p>
+     * This will install the "skin default" appearance on the tree. If this
+     * is undesired, it is suggested that you use updateComponentTreeTheme,
+     * which will re-install the currently set appearance. 
+     * 
      * @param c the component tree to update
      */
-    public static void updateComponentTreeUI(SuiComponent comp) {
+    public static void updateComponentTreeSkin(SuiComponent comp) {
         if (comp==null)
             return;
         comp.updateAppearance();
         if (comp instanceof SuiContainer) {
             SuiContainer c = (SuiContainer)comp;
             for (int i=0; i<c.getChildCount(); i++) {
-                updateComponentTreeUI(c.getChild(i));
+                updateComponentTreeSkin(c.getChild(i));
+            }
+        }
+    }
+    
+    /**
+     * Updates the current theme, asking each node in the given
+     * tree to update their appearance by calling:<br />
+     * <code>comp.setAppearance(comp.getAppearance());</code>
+     * 
+     * @param c the component tree to update
+     */
+    public static void updateComponentTreeTheme(SuiComponent comp) {
+        if (comp==null)
+            return;
+        comp.setAppearance(comp.getAppearance());
+        if (comp instanceof SuiContainer) {
+            SuiContainer c = (SuiContainer)comp;
+            for (int i=0; i<c.getChildCount(); i++) {
+                updateComponentTreeTheme(c.getChild(i));
             }
         }
     }

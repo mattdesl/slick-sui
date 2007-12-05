@@ -28,7 +28,7 @@ public class SuiScrollBar extends SuiContainer implements ScrollConstants {
     private int orientation;
     
     private boolean mouseWheelEnabled = true;
-    
+           
     /** Creates a new instance of SuiScrollBar */
     public SuiScrollBar(int orientation) {
         super(false);
@@ -44,11 +44,11 @@ public class SuiScrollBar extends SuiContainer implements ScrollConstants {
     }
     
     //TODO: support setOrientation
-    public void setOrientation(int orientation) {
+    /*public void setOrientation(int orientation) {
         checkOrientation(orientation);
         this.orientation = orientation;
         updateAppearance();
-    }
+    }*/
     
     public int getOrientation() {
         return orientation;
@@ -60,7 +60,7 @@ public class SuiScrollBar extends SuiContainer implements ScrollConstants {
      * @return the scroll bar appearance from the current skin
      */
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getScrollBarAppearance());
+        setAppearance(Sui.getSkin().getScrollBarAppearance(this));
     }
     
     /**
@@ -93,6 +93,7 @@ public class SuiScrollBar extends SuiContainer implements ScrollConstants {
             slider.removeMouseWheelListener(incDecListener);
             slider.getThumbButton().removeMouseWheelListener(incDecListener);
             //slider.getDelayTimer().removeActionListener(delayListener);
+            
         }
         if (incButton!=null) {
             remove(incButton);
@@ -103,7 +104,7 @@ public class SuiScrollBar extends SuiContainer implements ScrollConstants {
             decButton.removeActionListener(incDecListener);
         }
         
-        //re-init buttons
+        //re-init components
         
         //gets the current appearance
         ScrollBarAppearance a = (ScrollBarAppearance)this.getAppearance();
@@ -142,6 +143,24 @@ public class SuiScrollBar extends SuiContainer implements ScrollConstants {
         updateHeight();
     }
     
+    /**
+     * Adds the specified listener to the list.
+     *
+     * @param s the listener to receive events
+     */
+    public synchronized void addChangeListener(SuiChangeListener s) {
+        listenerList.add(SuiChangeListener.class, s);
+    }
+    
+    /**
+     * Removes the specified listener from the list.
+     *
+     * @param s the listener to remove
+     */
+    public synchronized void removeChangeListener(SuiChangeListener s) {
+        listenerList.remove(SuiChangeListener.class, s);
+    }
+            
     /**
      * Gets the "increment" button.
      * 

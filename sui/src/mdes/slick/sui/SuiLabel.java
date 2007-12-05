@@ -97,7 +97,7 @@ public class SuiLabel extends SuiContainer {
     }
     
     public void updateAppearance() { 
-        setAppearance(Sui.getSkin().getLabelAppearance()); 
+        setAppearance(Sui.getSkin().getLabelAppearance(this)); 
     }
     
     public void setImageFilter(Color filter) {
