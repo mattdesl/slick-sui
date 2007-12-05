@@ -17,12 +17,4 @@ First of all, you must already have:
  * After waiting for it to retrieve all the files, it will attempt to compile Sui.
  * *If no errors are displayed at this point, you are done!*
 
-
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Fixing Build Path Errors=
