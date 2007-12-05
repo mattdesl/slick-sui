@@ -154,7 +154,7 @@ public class SuiWindow extends SuiContainer {
     }
     
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getWindowAppearance());
+        setAppearance(Sui.getSkin().getWindowAppearance(this));
         
         //update extra components attached to this
         if (titleBar!=null) {
@@ -553,7 +553,7 @@ public class SuiWindow extends SuiContainer {
         public void updateAppearance() {
             WindowAppearance a = (WindowAppearance)window.getAppearance();
             if (a!=null)
-                setAppearance(a.getTitleBarAppearance());
+                setAppearance(a.getTitleBarAppearance(this));
         }
                         
         public void setWidth(float width) {
@@ -621,7 +621,7 @@ public class SuiWindow extends SuiContainer {
         public void updateAppearance() {
             WindowAppearance a = (WindowAppearance)window.getAppearance();
             if (a!=null)
-                setAppearance(a.getResizerAppearance());
+                setAppearance(a.getResizerAppearance(this));
         }
         
         public SuiWindow getWindow() {
@@ -652,7 +652,7 @@ public class SuiWindow extends SuiContainer {
         public void updateAppearance() {
             WindowAppearance a = (WindowAppearance)window.getAppearance();
             if (a!=null)
-                setAppearance(a.getCloseButtonAppearance());
+                setAppearance(a.getCloseButtonAppearance(this));
         }
         
         public SuiWindow getWindow() {

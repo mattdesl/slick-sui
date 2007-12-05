@@ -70,7 +70,7 @@ public class SuiSlider extends SuiContainer implements ScrollConstants {
     }
     
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getSliderAppearance());
+        setAppearance(Sui.getSkin().getSliderAppearance(this));
     }
     
     private void checkOrientation(int orientation) {

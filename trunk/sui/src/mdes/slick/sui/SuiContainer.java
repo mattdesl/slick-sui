@@ -45,7 +45,7 @@ public class SuiContainer extends SuiComponent {
     }
     
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getContainerAppearance());
+        setAppearance(Sui.getSkin().getContainerAppearance(this));
     }
     
     public void setZIndex(int z) {

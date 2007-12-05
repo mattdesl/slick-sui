@@ -56,7 +56,7 @@ public class SuiTextField extends SuiContainer {
     }
     
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getTextFieldAppearance());
+        setAppearance(Sui.getSkin().getTextFieldAppearance(this));
     }
     
     public String getText() {

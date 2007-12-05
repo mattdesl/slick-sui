@@ -45,7 +45,7 @@ public class SuiToggleButton extends SuiButton {
     }
     
     public void updateAppearance() {
-        setAppearance(Sui.getSkin().getToggleButtonAppearance());
+        setAppearance(Sui.getSkin().getToggleButtonAppearance(this));
     }
     
     public boolean isSelected() {

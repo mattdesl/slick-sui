@@ -231,8 +231,7 @@ public class SuiDisplay extends SuiContainer {
                         SuiComponent owner = ((SuiToolTip)comp).getOwner();
                         if (owner.contains(x, y))
                             return owner;
-                    } 
-                    
+                    }
                     if (comp instanceof SuiContainer && 
                             ((SuiContainer)comp).getChildCount()>0)
                         return getDeepestComponentAt((SuiContainer)comp, x, y, checkGlassPane);
