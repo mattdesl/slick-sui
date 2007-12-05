@@ -6,10 +6,22 @@
 
 package mdes.slick.sui.test;
 
-import org.newdawn.slick.*;
-import mdes.slick.sui.*;
-import mdes.slick.sui.skin.simple.SimpleSkin;
-import mdes.slick.sui.event.*;
+import mdes.slick.sui.Sui;
+import mdes.slick.sui.SuiDisplay;
+import mdes.slick.sui.SuiScrollBar;
+import mdes.slick.sui.SuiSlider;
+import mdes.slick.sui.SuiToggleButton;
+import mdes.slick.sui.SuiWindow;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 /**
  *
  * @author Matt

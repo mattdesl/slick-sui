@@ -7,11 +7,17 @@
 package mdes.slick.sui;
 
 import java.util.ArrayList;
-import java.util.List;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Rectangle;
+
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.SuiControllerEvent;
+import mdes.slick.sui.event.SuiKeyEvent;
+import mdes.slick.sui.event.SuiMouseEvent;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.util.InputAdapter;
 
 /**

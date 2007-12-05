@@ -7,10 +7,11 @@
 package mdes.slick.sui.skin.simple;
 
 import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.skin.SuiSkin;
-import mdes.slick.sui.skin.AbstractComponentAppearance;
 import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.skin.AbstractComponentAppearance;
 import mdes.slick.sui.skin.SkinUtil;
+import mdes.slick.sui.skin.SuiSkin;
+
 import org.newdawn.slick.gui.GUIContext;
 
 /**

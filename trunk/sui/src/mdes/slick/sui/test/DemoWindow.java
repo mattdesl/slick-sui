@@ -6,16 +6,17 @@
 
 package mdes.slick.sui.test;
 
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.fills.*;
-import mdes.slick.sui.*;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
-import mdes.slick.sui.theme.*;
-import java.lang.reflect.*;
-import java.util.*;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiCheckBox;
+import mdes.slick.sui.SuiComponent;
+import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.SuiLabel;
+import mdes.slick.sui.SuiSlider;
+import mdes.slick.sui.SuiToggleButton;
+import mdes.slick.sui.SuiWindow;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 
 /**
  * A window that holds a bunch of Sui components. Since this

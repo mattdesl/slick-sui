@@ -6,14 +6,15 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.*;
 import mdes.slick.sui.SuiArrowButton;
-import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiComponent;
+import mdes.slick.sui.SuiScrollBar;
+import mdes.slick.sui.SuiSlider;
 import mdes.slick.sui.SuiTheme;
 import mdes.slick.sui.skin.ScrollBarAppearance;
-import org.lwjgl.opengl.*;
+import mdes.slick.sui.skin.SkinUtil;
 import mdes.slick.sui.skin.SuiSkin;
-import mdes.slick.sui.skin.*;
 
 /**
  * 

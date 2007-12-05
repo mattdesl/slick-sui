@@ -6,15 +6,15 @@
 
 package mdes.slick.sui.test;
 
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.fills.*;
-import mdes.slick.sui.*;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.fills.*;
+import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.SuiDisplay;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 /**
  *

@@ -1,6 +1,5 @@
 package mdes.slick.sui.event;
 
-import mdes.slick.sui.SuiComponent;
 
 /**
  * A mouse wheel event which holds the amount the wheel

@@ -17,6 +17,7 @@ import mdes.slick.sui.SuiTextField;
 import mdes.slick.sui.SuiToggleButton;
 import mdes.slick.sui.SuiToolTip;
 import mdes.slick.sui.SuiWindow;
+
 import org.newdawn.slick.SlickException;
 
 /**

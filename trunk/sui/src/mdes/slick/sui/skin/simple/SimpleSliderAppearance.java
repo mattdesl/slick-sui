@@ -6,14 +6,18 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.skin.*;
-import mdes.slick.sui.event.*;
-import mdes.slick.sui.*;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiComponent;
+import mdes.slick.sui.SuiSlider;
+import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.skin.SkinUtil;
+import mdes.slick.sui.skin.SliderAppearance;
 import mdes.slick.sui.skin.SuiSkin;
-import mdes.slick.sui.theme.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.fills.*;
-import org.newdawn.slick.geom.*;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.RoundedRectangle;
 import org.newdawn.slick.gui.GUIContext;
 
 /**

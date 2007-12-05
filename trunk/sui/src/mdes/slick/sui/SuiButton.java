@@ -1,11 +1,11 @@
 package mdes.slick.sui;
 
-import mdes.slick.sui.skin.ComponentAppearance;
-import org.newdawn.slick.*;
-import org.lwjgl.opengl.GL11;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.gui.GUIContext;
-import org.newdawn.slick.geom.*;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.SuiMouseAdapter;
+import mdes.slick.sui.event.SuiMouseEvent;
+
+import org.newdawn.slick.Image;
 
 /**
  * A basic, clickable button component. <tt>SuiButtons</tt> are

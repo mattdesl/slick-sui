@@ -6,9 +6,7 @@
 
 package mdes.slick.sui;
 
-import org.newdawn.slick.*;
-import org.newdawn.slick.opengl.*;
-import org.newdawn.slick.util.*;
+import org.newdawn.slick.Color;
 
 /**
  * Buttons, text fields and windows are rendered

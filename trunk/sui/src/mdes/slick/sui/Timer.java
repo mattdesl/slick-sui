@@ -7,10 +7,12 @@
 package mdes.slick.sui;
 
 import javax.swing.event.EventListenerList;
-import mdes.slick.sui.event.SuiActionListener;
+
 import mdes.slick.sui.event.SuiActionEvent;
-import org.newdawn.slick.gui.GUIContext;
+import mdes.slick.sui.event.SuiActionListener;
+
 import org.lwjgl.Sys;
+import org.newdawn.slick.gui.GUIContext;
 
 /**
  * <p>A simple Sui-based Timer for using delays and "waits"

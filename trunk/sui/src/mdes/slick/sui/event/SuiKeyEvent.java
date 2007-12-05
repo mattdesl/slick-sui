@@ -1,6 +1,5 @@
 package mdes.slick.sui.event;
 
-import mdes.slick.sui.SuiComponent;
 
 /**
  * A keyboard event, such as key press or key release. Each

@@ -1,6 +1,5 @@
 package mdes.slick.sui.event;
 
-import mdes.slick.sui.SuiComponent;
 
 /**
  * A controller event, such as button pressed or released. 

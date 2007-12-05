@@ -6,13 +6,28 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.*;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
-import mdes.slick.sui.theme.*;
-import mdes.slick.sui.skin.simple.*;
-import java.util.*;
+import java.util.ArrayList;
+
+import mdes.slick.sui.Sui;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiCheckBox;
+import mdes.slick.sui.SuiDisplay;
+import mdes.slick.sui.SuiLabel;
+import mdes.slick.sui.SuiToggleButton;
+import mdes.slick.sui.SuiWindow;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.skin.simple.SimpleSkin;
+import mdes.slick.sui.theme.BitterLemonTheme;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
 /**
  *

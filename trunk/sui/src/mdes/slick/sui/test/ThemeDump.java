@@ -6,18 +6,37 @@
 
 package mdes.slick.sui.test;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
+import mdes.slick.sui.Sui;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiCheckBox;
+import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.SuiDisplay;
+import mdes.slick.sui.SuiLabel;
 import mdes.slick.sui.SuiTheme;
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.fills.*;
-import mdes.slick.sui.*;
-import mdes.slick.sui.skin.simple.*;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
-import mdes.slick.sui.theme.*;
-import java.lang.reflect.*;
-import java.util.*;
+import mdes.slick.sui.SuiWindow;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.skin.simple.SimpleSkin;
+import mdes.slick.sui.theme.BitterLemonTheme;
+import mdes.slick.sui.theme.CopperTheme;
+import mdes.slick.sui.theme.SteelAcidTheme;
+import mdes.slick.sui.theme.SteelBlueTheme;
+import mdes.slick.sui.theme.SteelSepiaTheme;
+import mdes.slick.sui.theme.XMLThemeIO;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.GUIContext;
 
 /**
  *

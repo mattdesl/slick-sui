@@ -6,22 +6,37 @@
 
 package mdes.slick.sui.theme;
 
-import javax.xml.parsers.*;
-import mdes.slick.sui.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.event.*;
-import mdes.slick.sui.skin.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.util.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
-import java.lang.reflect.*;
-import org.w3c.dom.*;
-import java.util.*;
-import java.io.*;
+import mdes.slick.sui.skin.ColorUIResource;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.util.ResourceLoader;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**

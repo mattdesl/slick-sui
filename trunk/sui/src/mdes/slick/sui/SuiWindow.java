@@ -6,18 +6,18 @@
 
 package mdes.slick.sui;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import mdes.slick.sui.skin.AbstractComponentAppearance;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.skin.*;
-import org.newdawn.slick.*;
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.*;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.gui.GUIContext;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.SuiControllerListener;
+import mdes.slick.sui.event.SuiKeyListener;
+import mdes.slick.sui.event.SuiMouseAdapter;
+import mdes.slick.sui.event.SuiMouseEvent;
+import mdes.slick.sui.event.SuiMouseWheelListener;
+import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.skin.WindowAppearance;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 
 /**
  * A dialog window which can be moved, resized, and hidden.

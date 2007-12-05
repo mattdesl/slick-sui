@@ -9,6 +9,7 @@ package mdes.slick.sui.skin.simple;
 import mdes.slick.sui.SuiComponent;
 import mdes.slick.sui.SuiTheme;
 import mdes.slick.sui.skin.SuiSkin;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.gui.GUIContext;
 

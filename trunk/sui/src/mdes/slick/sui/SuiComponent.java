@@ -6,15 +6,24 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.event.*;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.skin.ComponentAppearance;
-import org.newdawn.slick.*;
-import java.util.*;
-import org.lwjgl.opengl.*;
-import org.newdawn.slick.geom.*;
 import javax.swing.event.EventListenerList;
-import org.newdawn.slick.gui.*;
+
+import mdes.slick.sui.event.SuiControllerEvent;
+import mdes.slick.sui.event.SuiControllerListener;
+import mdes.slick.sui.event.SuiKeyEvent;
+import mdes.slick.sui.event.SuiKeyListener;
+import mdes.slick.sui.event.SuiMouseEvent;
+import mdes.slick.sui.event.SuiMouseListener;
+import mdes.slick.sui.event.SuiMouseWheelEvent;
+import mdes.slick.sui.event.SuiMouseWheelListener;
+import mdes.slick.sui.skin.ComponentAppearance;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.gui.GUIContext;
 
 /**
  * An abstract base component which all other components must

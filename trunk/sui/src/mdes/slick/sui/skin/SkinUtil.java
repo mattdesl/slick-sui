@@ -6,9 +6,19 @@
 
 package mdes.slick.sui.skin;
 
-import mdes.slick.sui.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.geom.*;
+import mdes.slick.sui.Padding;
+import mdes.slick.sui.Sui;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiCheckBox;
+import mdes.slick.sui.SuiComponent;
+import mdes.slick.sui.SuiLabel;
+import mdes.slick.sui.SuiToggleButton;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Rectangle;
 
 /**
  *

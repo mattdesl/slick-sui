@@ -6,11 +6,17 @@
 
 package mdes.slick.sui;
 
-import java.awt.event.*;
-import mdes.slick.sui.event.*;
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.geom.*;
-import mdes.slick.sui.skin.*;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.SuiChangeEvent;
+import mdes.slick.sui.event.SuiChangeListener;
+import mdes.slick.sui.event.SuiMouseAdapter;
+import mdes.slick.sui.event.SuiMouseEvent;
+import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.skin.SliderAppearance;
+
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.gui.GUIContext;
 
 /**
  *

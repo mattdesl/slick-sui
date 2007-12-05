@@ -1,7 +1,5 @@
 package mdes.slick.sui.event;
 
-import mdes.slick.sui.SuiComponent;
-import org.newdawn.slick.Input;
 
 /**
  * The base class for SuiEvents.
