@@ -1,4 +1,4 @@
-#summary using skins and themes.
+#summary using skins and themes
 
 =Introduction=
 This tutorial will discuss how to create a custom skin for SUI, and also how to implement your
@@ -51,15 +51,15 @@ And likewise on other components, such as SuiLabel:
     }
 }}}
 
-
-
+The appearance is then used for updating, rendering and bounds checking.
 
 =Your First Skin=
 
-==Implementing SuiSkin==
+==SuiSkin==
 The first step to creating your own skin is to write a `SuiSkin` implementation. Before we start, let's take a look at
 how the interface works.
 
+===Basics===
 The `install` and `uninstall` methods are used when the skin is changed. When we use `Sui.setSkin` to set a new 
 skin, the old skin is uninstalled and the new skin is installed. This is where we will set up our resources (such
 as fonts and images). It's recommended that you cache the resources so that they are only loaded once.
@@ -74,8 +74,8 @@ The next two are simple: the skin name (eg: "CoolSkin") and whether or not it su
     public boolean isThemeable();
 }}}
 
-The next bit looks a bit daunting, but it's not too tough once you get the gist of it. This is where components
-will retrieve the appearance used for rendering, updating, etc. 
+The next bit looks a bit daunting, but it's quite simple once you get the gist of it. These are the 
+"skin default" appearances for each component.
 {{{
      public ComponentAppearance getContainerAppearance(SuiContainer comp);
     public ComponentAppearance getCheckBoxAppearance(SuiCheckBox comp);
@@ -88,4 +88,53 @@ will retrieve the appearance used for rendering, updating, etc.
     public ScrollBarAppearance getScrollBarAppearance(SuiScrollBar comp); 
     public ComponentAppearance getScrollPaneAppearance(SuiScrollPane comp);
     public SliderAppearance    getSliderAppearance(SuiSlider comp);
+}}}
+
+===Implementing===
+We'll start by loading the resources for our skin. Here's what we've got so far:
+{{{
+ public class CoolSkin implements SuiSkin {
+ 
+    //cached resources
+    private Image checkBoxImage;
+    private Image closeButtonImage;
+    private Font font;
+ 
+    public String getName() {
+        return "CoolSkin";
+    }
+ 
+    //yes, we do support themes!
+    public boolean isThemeable() {
+        return true;
+    }
+ 
+    public void install() throws SlickException {
+        //ResourceLoader will spit out a log message if there are problems
+        
+        //load images if necessary
+        if (checkBoxImage==null)
+            checkBoxImage = tryImage("res/skin/simple/checkbox.png");
+        if (closeButtonImage==null)
+            closeButtonImage = tryImage("res/skin/simple/closewindow.png");
+        
+        //load font if necessary
+        if (font==null)
+            font = tryFont("res/skin/shared/verdana.fnt", "res/skin/shared/verdana.png");
+    }
+    
+    private Image tryImage(String s) {
+        try { return new ImageUIResource(s); }
+        catch (Exception e) { return null; }
+    }
+    
+    private Font tryFont(String s1, String s2) {
+        try { return new FontUIResource.AngelCodeFont(s1, s2); }
+        catch (Exception e) { return null; }
+    }
+
+    public void uninstall() throws SlickException {
+    }
+    
+    ...
 }}}
