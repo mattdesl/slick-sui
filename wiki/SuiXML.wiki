@@ -1,4 +1,5 @@
-#summary a quick base for scripting with SUI
+#labels Deprecated
+#(outdated) summary a quick base for scripting with SUI
 
 = Introduction =
 
@@ -156,5 +157,3 @@ Properties for components are only good for single-parameter calls (such as indi
     <invoke method="setLocation">50, 20</invoke>
   </button>
 }}}
-
-
