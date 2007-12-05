@@ -6,17 +6,28 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.*;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiCheckBox;
+import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.SuiLabel;
+import mdes.slick.sui.SuiScrollBar;
+import mdes.slick.sui.SuiScrollPane;
+import mdes.slick.sui.SuiSlider;
+import mdes.slick.sui.SuiTextField;
+import mdes.slick.sui.SuiToggleButton;
+import mdes.slick.sui.SuiToolTip;
+import mdes.slick.sui.SuiWindow;
 import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.skin.FontUIResource;
+import mdes.slick.sui.skin.ImageUIResource;
+import mdes.slick.sui.skin.ScrollBarAppearance;
+import mdes.slick.sui.skin.SliderAppearance;
 import mdes.slick.sui.skin.SuiSkin;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.skin.*;
-import org.newdawn.slick.fills.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.geom.*;
-import org.lwjgl.opengl.*;
-import org.newdawn.slick.opengl.SlickCallable;
-import org.newdawn.slick.gui.*;
+import mdes.slick.sui.skin.WindowAppearance;
+
+import org.newdawn.slick.Font;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *

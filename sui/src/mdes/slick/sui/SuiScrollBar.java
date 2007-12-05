@@ -6,9 +6,13 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.event.*;
-import mdes.slick.sui.skin.*;
-import org.newdawn.slick.Color;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.SuiChangeListener;
+import mdes.slick.sui.event.SuiMouseWheelEvent;
+import mdes.slick.sui.event.SuiMouseWheelListener;
+import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.skin.ScrollBarAppearance;
 
 /**
  *

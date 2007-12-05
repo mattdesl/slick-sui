@@ -1,8 +1,9 @@
 package mdes.slick.sui;
 
-import mdes.slick.sui.skin.ComponentAppearance;
-import org.newdawn.slick.*;
-import org.newdawn.slick.gui.GUIContext;
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.Image;
 
 /**
  * SuiLabel is the base class for displaying

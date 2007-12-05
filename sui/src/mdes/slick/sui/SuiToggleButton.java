@@ -6,12 +6,7 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.skin.*;
-import mdes.slick.sui.event.*;
-import mdes.slick.sui.skin.ComponentAppearance;
-import org.newdawn.slick.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.gui.GUIContext;
+import org.newdawn.slick.Image;
 
 
 /**

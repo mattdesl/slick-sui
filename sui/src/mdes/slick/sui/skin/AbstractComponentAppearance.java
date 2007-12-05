@@ -6,11 +6,8 @@
 
 package mdes.slick.sui.skin;
 
-import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.SuiComponent;
 import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.theme.*;
-import mdes.slick.sui.skin.SuiSkin;
 
 /**
  *

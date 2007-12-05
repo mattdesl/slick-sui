@@ -6,14 +6,14 @@
 
 package mdes.slick.sui;
 
-import java.util.HashMap;
 import mdes.slick.sui.skin.SuiSkin;
 import mdes.slick.sui.skin.simple.SimpleSkin;
 import mdes.slick.sui.theme.SteelBlueTheme;
-import mdes.slick.sui.SuiTheme;
-import org.newdawn.slick.*;
-import org.newdawn.slick.gui.*;
-import org.newdawn.slick.util.*;
+
+import org.newdawn.slick.Font;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.GUIContext;
+import org.newdawn.slick.util.Log;
 
 /**
  * Sui is a utility class for the GUI library. It should be used

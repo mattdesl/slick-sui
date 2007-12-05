@@ -6,9 +6,9 @@
 
 package mdes.slick.sui.skin;
 
-import mdes.slick.sui.*;
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiComponent;
 import mdes.slick.sui.SuiTheme;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.gui.GUIContext;
 

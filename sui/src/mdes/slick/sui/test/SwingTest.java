@@ -6,9 +6,12 @@
 
 package mdes.slick.sui.test;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.FlowLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *

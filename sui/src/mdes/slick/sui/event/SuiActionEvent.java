@@ -1,6 +1,5 @@
 package mdes.slick.sui.event;
 
-import mdes.slick.sui.SuiComponent;
 
 /**
  * An event that indicates a component-defined event

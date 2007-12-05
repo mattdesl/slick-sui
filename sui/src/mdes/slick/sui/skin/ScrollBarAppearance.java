@@ -6,7 +6,10 @@
 
 package mdes.slick.sui.skin;
 
-import mdes.slick.sui.*;
+import mdes.slick.sui.ScrollConstants;
+import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.SuiScrollBar;
+import mdes.slick.sui.SuiSlider;
 
 /**
  * ScrollBarAppearance defines the appearance for a scroll bar.

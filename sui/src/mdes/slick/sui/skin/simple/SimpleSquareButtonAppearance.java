@@ -6,17 +6,9 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.*;
-import mdes.slick.sui.skin.ComponentAppearance;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.skin.SkinUtil;
-import org.newdawn.slick.fills.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.geom.*;
-import org.lwjgl.opengl.*;
-import org.newdawn.slick.opengl.SlickCallable;
-import org.newdawn.slick.gui.*;
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiButton;
+
+import org.newdawn.slick.geom.RoundedRectangle;
 
 /**
  *

@@ -6,13 +6,12 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.event.*;
-import mdes.slick.sui.skin.ComponentAppearance;
-import org.newdawn.slick.*;
-import java.util.*;
-import org.lwjgl.opengl.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.gui.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.gui.GUIContext;
 
 /**
  *

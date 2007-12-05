@@ -7,9 +7,9 @@
 package mdes.slick.sui.theme;
 
 import mdes.slick.sui.SuiTheme;
-import org.newdawn.slick.Color;
-import mdes.slick.sui.*;
 import mdes.slick.sui.skin.ColorUIResource;
+
+import org.newdawn.slick.Color;
 
 /**
  *

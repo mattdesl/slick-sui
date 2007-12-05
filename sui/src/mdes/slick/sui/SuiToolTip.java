@@ -6,7 +6,6 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.skin.ComponentAppearance;
 
 /**
  *

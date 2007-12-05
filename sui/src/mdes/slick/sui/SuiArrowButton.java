@@ -6,13 +6,10 @@
 
 package mdes.slick.sui;
 
-import org.newdawn.slick.*;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.gui.GUIContext;
-import org.newdawn.slick.opengl.SlickCallable;
-import org.lwjgl.opengl.*;
 
 /**
  * A SuiButton with an arrow painted on it. The arrow faces in the direction

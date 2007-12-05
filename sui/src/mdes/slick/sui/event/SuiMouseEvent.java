@@ -1,6 +1,5 @@
 package mdes.slick.sui.event;
 
-import mdes.slick.sui.SuiComponent;
 
 /**
  * A mouse event, including motion and press/release. 
