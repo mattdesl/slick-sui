@@ -6,7 +6,6 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.Sui;
 import mdes.slick.sui.SuiButton;
 import mdes.slick.sui.SuiComponent;
 import mdes.slick.sui.SuiDisplay;
@@ -49,7 +48,7 @@ public class StressTest extends BasicGame {
     public void init(GameContainer container) throws SlickException {
         container.setShowFPS(false);
         
-        disp = Sui.init(container);
+        disp = new SuiDisplay(container);
         disp.setSendingGlobalEvents(false);
         
         float width = container.getWidth();
