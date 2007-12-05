@@ -25,14 +25,8 @@ import org.newdawn.slick.gui.*;
 public class SimpleWindowAppearance extends SimpleContainerAppearance implements WindowAppearance {
         
     private static GradientFill grad = new GradientFill(0f,0f,Color.white,0f,0f,Color.white);
-
-    private ComponentAppearance closeBtnAppearance = new CloseButtonAppearance();
-    private ComponentAppearance resizerAppearance = new ResizerAppearance();
-    private ComponentAppearance titleBarAppearance = new TitleBarAppearance();
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
-        super.install(comp, skin, theme);
-    }
+    private ComponentAppearance resizerAppearance = new ResizerAppearance();
     
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         Color old = g.getColor();
@@ -52,7 +46,6 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
             rect.setHeight(rect.getHeight()-h+1);
         }
         
-        
         float mid = rect.getWidth()/2f;
         
         grad.setStartColor(light);
@@ -62,19 +55,23 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
         g.draw(rect, grad);
     }
 
-    public ComponentAppearance getCloseButtonAppearance() {
-        return closeBtnAppearance;
+    public ComponentAppearance getCloseButtonAppearance(SuiButton closeButton) {
+        return new CloseButtonAppearance(closeButton);
     }
 
-    public ComponentAppearance getTitleBarAppearance() {
-        return titleBarAppearance;
+    public ComponentAppearance getTitleBarAppearance(SuiWindow.TitleBar titleBar) {
+        return new TitleBarAppearance(titleBar);
     }
 
-    public ComponentAppearance getResizerAppearance() {
+    public ComponentAppearance getResizerAppearance(SuiWindow.Resizer resizer) {
         return resizerAppearance;
     }
     
     protected class CloseButtonAppearance extends SimpleButtonAppearance {
+        
+        public CloseButtonAppearance(SuiButton button) {
+            super(button);
+        }
         
         protected RoundedRectangle createRoundedBounds() {
             return new RoundedRectangle(0f,0f,0f,0f,3f,50);
@@ -83,26 +80,18 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
         public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
             super.install(comp, skin, theme);
             SuiButton btn = (SuiButton)comp;
-            if (SkinManager.installImage(btn, "Window.CloseButton.image")) {
-                btn.pack();
+            
+            if (skin instanceof SimpleSkin) {
+                Image img = ((SimpleSkin)skin).getCloseButtonImage();
+                if (SkinUtil.installImage(btn, img)) {
+                    btn.pack();
+                }
             }
         }
     }
     
     protected class ResizerAppearance extends SimpleLabelAppearance {
-    
-        private Rectangle r1 = new Rectangle(0f,0f,2f,2f);
-
-        public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
-            super.install(comp, skin, theme);
-            SuiLabel btn = (SuiLabel)comp;
-
-            if (SkinManager.installImage(btn, "Window.Resizer.image")) {
-                btn.setPadding(2);
-                btn.pack();
-            }
-        }
-
+            
         public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
             SuiWindow win = ((SuiWindow.Resizer)comp).getWindow();
             if (!win.isResizable())
@@ -135,6 +124,12 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
 
         private GradientFill grad = new GradientFill(0f,0f,Color.white,0f,0f,Color.white);
 
+        private SuiWindow.TitleBar bar;
+        
+        public TitleBarAppearance(SuiWindow.TitleBar bar) {
+            this.bar = bar;
+        }
+        
         public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
             Rectangle rect = comp.getAbsoluteBounds();
 
@@ -178,7 +173,7 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
 
             //g.setColor(old);
             
-            RenderUtil.renderLabelBase(g, t);
+            SkinUtil.renderLabelBase(g, t);
         }
     }
 }

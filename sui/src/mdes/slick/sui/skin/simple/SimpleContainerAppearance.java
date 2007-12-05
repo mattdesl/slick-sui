@@ -22,6 +22,6 @@ public class SimpleContainerAppearance extends SimpleComponentAppearance {
     //TODO: client properties for square (not round) buttons if desired
     
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
-        RenderUtil.renderComponentBase(g, comp);
+        SkinUtil.renderComponentBase(g, comp);
     }
 }

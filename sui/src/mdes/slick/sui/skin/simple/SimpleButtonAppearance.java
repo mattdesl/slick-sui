@@ -9,7 +9,7 @@ package mdes.slick.sui.skin.simple;
 import mdes.slick.sui.*;
 import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.skin.RenderUtil;
+import mdes.slick.sui.skin.SkinUtil;
 import org.newdawn.slick.fills.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
@@ -22,86 +22,89 @@ import mdes.slick.sui.skin.SuiSkin;
  *
  * @author davedes
  */
-public class SimpleButtonAppearance extends SimpleLabelAppearance {
+public class SimpleButtonAppearance extends SimpleComponentAppearance {
     
-    private static GradientFill grad = new GradientFill(0f,0f,Color.white,0f,0f,Color.white);
     private static final Color TRANSPARENT_COLOR = new Color(1f,1f,1f,0f);
+    
+    protected GradientFill grad;
+    protected RoundedRectangle roundBounds;
+    protected SuiButton button;
+    
+    public SimpleButtonAppearance(SuiButton button) {
+        this.button = button;
+        roundBounds = createRoundedBounds();
         
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
-        super.install(comp, skin, theme);
-        comp.setSkinData(createData(comp));
+        //TODO: add CachedGradientFill
+        grad = new GradientFill(0f,0f,Color.white,0f,0f,Color.white);
     }
-    
-    protected ButtonData createData(SuiComponent comp) {
-        ButtonData data = new ButtonData();
-        RoundedRectangle rect = createRoundedBounds();
-        data.roundBounds = rect;
-        return data;
-    }
-    
+        
+    /**
+     * Used by subclasses to create the bounds (set the corner/segments) of
+     * this button. If <tt>null</tt> is returned, we assume the bounds of the
+     * component (results in a non-rounded rectangle). Most subclasses will
+     * use <tt>0.0f</tt> for size and location, and will only override this 
+     * for different rounded corners and number of segments.
+     *
+     * @return the rounded rectangle for this button, or <tt>null</tt>
+     */
     protected RoundedRectangle createRoundedBounds() {
         return new RoundedRectangle(0f,0f,0f,0f,5f,15);
     }
     
-    protected ButtonData getButtonData(SuiComponent comp) {
-        Object obj = comp.getSkinData();
-        ButtonData ret = null;
-        if (obj!=null && obj instanceof ButtonData) {
-            ret = (ButtonData)obj;
-        } else {
-            ButtonData data = createData(comp);
-            comp.setSkinData(data);
-        }
-        return ret;
+    protected void checkComponent(SuiComponent comp) {
+        if (comp != this.button) 
+            throw new IllegalStateException("SimpleSkin's button appearance " +
+                            "only handles the button passed in its constructor");
     }
-    
+        
     public boolean contains(SuiComponent comp, float x, float y) {
-        if (SimpleSkin.isRoundRectanglesEnabled()) {
-            ButtonData btn = getButtonData(comp);
-            if (btn.roundBounds!=null) {
-                Rectangle roundRect = btn.roundBounds;
-                Rectangle bounds = comp.getAbsoluteBounds();
-                roundRect.setX(bounds.getX());
-                roundRect.setY(bounds.getY());
-                roundRect.setWidth(bounds.getWidth());
-                roundRect.setHeight(bounds.getHeight());
-                return roundRect.contains(x, y);
-            }
-        }
-        return comp.inside(x, y);
+        checkComponent(comp);
+        
+        //if we are checking corners
+        if (SimpleSkin.isRoundRectanglesEnabled() && roundBounds!=null) {
+            //updates bounds and checks for contains
+            roundBounds.setBounds(comp.getAbsoluteBounds());
+            return roundBounds.contains(x, y);
+        } else //if we aren't checking corners
+            return comp.inside(x, y);
     }
         
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
-        //renders base
-        RenderUtil.renderComponentBase(g, comp);
+        checkComponent(comp);
+        
+        //renders base color
+        SkinUtil.renderComponentBase(g, comp);
         
         SuiButton btn = (SuiButton)comp;
         
         //renders button state
-        if (SimpleSkin.isRoundRectanglesEnabled())
-            renderButtonState(g, theme, btn);
-        else
-            renderButtonState(g, theme, btn, null);
+        Rectangle bounds = btn.getAbsoluteBounds();
+        Rectangle rect = bounds; //the bounds we will send
+        
+        //check for round rectangles
+        if (roundBounds!=null && SimpleSkin.isRoundRectanglesEnabled()) {
+            roundBounds.setBounds(bounds);
+            rect = roundBounds;
+        }
+        
+        renderButtonState(g, theme, btn, rect, grad);
              
         //renders text/image
-        RenderUtil.renderButtonBase(g, btn);
-    }
-        
-    protected void renderButtonState(Graphics g, SuiTheme theme, SuiButton btn) {
-        RoundedRectangle roundRect = null;
-        ButtonData data = getButtonData(btn);
-        if (data!=null && data.roundBounds!=null) {
-            roundRect = data.roundBounds;
-            Rectangle bounds = btn.getAbsoluteBounds();
-            roundRect.setX(bounds.getX());
-            roundRect.setY(bounds.getY());
-            roundRect.setWidth(bounds.getWidth());
-            roundRect.setHeight(bounds.getHeight());
-        }
-        SimpleButtonAppearance.renderButtonState(g, theme, btn, roundRect);
+        SkinUtil.renderButtonBase(g, btn);
     }
     
-    static void renderButtonState(Graphics g, SuiTheme theme, SuiButton btn, Rectangle aRect) {
+    /**
+     * Renders a button state (only gradient and border) based on the given params.
+     * This method also checks for SuiToggleButton instances. If <tt>aRect</tt>
+     * is null, we will assume the bounds of the passed button.
+     * 
+     * @param g the graphics to render with
+     * @param theme the theme we are using
+     * @param btn the button to render
+     * @param aRect the rectangle we are drawing with, or null
+     * @param grad the gradient fill instance to use
+     */
+    static void renderButtonState(Graphics g, SuiTheme theme, SuiButton btn, Rectangle aRect, GradientFill grad) {
         Rectangle rect = aRect;
         if (rect==null)
             rect = btn.getAbsoluteBounds();
@@ -172,9 +175,5 @@ public class SimpleButtonAppearance extends SimpleLabelAppearance {
         g.draw(rect, grad);
         
         g.setAntiAlias(oldAA);        
-    }
-    
-    public static class ButtonData {
-        RoundedRectangle roundBounds;
     }
 }

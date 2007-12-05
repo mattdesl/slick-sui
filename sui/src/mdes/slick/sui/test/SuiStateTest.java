@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class SuiStateTest extends StateBasedGame {
     
-    private static final String SINGLETON = "singleton display";
+    private static final String SINGLETON = "shared display";
     private static final String INDIVIDUAL = "individual displays";
     
     public static void main(String[] args) throws Exception {
@@ -49,7 +49,7 @@ public class SuiStateTest extends StateBasedGame {
     public void initStatesList(GameContainer container) throws SlickException {
         Sui.setTheme(new BitterLemonTheme());
         SimpleSkin.setRoundRectanglesEnabled(true);
-        singleton = Sui.init(container);
+        singleton = new SuiDisplay(container);
         singleton.setSendingGlobalEvents(false);
         
         SuiWindow window = new SuiWindow("Singleton Window");
@@ -60,14 +60,6 @@ public class SuiStateTest extends StateBasedGame {
         final SuiCheckBox box = new SuiCheckBox("Are you sure?");        
         box.pack();
         box.setLocation(10, 25);
-        box.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
-                //test swap
-                /*box.setHorizontalBoxPosition( 
-                            box.getHorizontalBoxPosition()==SuiCheckBox.LEADING ?
-                                SuiCheckBox.TRAILING : SuiCheckBox.LEADING);*/
-            }
-        });
         window.add(box);
         window.setMinimumSize(150, 70);
         

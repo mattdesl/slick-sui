@@ -21,15 +21,11 @@ import org.newdawn.slick.gui.GUIContext;
  * @author davedes
  */
 public class SimpleSliderAppearance extends SimpleContainerAppearance implements SliderAppearance {
-    
-    protected RoundedRectangle createRoundedBounds() {
-        return new RoundedRectangle(0f,0f,0f,0f,5f,25);
-    }
-    
+        
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         SuiSlider slider = (SuiSlider)comp;
          
-        RenderUtil.renderComponentBase(g, slider);
+        SkinUtil.renderComponentBase(g, slider);
         Rectangle bounds = slider.getAbsoluteBounds();
         if (!slider.isOpaque() || slider.getBackground()==null) {
             Color back = theme.getPrimary3();
@@ -53,7 +49,7 @@ public class SimpleSliderAppearance extends SimpleContainerAppearance implements
     public SuiButton createThumbButton(SuiSlider slider) {
         SuiButton btn = new SuiButton() {
             public void updateAppearance() {
-                setAppearance(new SimpleButtonAppearance() {
+                setAppearance(new SimpleButtonAppearance(this) {
                     protected RoundedRectangle createRoundedBounds() {
                         return new RoundedRectangle(0f,0f,0f,0f,3f,50);
                     }
