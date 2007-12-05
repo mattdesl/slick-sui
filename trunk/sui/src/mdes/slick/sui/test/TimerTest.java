@@ -6,7 +6,6 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.Sui;
 import mdes.slick.sui.SuiButton;
 import mdes.slick.sui.SuiContainer;
 import mdes.slick.sui.SuiDisplay;
@@ -44,7 +43,7 @@ public class TimerTest extends BasicGame {
     private SuiContainer panel;
     
     public void init(GameContainer container) throws SlickException {
-        disp = Sui.init(container);
+        disp = new SuiDisplay(container);
         
         timer.setRepeats(true);
         

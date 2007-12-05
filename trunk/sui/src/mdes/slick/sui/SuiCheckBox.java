@@ -39,8 +39,8 @@ public class SuiCheckBox extends SuiToggleButton {
         setBoxWidth(15);
         setBoxHeight(15);
                 
-        setVerticalAlignment(this.CENTER_ALIGNMENT);
-        setHorizontalAlignment(this.LEFT_ALIGNMENT);
+        setVerticalAlignment(CENTER_ALIGNMENT);
+        setHorizontalAlignment(LEFT_ALIGNMENT);
         
         updateAppearance();
     }

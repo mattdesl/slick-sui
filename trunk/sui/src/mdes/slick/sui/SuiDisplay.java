@@ -57,7 +57,7 @@ public class SuiDisplay extends SuiContainer {
     public SuiDisplay(GUIContext context) {
         if (context==null)
             throw new IllegalArgumentException("cannot have null context");
-        this.cachedContext = context;
+        cachedContext = context;
         
         this.context = context;
         this.input = context.getInput();

@@ -42,7 +42,7 @@ public class SuiScrollBar extends SuiContainer implements ScrollConstants {
     }
     
     private void checkOrientation(int orientation) {
-        if (orientation!=this.HORIZONTAL && orientation!=this.VERTICAL)
+        if (orientation!=HORIZONTAL && orientation!=VERTICAL)
             throw new IllegalArgumentException("scroll bar orientation " +
                     "must be either HORIZONTAL or VERTICAL");
     }

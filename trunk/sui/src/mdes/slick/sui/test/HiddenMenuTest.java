@@ -6,7 +6,6 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.Sui;
 import mdes.slick.sui.SuiButton;
 import mdes.slick.sui.SuiContainer;
 import mdes.slick.sui.SuiDisplay;
@@ -44,7 +43,7 @@ public class HiddenMenuTest extends BasicGame {
     private boolean doneMoving = false;
     
     public void init(GameContainer container) throws SlickException {
-        display = Sui.init(container);
+        display = new SuiDisplay(container);
         display.setSendingGlobalEvents(true);
         
         final SuiContainer hoverArea = new SuiContainer();

@@ -42,7 +42,7 @@ public class SliderTest extends BasicGame {
     SuiDisplay disp = null;
     
     public void init(GameContainer container) throws SlickException {
-        disp = Sui.init(container);
+        disp = new SuiDisplay(container);
                 
         SuiSlider slider = new SuiSlider(SuiSlider.HORIZONTAL);
         slider.setBounds(100, 100, 200, 16);
