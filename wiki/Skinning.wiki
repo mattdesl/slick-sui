@@ -1,4 +1,4 @@
-#using skins and themes.
+#summary using skins and themes.
 
 =Introduction=
 This tutorial will discuss how to create a custom skin for SUI, and also how to implement your
