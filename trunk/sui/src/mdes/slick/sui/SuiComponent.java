@@ -100,6 +100,8 @@ public abstract class SuiComponent {
     private boolean requestFocusEnabled = true;
     
     private ComponentAppearance appearance;
+    
+    private Padding padding = new Padding(0);
         
     /**
      * Whether this component is ignoring events
@@ -885,8 +887,47 @@ public abstract class SuiComponent {
     protected SuiTheme getTheme() {
         return Sui.getTheme();
     }
-
     
+    
+    public void setPadding(Padding p) {
+        if (p==null)
+            throw new IllegalArgumentException("padding cannot be null");
+        this.padding = p;
+    }
+    
+    public void setPadding(float top, float left, float bottom, float right) {
+        padding.set(top, left, bottom, right);
+    }
+    
+    /**
+     * Sets the padding of this label.
+     *
+     * @param i the padding, in pixels
+     */
+    public void setPadding(float p) {
+        padding.set(p);
+    }
+    
+    /**
+     * Sets the top and bottom padding of this component.
+     */
+    public void setVerticalPadding(float p) {
+        padding.top = p;
+        padding.bottom = p;
+    }
+    
+    /**
+     * Sets the left and right padding of this component.
+     */
+    public void setHorizontalPadding(float p) {
+        padding.left = p;
+        padding.right = p;
+    }
+    
+    public Padding getPadding() {
+        return padding;
+    }
+        
     /**
      * Returns a String representation of this container.
      *

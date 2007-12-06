@@ -9,7 +9,6 @@ package mdes.slick.sui;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.gui.GUIContext;
 
@@ -23,8 +22,7 @@ public class SuiContainer extends SuiComponent {
     boolean childrenDirty = true;
     private boolean clipEnabled;
     private ArrayList children = new ArrayList();
-    private Padding padding = new Padding(0);
-    
+        
     /** Creates a new instance of SuiContainer */
     public SuiContainer() {
         this(true);
@@ -188,8 +186,6 @@ public class SuiContainer extends SuiComponent {
         }
     }
     
-    
-    
     /**
      * Called to recursively update all children of this container.
      *
@@ -210,40 +206,6 @@ public class SuiContainer extends SuiComponent {
     protected void renderComponent(GUIContext container, Graphics g) {
         super.renderComponent(container, g);
         renderChildren(container, g);
-    }
-    
-    
-    public void setPadding(Padding p) {
-        if (p==null)
-            throw new IllegalArgumentException("padding cannot be null");
-        this.padding = p;
-    }
-    
-    public void setPadding(float top, float left, float bottom, float right) {
-        padding.set(top, left, bottom, right);
-    }
-    
-    /**
-     * Sets the padding of this label.
-     *
-     * @param i the padding, in pixels
-     */
-    public void setPadding(float p) {
-        padding.set(p);
-    }
-    
-    public void setVerticalPadding(float p) {
-        padding.top = p;
-        padding.bottom = p;
-    }
-    
-    public void setHorizontalPadding(float p) {
-        padding.left = p;
-        padding.right = p;
-    }
-    
-    public Padding getPadding() {
-        return padding;
     }
     
     private class ZComparator implements Comparator{
