@@ -84,6 +84,7 @@ public class SuiLabel extends SuiContainer {
      */
     public SuiLabel(Image image) {
         this(image, null);
+        setSize(image.getWidth(), image.getWidth());
     }
     
     /** Creates a new empty label. */

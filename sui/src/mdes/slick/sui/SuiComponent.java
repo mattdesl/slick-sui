@@ -675,6 +675,7 @@ public abstract class SuiComponent {
      */
     public void setHeight(float height) {
         this.height = height;
+        onResize();
     }
     
     /**
@@ -684,6 +685,7 @@ public abstract class SuiComponent {
      */
     public void setWidth(float width) {
         this.width = width;
+        onResize();
     }
     
     /**
@@ -716,6 +718,7 @@ public abstract class SuiComponent {
         setY(getY() - v);
         setWidth(getWidth() + (h*2));
         setHeight(getHeight() + (v*2));
+        
     }
     
     /**
@@ -1100,7 +1103,11 @@ public abstract class SuiComponent {
             }
         }
     }
-
+    public void onResize()
+    {
+	if(parent!= null)
+	    parent.layout.doLayout(parent);
+    }
     public Object getSkinData() {
         return skinData;
     }

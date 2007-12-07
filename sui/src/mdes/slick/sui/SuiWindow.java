@@ -13,6 +13,7 @@ import mdes.slick.sui.event.SuiKeyListener;
 import mdes.slick.sui.event.SuiMouseAdapter;
 import mdes.slick.sui.event.SuiMouseEvent;
 import mdes.slick.sui.event.SuiMouseWheelListener;
+import mdes.slick.sui.layout.SuiLayout;
 import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.skin.WindowAppearance;
 
@@ -251,7 +252,14 @@ public class SuiWindow extends SuiContainer {
         super.removeMouseWheelListener(l);
         titleBar.removeMouseWheelListener(l);
     }
-    
+    public void setLayout(SuiLayout l)
+    {
+	    if(rootCheck)
+		    contentPane.setLayout(l);
+	    else
+		    super.setLayout(l);
+    }
+
     /**
      * Sets the background color for the window's
      * content pane.
@@ -371,13 +379,16 @@ public class SuiWindow extends SuiContainer {
         super.setWidth(width);
         titleBar.setWidth(width);
         contentPane.setWidth(width-1);
+        contentPane.layout.doLayout(contentPane);
         updateResizerX();
     }
     
     public void setHeight(float height) {
         super.setHeight(height);
         contentPane.setHeight(Math.max(0, height-titleBar.getHeight()));
+        contentPane.layout.doLayout(contentPane);
         updateResizerY();
+       
     }
     
     void updateResizerY() {
