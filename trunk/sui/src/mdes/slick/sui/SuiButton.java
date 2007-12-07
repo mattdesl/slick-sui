@@ -59,6 +59,8 @@ public class SuiButton extends SuiLabel {
         this();
         setText(text);
         actionCommand = text;
+        pack();
+       
     }
     
     /**
@@ -85,6 +87,7 @@ public class SuiButton extends SuiLabel {
         addMouseListener(new ButtonListener());
         if (updateAppearance)
             updateAppearance();
+        
     }
     
     public void updateAppearance() {

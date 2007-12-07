@@ -9,7 +9,12 @@ package mdes.slick.sui;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import mdes.slick.sui.layout.StaticLayout;
+import mdes.slick.sui.layout.SuiLayout;
+
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
@@ -22,7 +27,11 @@ public class SuiContainer extends SuiComponent {
     boolean childrenDirty = true;
     private boolean clipEnabled;
     private ArrayList children = new ArrayList();
-        
+    protected SuiLayout layout = new StaticLayout();
+        public void setLayout(SuiLayout layout)
+        {
+     	   this.layout = layout;
+        }
     /** Creates a new instance of SuiContainer */
     public SuiContainer() {
         this(true);
@@ -43,6 +52,7 @@ public class SuiContainer extends SuiComponent {
     
     public void updateAppearance() {
         setAppearance(Sui.getSkin().getContainerAppearance(this));
+        
     }
     
     public void setZIndex(int z) {
@@ -85,6 +95,8 @@ public class SuiContainer extends SuiComponent {
             childrenDirty = true;
             child.parent = this;
             children.add(child);
+            layout.doLayout(this);
+            
         }
     }
     
@@ -100,6 +112,7 @@ public class SuiContainer extends SuiComponent {
             childrenDirty = true;
             child.parent = this;
             children.add(index, child);
+            layout.doLayout(this);
         }
     }
     
@@ -115,6 +128,7 @@ public class SuiContainer extends SuiComponent {
             childrenDirty = true;
             child.parent = null;
             child.releaseFocus();
+            layout.doLayout(this);
         }
         return contained;
     }
@@ -175,14 +189,14 @@ public class SuiContainer extends SuiComponent {
         for (int i=0; i<getChildCount(); i++) {
             SuiComponent child = getChild(i);
             
-            /*clip.x = getAbsoluteX();
-            clip.y = getAbsoluteY();
-            clip.width = getWidth();
-            clip.height = getHeight();*/
+            Rectangle oldclip = g.getClip();
+            Rectangle clip = new Rectangle(getAbsoluteX(),getAbsoluteY(),getWidth(),getHeight());
+            g.setClip(clip);
             
             //TODO: fix clipping
-            
+ 
             child.render(container, g);
+            g.setClip(oldclip);
         }
     }
     
