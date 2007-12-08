@@ -19,6 +19,12 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public class SimpleToolTipAppearance extends SimpleLabelAppearance {
     
+    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+        super.install(comp, skin, theme);
+        comp.setOpaque(true);
+        comp.getPadding().set(2, 3, 2, 3);
+    }
+    
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         super.render(ctx, g, comp, skin, theme);
         
