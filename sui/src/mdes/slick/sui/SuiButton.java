@@ -60,7 +60,6 @@ public class SuiButton extends SuiLabel {
         setText(text);
         actionCommand = text;
         pack();
-       
     }
     
     /**
@@ -78,7 +77,7 @@ public class SuiButton extends SuiLabel {
         this(true);
     }
     
-    SuiButton(boolean updateAppearance) {
+    protected SuiButton(boolean updateAppearance) {
         super(false);
         setRequestFocusEnabled(true);
         setVerticalPadding(5);

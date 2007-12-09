@@ -33,7 +33,7 @@ public class SuiToggleButton extends SuiButton {
         super();
     }
     
-    SuiToggleButton(boolean updateAppearance) {
+    protected SuiToggleButton(boolean updateAppearance) {
         super(false);
         if (updateAppearance)
             updateAppearance();

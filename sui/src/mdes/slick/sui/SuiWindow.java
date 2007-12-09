@@ -24,9 +24,9 @@ import org.newdawn.slick.Image;
  * A dialog window which can be moved, resized, and hidden.
  * <p>
  * <code>SuiWindow</code> uses a content pane to hold its children. The following
- * methods make calls to the content pane for convenience: add, remove, setBackground
- * and remove. It's good practice to always call getContentPane() first when dealing 
- * with the window's children.
+ * methods make calls to the content pane for convenience: add, remove, setLayout, 
+ * setBackground and remove. It's good practice to always call getContentPane() first 
+ * when dealing with the window's children.
  * @author davedes
  */
 public class SuiWindow extends SuiContainer {
@@ -252,12 +252,12 @@ public class SuiWindow extends SuiContainer {
         super.removeMouseWheelListener(l);
         titleBar.removeMouseWheelListener(l);
     }
-    public void setLayout(SuiLayout l)
-    {
-	    if(rootCheck)
-		    contentPane.setLayout(l);
-	    else
-		    super.setLayout(l);
+    
+    public void setLayout(SuiLayout l) {
+        if(rootCheck)
+            contentPane.setLayout(l);
+        else
+            super.setLayout(l);
     }
 
     /**
@@ -330,11 +330,11 @@ public class SuiWindow extends SuiContainer {
      *
      * @param child the child container to add
      */
-    public void add(SuiComponent child) {
+    public boolean add(SuiComponent child) {
         if (rootCheck)
-            contentPane.add(child);
+            return contentPane.add(child);
         else
-            super.add(child);
+            return super.add(child);
     }
     
     /**
@@ -343,11 +343,11 @@ public class SuiWindow extends SuiContainer {
      * @param child the child container to add
      * @param index the index to insert it to
      */
-    public void add(SuiComponent child, int index) {
+    public boolean add(SuiComponent child, int index) {
         if (rootCheck)
-            contentPane.add(child, index);
+            return contentPane.add(child, index);
         else
-            super.add(child, index);
+            return super.add(child, index);
     }
     
     /**
@@ -388,10 +388,10 @@ public class SuiWindow extends SuiContainer {
         contentPane.setHeight(Math.max(0, height-titleBar.getHeight()));
         contentPane.layout.doLayout(contentPane);
         updateResizerY();
-       
     }
     
     void updateResizerY() {
+        //HACK: get rid of offset hacks in updateResizerX, updateResizerY and setWidth 
         if (resizer!=null)
             resizer.setY(getHeight() - resizer.getHeight()-2);
     }
@@ -410,7 +410,8 @@ public class SuiWindow extends SuiContainer {
     }
     
     public void setContentPane(SuiContainer cp) {
-        //TODO: null check
+        if (cp==null)
+            throw new IllegalArgumentException("Can't have a null content pane!");
         this.contentPane = cp;
         contentPane.setFocusable(true);
     }
@@ -561,6 +562,15 @@ public class SuiWindow extends SuiContainer {
             add(closeButton);
         }
         
+        /** 
+         * Overridden to return the same value as the attached SuiWindow's
+         * isConsumingEvents method.
+         * @return getWindow().isConsumingEvents()
+         */
+        protected boolean isConsumingEvents() {
+            return window.isConsumingEvents();
+        }
+        
         public void updateAppearance() {
             WindowAppearance a = (WindowAppearance)window.getAppearance();
             if (a!=null)
@@ -627,6 +637,15 @@ public class SuiWindow extends SuiContainer {
             updateAppearance();
             setSize(8, 8);
             addMouseListener(new WindowResizeListener(window));
+        }
+        
+        /** 
+         * Overridden to return the same value as the attached SuiWindow's
+         * isConsumingEvents method.
+         * @return getWindow().isConsumingEvents()
+         */
+        protected boolean isConsumingEvents() {
+            return window.isConsumingEvents();
         }
         
         public void updateAppearance() {

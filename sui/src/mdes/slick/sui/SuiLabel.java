@@ -92,7 +92,7 @@ public class SuiLabel extends SuiContainer {
         this(null, null);
     }
     
-    SuiLabel(boolean updateAppearance) {
+    protected SuiLabel(boolean updateAppearance) {
         super(false);
         if (updateAppearance)
             updateAppearance();
