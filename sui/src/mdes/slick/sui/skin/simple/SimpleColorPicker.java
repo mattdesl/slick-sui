@@ -122,6 +122,7 @@ public class SimpleColorPicker extends SuiContainer {
         return selectedColor;
     }
     
+    /* TODO: support SimpleColorPicker.setSelectedColor
     public void setSelectedColor(Color color) {
         if (color==null)
             throw new IllegalArgumentException("color cannot be null");
@@ -151,7 +152,7 @@ public class SimpleColorPicker extends SuiContainer {
         colorBox.setBackground(color);
         colorHex.setText("#"+toHex(color));
         fireStateChanged();
-    }
+    }*/
         
     private boolean isInsideHuePane(float y) {
         float mid = hueCursor.getHeight()/2f;
