@@ -52,7 +52,7 @@ public abstract class SuiComponent {
     private boolean appearanceEnabled = true;
     private Rectangle bounds = new Rectangle(0f,0f,0f,0f);
     private Object skinData = null;
-    
+        
     /** The Slick Input fused in this SuiContainer. */
     private Input input;
     
@@ -286,6 +286,14 @@ public abstract class SuiComponent {
         }
         return false;
     }
+    
+    SuiComponent getFirstNonGlassPane() {
+        if (!isGlassPane())
+            return this;
+        if (parent==null)
+            return null;
+        return parent.getFirstNonGlassPane();
+    }
         
     /**
      * Gets the parent of this container.
@@ -298,12 +306,17 @@ public abstract class SuiComponent {
     }
     
     /**
-     * Called to render this component.
+     * Called to render this component. By default, this method will
+     * render the current appearance if it exists and is enabled. 
      *
      * @param container the GUIContext we are rendering to
      * @param g the Graphics context we are rendering with
      */
     protected void renderComponent(GUIContext container, Graphics g) {
+        ComponentAppearance appearance = getAppearance();
+        if (this.isAppearanceEnabled() && appearance!=null) {
+            appearance.render(container, g, this, Sui.getSkin(), Sui.getTheme());
+        }
     }
     
     
@@ -316,8 +329,6 @@ public abstract class SuiComponent {
     public boolean isEnabled() {
         return enabled;
     }
-    
-    
     
     /**
      * Set whether to enable or disable this label.
@@ -411,7 +422,9 @@ public abstract class SuiComponent {
     }
     
     /**
-     * Called to update this component.
+     * Called to update this component. By default, this method will
+     * render the current appearance if it exists and is enabled. 
+     *
      *
      * @param container the GUIContext we are rendering to
      * @param delta the delta time (in ms)
@@ -432,11 +445,6 @@ public abstract class SuiComponent {
         if (isShowing() && width!=0 && height!=0) {
             Color c = g.getColor();
             Font f = g.getFont();
-                        
-            ComponentAppearance appearance = getAppearance();
-            if (this.isAppearanceEnabled() && appearance!=null) {
-                appearance.render(container, g, this, Sui.getSkin(), Sui.getTheme());
-            }
             
             renderComponent(container, g);
             
@@ -941,6 +949,20 @@ public abstract class SuiComponent {
         if (name!=null)
             str += " ["+name+"]";
         return str;
+    }
+    
+    /**
+     * Can be overridden if you wish this component's mouse
+     * dragged, pressed and released events to pass down to slick.
+     * <p>
+     * For example, the SuiDisplay does not (by default) consume
+     * events.
+     * 
+     * @return <tt>true</tt> if we should consume an even on a
+     *      mouse press/release of this component
+     */
+    protected boolean isConsumingEvents() {
+        return true;
     }
     
     /**

@@ -58,7 +58,7 @@ public class SuiDisplay extends SuiContainer {
         if (context==null)
             throw new IllegalArgumentException("cannot have null context");
         cachedContext = context;
-        
+                
         this.context = context;
         this.input = context.getInput();
         setSize(context.getWidth(), context.getHeight());
@@ -69,8 +69,6 @@ public class SuiDisplay extends SuiContainer {
         
         toolTip.setZIndex(SuiComponent.POPUP_LAYER);
         toolTip.setVisible(false);
-        toolTip.setOpaque(true);
-        toolTip.getPadding().set(2, 3, 2, 3);
         tipShowTimer.setRepeats(false);
         tipHideTimer.setRepeats(false);
         add(toolTip);
@@ -78,7 +76,10 @@ public class SuiDisplay extends SuiContainer {
         input.addPrimaryListener(SLICK_LISTENER);
         
         setFocusable(false);
-        setGlassPane(true);
+    }
+    
+    protected boolean isConsumingEvents() {
+        return false;
     }
         
     /**
@@ -229,10 +230,7 @@ public class SuiDisplay extends SuiContainer {
             SuiComponent comp = parent.getChild(i);
             
             if (comp!=null && comp.isShowing()) {
-                if (comp.contains(x, y)) {
-                    if (checkGlassPane && comp.isGlassPane()) {
-                        return parent;
-                    }
+                if (comp.contains(x, y)) {                    
                     if (comp instanceof SuiToolTip) {
                         SuiComponent owner = ((SuiToolTip)comp).getOwner();
                         if (owner.contains(x, y))
@@ -241,8 +239,9 @@ public class SuiDisplay extends SuiContainer {
                     if (comp instanceof SuiContainer && 
                             ((SuiContainer)comp).getChildCount()>0)
                         return getDeepestComponentAt((SuiContainer)comp, x, y, checkGlassPane);
-                    else
+                    else {
                         return comp;
+                    }
                 }
             }
         }
@@ -251,6 +250,10 @@ public class SuiDisplay extends SuiContainer {
     
     public SuiComponent getDeepestComponentAt(SuiContainer parent, int x, int y) {
         return getDeepestComponentAt(parent, x, y, false);
+    }
+    
+    public SuiComponent getComponentAtMouse() {
+        return SLICK_LISTENER.mouseOver;
     }
     
     private SuiComponent tipOver() {
@@ -264,7 +267,7 @@ public class SuiDisplay extends SuiContainer {
     private float tipY() {
         return SLICK_LISTENER.tipY;
     }
-        
+            
     private class ShowTipAction implements SuiActionListener {
         public void actionPerformed(SuiActionEvent e) {
             if (!toolTip.isVisible())
@@ -320,6 +323,9 @@ public class SuiDisplay extends SuiContainer {
                 mouseOver = null;
                 return;
             }
+                        
+            SuiComponent oldComp = mouseOver;
+            mouseOver = comp;
               
             //relative positions
             int ox = (int)(oldX-comp.getAbsoluteX());
@@ -329,6 +335,8 @@ public class SuiDisplay extends SuiContainer {
             
             if (dragComp!=null&&dragComp!=comp&&dragComp.isEnabled()) {
                 dragComp.fireMouseEvent(SuiMouseEvent.MOUSE_DRAGGED, dragb, nx, ny, ox, oy, newX, newY);
+                if (dragComp.isConsumingEvents())
+                    input.consumeEvent();
                 return;
             }
             
@@ -341,8 +349,6 @@ public class SuiDisplay extends SuiContainer {
                     && (SuiDisplay.this.isEnabled() || moveID==SuiMouseEvent.MOUSE_MOVED) ) {
                 fireMouseEvent(moveID, dragb, nx, ny, ox, oy, newX, newY);
             }
-            SuiComponent oldComp = mouseOver;
-            mouseOver = comp;
             if (oldComp!=mouseOver) {
                 if (oldComp!=null) {
                     oldComp.fireMouseEvent(SuiMouseEvent.MOUSE_EXITED, dragb, nx, ny, ox, oy, newX, newY);
@@ -380,12 +386,15 @@ public class SuiDisplay extends SuiContainer {
             }
             
             SuiComponent comp = getDeepestComponentAt(SuiDisplay.this, x, y, true);
+            if (comp.isGlassPane())
+                comp = comp.getFirstNonGlassPane();
+            
             if (comp==null) {
                 bdown = false;
                 dragComp = null;
                 return;
             }
-            
+                        
             if (comp.isFocusable()) {
                 if (comp.isRequestFocusEnabled())
                     comp.grabFocus();
@@ -398,10 +407,15 @@ public class SuiDisplay extends SuiContainer {
             
             dragComp = comp;
             bdown = true;
-            if (comp.isEnabled())
+            if (comp.isEnabled()) {
                 comp.fireMouseEvent(SuiMouseEvent.MOUSE_PRESSED, button, nx, ny, x, y);
-            if (comp!=SuiDisplay.this&&globalEvents && SuiDisplay.this.isEnabled())
+                if (comp.isConsumingEvents())
+                    input.consumeEvent();
+            }
+            
+            if (comp!=SuiDisplay.this&&globalEvents && SuiDisplay.this.isEnabled()) {
                 fireMouseEvent(SuiMouseEvent.MOUSE_PRESSED, button, nx, ny, x, y);
+            }
             
             if (isToolTipEnabled()) {
                 //if the timer/tip is running/showing, stop/hide it
@@ -422,8 +436,11 @@ public class SuiDisplay extends SuiContainer {
             if (dragComp!=null) {
                 int nx = (int)(x-dragComp.getAbsoluteX());
                 int ny = (int)(y-dragComp.getAbsoluteY());
-                if (dragComp.isEnabled())
+                if (dragComp.isEnabled()) {
                     dragComp.fireMouseEvent(SuiMouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
+                    if (dragComp.isConsumingEvents())
+                        input.consumeEvent();
+                }
                 if (dragComp!=SuiDisplay.this&&globalEvents && SuiDisplay.this.isEnabled())
                     fireMouseEvent(SuiMouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
                 dragComp = null;
@@ -431,16 +448,27 @@ public class SuiDisplay extends SuiContainer {
             }
             
             SuiComponent comp = getDeepestComponentAt(SuiDisplay.this, x, y, true);
+            if (comp.isGlassPane())
+                comp = comp.getFirstNonGlassPane();
+            
             if (comp==null) {
                 return;
+            }
+            
+            if (comp.isGlassPane() && comp.parent!=null) {
+                comp = comp.getFirstNonGlassPane();
             }
             
             //relative positions
             int nx = (int)(x-comp.getAbsoluteX());
             int ny = (int)(y-comp.getAbsoluteY());
             
-            if (comp.isEnabled())
+            if (comp.isEnabled()) {
                 comp.fireMouseEvent(SuiMouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
+                if (comp.isConsumingEvents())
+                    input.consumeEvent();
+            }
+            
             if (comp!=SuiDisplay.this&&globalEvents && SuiDisplay.this.isEnabled())
                 fireMouseEvent(SuiMouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
         }

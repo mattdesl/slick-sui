@@ -32,6 +32,7 @@ public class SuiContainer extends SuiComponent {
         {
      	   this.layout = layout;
         }
+        
     /** Creates a new instance of SuiContainer */
     public SuiContainer() {
         this(true);
@@ -45,7 +46,7 @@ public class SuiContainer extends SuiComponent {
      * the appearance before, say, certain variables are initialized on the
      * subclass. Most users don't need to worry about this constructor.
      */
-    SuiContainer(boolean updateAppearance) {
+    protected SuiContainer(boolean updateAppearance) {
         if (updateAppearance)
             updateAppearance();
     }
@@ -88,16 +89,18 @@ public class SuiContainer extends SuiComponent {
      * Adds a child to this SuiContainer.
      *
      * @param child the child container to add
-     * @return the child which was passed
+     * @return <tt>true</tt> if the child list changed as a result
+     *              of this call
      */
-    public void add(SuiComponent child) {
+    public boolean add(SuiComponent child) {
+        int old = children.size();
         if (!containsChild(child)) {
             childrenDirty = true;
             child.parent = this;
             children.add(child);
             layout.doLayout(this);
-            
         }
+        return old != children.size();
     }
     
     
@@ -106,14 +109,18 @@ public class SuiContainer extends SuiComponent {
      *
      * @param child the child container to add
      * @param index the index to insert it to
+     * @return <tt>true</tt> if the child list changed as a result
+     *              of this call
      */
-    public void add(SuiComponent child, int index) {
+    public boolean add(SuiComponent child, int index) {
+        int old = children.size();
         if (!containsChild(child)) {
             childrenDirty = true;
             child.parent = this;
             children.add(index, child);
             layout.doLayout(this);
         }
+        return old != children.size();
     }
     
     /**

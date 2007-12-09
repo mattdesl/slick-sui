@@ -55,7 +55,7 @@ public class SuiSlider extends SuiContainer implements ScrollConstants {
         this(orientation, true);
     }
     
-    SuiSlider(int orientation, boolean updateAppearance) {
+    protected SuiSlider(int orientation, boolean updateAppearance) {
         super(false);
         checkOrientation(orientation);
         this.orientation = orientation;
