@@ -179,6 +179,10 @@ public class SuiDisplay extends SuiContainer {
         super.update(c, delta);
         tipShowTimer.update(c, delta);
         tipHideTimer.update(c, delta);
+        if (toolTip!=null && toolTip.getOwner()!=null) {
+            if (toolTip.isShowing() && !toolTip.getOwner().isShowing())
+                toolTip.setVisible(false);
+        }
     }
     
     /**
