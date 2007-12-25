@@ -14,7 +14,7 @@ import mdes.slick.sui.SuiTheme;
 import mdes.slick.sui.SuiWindow;
 import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.skin.SkinUtil;
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiSkin;
 import mdes.slick.sui.skin.WindowAppearance;
 
 import org.lwjgl.opengl.GL11;

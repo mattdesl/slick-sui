@@ -8,11 +8,10 @@ package mdes.slick.sui.skin.simple;
 
 import mdes.slick.sui.SuiButton;
 import mdes.slick.sui.SuiComponent;
+import mdes.slick.sui.SuiSkin;
 import mdes.slick.sui.SuiTheme;
 import mdes.slick.sui.SuiToggleButton;
 import mdes.slick.sui.skin.SkinUtil;
-import mdes.slick.sui.skin.SuiSkin;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.fills.GradientFill;

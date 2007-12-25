@@ -22,7 +22,7 @@ import mdes.slick.sui.skin.FontUIResource;
 import mdes.slick.sui.skin.ImageUIResource;
 import mdes.slick.sui.skin.ScrollBarAppearance;
 import mdes.slick.sui.skin.SliderAppearance;
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiSkin;
 import mdes.slick.sui.skin.WindowAppearance;
 
 import org.newdawn.slick.Font;
@@ -47,7 +47,6 @@ public class SimpleSkin implements SuiSkin {
     private ComponentAppearance toolTipAppearance = new SimpleToolTipAppearance();
     private ComponentAppearance labelAppearance = new SimpleLabelAppearance();
     private ComponentAppearance scrollPaneAppearance = new SimpleScrollPaneAppearance();
-    private ComponentAppearance textFieldAppearance = new SimpleTextFieldAppearance();
     
     private WindowAppearance windowAppearance = new SimpleWindowAppearance();
     private ScrollBarAppearance scrollBarAppearance = new SimpleScrollBarAppearance();
@@ -154,6 +153,6 @@ public class SimpleSkin implements SuiSkin {
     }
     
     public ComponentAppearance getTextFieldAppearance(SuiTextField comp) {
-        return textFieldAppearance;
+        return new SimpleTextFieldAppearance(comp);
     }
 }

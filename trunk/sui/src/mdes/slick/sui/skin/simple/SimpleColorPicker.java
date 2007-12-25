@@ -6,11 +6,18 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.*;
-import mdes.slick.sui.event.*;
-import mdes.slick.sui.skin.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.gui.GUIContext;
+import mdes.slick.sui.Padding;
+import mdes.slick.sui.SuiComponent;
+import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.SuiLabel;
+import mdes.slick.sui.event.SuiChangeEvent;
+import mdes.slick.sui.event.SuiChangeListener;
+import mdes.slick.sui.event.SuiMouseAdapter;
+import mdes.slick.sui.event.SuiMouseEvent;
+import mdes.slick.sui.event.SuiMouseListener;
+import mdes.slick.sui.skin.ImageUIResource;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 
 /**
  *
@@ -85,6 +92,11 @@ public class SimpleColorPicker extends SuiContainer {
         colorHex.setHorizontalAlignment(SuiLabel.LEFT_ALIGNMENT);
         colorHex.pack();
         colorHex.setText("#"+toHex(selectedColor));        
+        
+        colorBox.setToolTipText("Current color");
+        colorHex.setToolTipText("Hex code");
+        //svPane.setToolTipText("Saturation/Value");
+        //huePane.setToolTipText("Hue");
         
         //add components
         add(colorBox);
