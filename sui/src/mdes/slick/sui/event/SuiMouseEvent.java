@@ -64,7 +64,7 @@ public class SuiMouseEvent extends SuiEvent {
     
     /** The old local y position for this event. */
     private int oy;
-        
+            
     /**
      * Creates a new mouse event with the specified params.
      *
