@@ -3,6 +3,10 @@ package mdes.slick.sui.layout;
 import mdes.slick.sui.SuiContainer;
 import mdes.slick.sui.SuiWindow;
 
+/**
+ * 
+ * @author Dantarion
+ */
 public class LayoutUtil {
     public static float getAvailibleHeight(SuiContainer container) {
 	if(container instanceof SuiWindow)

@@ -4,6 +4,10 @@ import mdes.slick.sui.Padding;
 import mdes.slick.sui.SuiComponent;
 import mdes.slick.sui.SuiContainer;
 
+/**
+ * 
+ * @author Dantarion
+ */
 public class RowLayout implements SuiLayout {
     // Horizontal Alignment Constants
     final public static int LEFT = 0;
