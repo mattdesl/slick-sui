@@ -1,8 +1,0 @@
-MAJOR CHANGES
-------------
-
-
-added SuiComponent
-changed skin API
-    now more "game oriented"
-    
