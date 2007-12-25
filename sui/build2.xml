@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Thanks to Kova for the script. -->
+<project name="SUI" default="dist" basedir=""> 
+   <property name="src.dir" value="src" /> 
+   <property name="lib.dir" value="lib" /> 
+   <property name="build.dir" value="build" /> 
+   <property name="dist.dir" value="dist" /> 
+   <property name="jar.filename" value="sui.jar" /> 
+
+   <path id="classpath"> 
+      <fileset dir="${lib.dir}" includes="*.jar"/> 
+   </path> 
+    
+   <target name="clean" description="Deletes everything that is going to be built"> 
+      <delete dir="${build.dir}" /> 
+      <delete dir="${dist.dir}" /> 
+   </target> 
+    
+   <target name="init" description="Creates directories"> 
+      <mkdir dir="${build.dir}" /> 
+      <mkdir dir="${dist.dir}" /> 
+   </target> 
+   
+   <target name="compile" depends="init" description="Compiles source files"> 
+      <javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" /> 
+   </target> 
+
+   <target name="dist" depends="clean, compile" description="Compiles, builds .jar file"> 
+      <jar basedir="${build.dir}" destfile="${dist.dir}/${jar.filename}" /> 
+      <jar update="true" destfile="${dist.dir}/${jar.filename}"> 
+         <fileset dir="${src.dir}"> 
+            <include name="**"/> 
+         </fileset> 
+      </jar> 
+   </target>
+</project>
