@@ -12,7 +12,7 @@ import mdes.slick.sui.SuiSlider;
 import mdes.slick.sui.SuiTheme;
 import mdes.slick.sui.skin.SkinUtil;
 import mdes.slick.sui.skin.SliderAppearance;
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiSkin;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

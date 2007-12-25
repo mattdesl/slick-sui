@@ -11,7 +11,7 @@ import mdes.slick.sui.SuiCheckBox;
 import mdes.slick.sui.SuiComponent;
 import mdes.slick.sui.SuiTheme;
 import mdes.slick.sui.skin.SkinUtil;
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiSkin;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

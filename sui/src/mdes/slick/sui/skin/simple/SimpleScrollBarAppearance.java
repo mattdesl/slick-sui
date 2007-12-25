@@ -6,7 +6,7 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.SuiArrowButton;
+import mdes.slick.sui.skin.simple.SimpleArrowButton;
 import mdes.slick.sui.SuiButton;
 import mdes.slick.sui.SuiComponent;
 import mdes.slick.sui.SuiScrollBar;
@@ -14,7 +14,7 @@ import mdes.slick.sui.SuiSlider;
 import mdes.slick.sui.SuiTheme;
 import mdes.slick.sui.skin.ScrollBarAppearance;
 import mdes.slick.sui.skin.SkinUtil;
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiSkin;
 
 /**
  * 
@@ -43,20 +43,21 @@ public class SimpleScrollBarAppearance extends SimpleContainerAppearance impleme
      * button's dimensions to the width or height (based on orientation)
      * of the given scroll bar.
      * 
+     * 
      * @param bar the scroll bar parent
      * @param direction the direction the bar will scroll, either 
      *      SuiScrollBar.INCREMENT or SuiScrollBar.DECREMENT.
-     * @return a new SuiArrowButton based on the given parameters
+     * @return a new SimpleArrowButton based on the given parameters
      */
     protected SuiButton createSimpleScrollButton(SuiScrollBar bar, int direction) {
-        float angle = SuiArrowButton.getScrollButtonAngle(bar, direction);
+        float angle = SimpleArrowButton.getScrollButtonAngle(bar, direction);
         int orientation = bar.getOrientation();
         float size = 0f;
         if (orientation==SuiScrollBar.HORIZONTAL) {
             size = bar.getHeight();
         } else
             size = bar.getWidth();
-        SuiButton btn = new SuiArrowButton(angle);
+        SuiButton btn = new SimpleArrowButton(angle);
         btn.setSize(size, size);
         return btn;
     }
