@@ -6,9 +6,10 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.skin.SuiSkin;
+import mdes.slick.sui.SuiSkin;
 import mdes.slick.sui.skin.simple.SimpleSkin;
 import mdes.slick.sui.theme.SteelBlueTheme;
+import mdes.slick.sui.SuiTheme;
 
 import org.newdawn.slick.Font;
 import org.newdawn.slick.SlickException;

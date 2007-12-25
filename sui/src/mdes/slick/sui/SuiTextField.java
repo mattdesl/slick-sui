@@ -12,13 +12,12 @@ import org.newdawn.slick.Font;
  *
  * @author davedes
  */
-public class SuiTextField extends SuiContainer {
+public class SuiTextField extends SuiTextComponent {
     
-    private String text = null;
-    private boolean editable = true;
+    private final String COL_CHAR = "w";
     
     public SuiTextField() {
-        this(null);
+        this(true);
     }
     
     public SuiTextField(int cols) {
@@ -31,50 +30,37 @@ public class SuiTextField extends SuiContainer {
     
     /** Creates a new instance of SuiTextField */
     public SuiTextField(String text, int cols) {
-        this(true);
-        this.text = text;
+        this();
+        setText(text);
         Font f = getFont();
+        Padding pad = getPadding();
         if (f!=null) {
-            float width;
+            float width = 0;
+            float oneCol = f.getWidth(COL_CHAR);
             if (cols<=0) {
                 if (text!=null&&text.length()!=0)
-                    f.getWidth(text);
+                    width = pad.left+f.getWidth(text)+oneCol+pad.right;
             } else {
-                int colWidth = f.getWidth("w");
-                setWidth(colWidth * cols);
+                width = oneCol * cols;
             }
-            setHeight(f.getLineHeight());
+            setWidth(width);
+            setHeight(f.getLineHeight() + pad.top + pad.bottom);
         }
     }    
     
     SuiTextField(boolean updateAppearance) {
-        super(false);
         if (updateAppearance)
             updateAppearance();
-        
-        setFocusable(true);
     }
     
     public void updateAppearance() {
         setAppearance(Sui.getSkin().getTextFieldAppearance(this));
     }
-    
-    public String getText() {
-        return text;
+            
+    public int viewToModel(float x, float y) {
+        if (getWidth()==0 || getHeight()==0)
+            return -1;
+        //TODO: support this
+        return -1;
     }
-    
-    public void setText(String text) {
-        this.text = text;
-    }
-    
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-        setFocusable(editable);
-    }
-    
-    public boolean isEditable() {
-        return editable;
-    }
-    
-    
 }

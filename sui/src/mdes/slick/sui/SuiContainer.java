@@ -28,10 +28,6 @@ public class SuiContainer extends SuiComponent {
     private boolean clipEnabled;
     private ArrayList children = new ArrayList();
     protected SuiLayout layout = new StaticLayout();
-        public void setLayout(SuiLayout layout)
-        {
-     	   this.layout = layout;
-        }
         
     /** Creates a new instance of SuiContainer */
     public SuiContainer() {
@@ -60,6 +56,16 @@ public class SuiContainer extends SuiComponent {
         super.setZIndex(z);
         if (parent!=null && parent instanceof SuiContainer)
             parent.childrenDirty = true;
+    }
+        
+    public void setLayout(SuiLayout layout) {
+        if (layout==null)
+            throw new IllegalArgumentException("layout cannot be null");
+        this.layout = layout;
+    }
+
+    public SuiLayout getLayout() {
+        return layout;
     }
     
     /**
