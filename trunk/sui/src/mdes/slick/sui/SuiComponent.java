@@ -17,6 +17,7 @@ import mdes.slick.sui.event.SuiMouseListener;
 import mdes.slick.sui.event.SuiMouseWheelEvent;
 import mdes.slick.sui.event.SuiMouseWheelListener;
 import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.SuiTheme;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -50,6 +51,7 @@ public abstract class SuiComponent {
     private String tooltipText = null;
     private String name = null;
     private boolean appearanceEnabled = true;
+    boolean hasFocus = false;
     private Rectangle bounds = new Rectangle(0f,0f,0f,0f);
     private Object skinData = null;
         
@@ -143,29 +145,7 @@ public abstract class SuiComponent {
     public ComponentAppearance getAppearance() {
         return appearance;
     }
-    
-    /*public void ensureAppearance() {
-        if (!isEnsuredAppearance) {
-            isEnsuredAppearance = true;
-            if (appearance==null) {
-                setAppearance(createAppearance());
-            }
-        }
-    }
-    
-    public ComponentAppearance getAppearance() {
-        ensureAppearance();
-        return appearance;
-    }
         
-    public void installAppearance(ComponentAppearance appearance) {
-        if (this.appearance!=null)
-            this.appearance.uninstall(this, Sui.getSkin(), Sui.getTheme());
-        this.appearance = appearance;
-        if (this.appearance!=null)
-            this.appearance.install(this, Sui.getSkin(), Sui.getTheme());
-    }*/
-    
     /**
      * Adds the specified listener to the list.
      *
@@ -782,10 +762,9 @@ public abstract class SuiComponent {
     }
     
     public boolean hasFocus() {
-        if (!focusable)
-            return false;
-        SuiDisplay d = getDisplay();
-        return d!=null ? d.getFocusOwner()==this : false;
+        return hasFocus && focusable;
+        /*SuiDisplay d = getDisplay();
+        return d!=null ? d.getFocusOwner()==this : false;*/
     }
     
     /**

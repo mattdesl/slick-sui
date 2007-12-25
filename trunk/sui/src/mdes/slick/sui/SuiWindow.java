@@ -576,6 +576,13 @@ public class SuiWindow extends SuiContainer {
             if (a!=null)
                 setAppearance(a.getTitleBarAppearance(this));
         }
+        
+        public void setVisible(boolean b) {
+            if (isVisible() && !b) {
+                
+            }
+            super.setVisible(b);
+        }
                         
         public void setWidth(float width) {
             super.setWidth(width);

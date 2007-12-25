@@ -63,7 +63,7 @@ public class SuiDisplay extends SuiContainer {
         this.input = context.getInput();
         setSize(context.getWidth(), context.getHeight());
         setLocation(0, 0);
-        
+                
         if (Sui.getDefaultFont()==null)
             Sui.setDefaultFont(context.getDefaultFont());
         
@@ -124,10 +124,18 @@ public class SuiDisplay extends SuiContainer {
      * 			if no component has the focus
      */
     void setFocusOwner(SuiComponent c) {
+        SuiComponent old = focusOwner;
+        
         //if the container isn't focusable
-        if (c!=null && !c.isFocusable())
+        if (c!=null && !c.isFocusable()) {
+            c.hasFocus = false;
             return;
+        }
         focusOwner = c;
+        if (c!=null)
+            c.hasFocus = true;
+        if (old!=null && old!=c)
+            old.hasFocus = false;
     }
     
     /**
@@ -144,8 +152,8 @@ public class SuiDisplay extends SuiContainer {
             return null;
         else {
             if (!focusOwner.isFocusable() || !focusOwner.isShowing()) {
-                focusOwner.setWindowsActive(false, this);
-                focusOwner = null;
+                //focusOwner.setWindowsActive(false, this);
+                setFocusOwner(null);
             }
             return focusOwner;
         }
