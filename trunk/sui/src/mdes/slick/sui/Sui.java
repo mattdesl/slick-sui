@@ -6,10 +6,8 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.SuiSkin;
 import mdes.slick.sui.skin.simple.SimpleSkin;
-import mdes.slick.sui.theme.SteelBlueTheme;
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.theme.SteelSepiaTheme;
 
 import org.newdawn.slick.Font;
 import org.newdawn.slick.SlickException;
@@ -30,7 +28,7 @@ public class Sui {
     /**
      * The current theme to render with.
      */
-    private static SuiTheme theme = new SteelBlueTheme();
+    private static SuiTheme theme = new SteelSepiaTheme();
     
     /**
      * The current pluggable skin.
