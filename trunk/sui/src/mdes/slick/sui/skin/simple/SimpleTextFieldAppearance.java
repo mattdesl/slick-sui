@@ -72,7 +72,7 @@ public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
         
         Font oldFont = g.getFont();
         
-        String value = field.getText();
+        String value = field.getDisplayText();
         Font font = field.getFont();
         int cursorPos = field.getCaretPosition();
         Padding pad = field.getPadding();

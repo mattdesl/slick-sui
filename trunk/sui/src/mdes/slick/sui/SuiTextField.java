@@ -23,9 +23,13 @@ public class SuiTextField extends SuiTextComponent {
     
     /** The action command, initially null. */
     private String actionCommand = null;
-    protected SuiKeyListener actionListener = new ActionKeyListener();
+    protected SuiKeyListener actionListener = new FieldKeyListener();
     
     private final String COL_CHAR = "w";
+    
+    private char maskCharacter = '*';
+    private boolean maskEnabled = false;
+    private String displayText = null;
     
     public SuiTextField() {
         this(true);
@@ -62,7 +66,7 @@ public class SuiTextField extends SuiTextComponent {
     
     SuiTextField(boolean updateAppearance) {
         addKeyListener(actionListener);
-                
+        
         if (updateAppearance)
             updateAppearance();
     }
@@ -70,7 +74,7 @@ public class SuiTextField extends SuiTextComponent {
     public void updateAppearance() {
         setAppearance(Sui.getSkin().getTextFieldAppearance(this));
     }
-    
+        
     /**
      * Sets the action command to be passed to
      * <tt>SuiActionEvent</tt>s when this ENTER
@@ -117,6 +121,23 @@ public class SuiTextField extends SuiTextComponent {
     }
     
     /**
+     * Used by skins to render the text in a text field. This
+     * text is sometimes masked 
+     */
+    public String getDisplayText() {
+        String text = getText();
+        
+        if (maskEnabled) { //TODO: cache display text
+            StringBuffer buf = new StringBuffer();
+            for (int i=0; i<text.length(); i++) {
+                buf.append(getMaskCharacter());
+            }
+            text = buf.toString();
+        }
+        return text;
+    }
+    
+    /**
      * Fires an action event with the specified command
      * to all action listeners registered with this component.
      *
@@ -137,13 +158,34 @@ public class SuiTextField extends SuiTextComponent {
         }
     }
     
-    protected class ActionKeyListener extends SuiKeyAdapter {
+    protected class FieldKeyListener extends SuiKeyAdapter {
         
         public void keyPressed(SuiKeyEvent e) {
-            if (e.getKeyCode() == Input.KEY_ENTER) {
+            int key = e.getKeyCode();
+            if (key == Input.KEY_ENTER) {
                 releaseFocus();
                 fireActionPerformed(actionCommand);
+            } else if (key == Input.KEY_HOME) {
+                setCaretPosition(0);
+            } else if (key == Input.KEY_END) {
+                setCaretPosition(text.length());
             }
         }
+    }
+
+    public boolean isMaskEnabled() {
+        return maskEnabled;
+    }
+
+    public void setMaskEnabled(boolean maskEnabled) {
+        this.maskEnabled = maskEnabled;
+    }
+
+    public char getMaskCharacter() {
+        return maskCharacter;
+    }
+
+    public void setMaskCharacter(char maskCharacter) {
+        this.maskCharacter = maskCharacter;
     }
 }
