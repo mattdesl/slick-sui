@@ -42,7 +42,7 @@ public abstract class SuiTextComponent extends SuiContainer {
     public void setCaretPosition(int caretPos) {
         this.caretPos = caretPos;
     }
-    
+        
     public String getText() {
         if (text == null)
             text = "";
@@ -135,7 +135,7 @@ public abstract class SuiTextComponent extends SuiContainer {
                 if (caretPos > 0)
                     caretPos--;
             } else if (key == Input.KEY_RIGHT) {
-                if (caretPos < getText().length())
+                if (caretPos < text.length())
                     caretPos++;
             } else if (key == Input.KEY_BACK) {
                 if ((caretPos>0) && (text.length()>0)) {
@@ -144,6 +144,10 @@ public abstract class SuiTextComponent extends SuiContainer {
                     else
                         text = text.substring(0, caretPos-1);
                     caretPos--;
+                }
+            } else if (key == Input.KEY_DELETE) {
+                if (caretPos < text.length()) {
+                    text = text.substring(0, caretPos) + text.substring(caretPos+1);
                 }
             }
             
