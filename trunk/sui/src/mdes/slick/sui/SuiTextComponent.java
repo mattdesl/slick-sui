@@ -72,7 +72,45 @@ public abstract class SuiTextComponent extends SuiContainer {
     public void setMaxChars(int maxChars) {
         this.maxChars = maxChars;
     }
-                        
+              
+    /**
+     * Adds the specified listener to the list.
+     *
+     * @param s the listener to receive events
+     */
+    public synchronized void addChangeListener(SuiChangeListener s) {
+        listenerList.add(SuiChangeListener.class, s);
+    }
+    
+    /**
+     * Removes the specified listener from the list.
+     *
+     * @param s the listener to remove
+     */
+    public synchronized void removeChangeListener(SuiChangeListener s) {
+        listenerList.remove(SuiChangeListener.class, s);
+    }
+    
+    /**
+     * Fires a change event to all action listeners
+     * in this component.
+     *
+     * @see mdes.slick.sui.event.SuiChangeEvent
+     */
+    protected void fireStateChanged() {
+        SuiChangeEvent evt = null;
+        
+        final SuiChangeListener[] listeners =
+                (SuiChangeListener[])listenerList.getListeners(SuiChangeListener.class);
+        for (int i=0; i<listeners.length; i++) {
+            //lazily create it
+            if (evt==null) {
+                evt = new SuiChangeEvent(this);
+            }
+            listeners[i].stateChanged(evt);
+        }
+    }
+    
     protected class TextKeyListener extends SuiKeyAdapter {
         public void keyPressed(SuiKeyEvent e) {
             if (!isEditable())
@@ -83,6 +121,8 @@ public abstract class SuiTextComponent extends SuiContainer {
             
             if (text == null)
                 text = "";
+            
+            String oldText = text;
             
             if ( (c<127) && (c>31) && (text.length() < getMaxChars()) ) {
                 if (caretPos < text.length()) {
@@ -106,6 +146,9 @@ public abstract class SuiTextComponent extends SuiContainer {
                     caretPos--;
                 }
             }
+            
+            if (oldText != text) //changed
+                fireStateChanged();
         }
     }
     

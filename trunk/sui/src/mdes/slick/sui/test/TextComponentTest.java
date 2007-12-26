@@ -10,6 +10,8 @@ import mdes.slick.sui.Sui;
 import mdes.slick.sui.SuiButton;
 import mdes.slick.sui.SuiDisplay;
 import mdes.slick.sui.SuiTextField;
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -43,12 +45,16 @@ public class TextComponentTest extends BasicGame {
         container.getGraphics().setBackground(Sui.getTheme().getBackground());
         
         display = new SuiDisplay(container);
-        
-        SuiTextField field = new SuiTextField("Test", 10);
-        field.setLocation(200, 200);
-        //esfield.setSize(200, 200);
+                
+        final SuiTextField field = new SuiTextField("Test", 10);
+        field.setLocation(200, 200);        
         field.setOpaque(true);
         field.setBackground(Color.blue);
+        field.addActionListener(new SuiActionListener() {
+           public void actionPerformed(SuiActionEvent ev) {
+               System.out.println("Entered "+field.getText());
+           } 
+        });
         display.add(field);
         
         SuiButton btn = new SuiButton("Testeroo");

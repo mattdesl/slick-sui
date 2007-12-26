@@ -44,8 +44,8 @@ public class SuiButton extends SuiLabel {
     /** The image to draw when the button is disabled. */
     private Image disabledImage = null;
     
-    /** The action command, initially an empty String. */
-    private String actionCommand = "";
+    /** The action command, initially null. */
+    private String actionCommand = null;
     
     private boolean pressedOutside = false;
     
@@ -59,7 +59,7 @@ public class SuiButton extends SuiLabel {
         this();
         setText(text);
         actionCommand = text;
-        pack();
+        pack(); //TODO: remove pack here
     }
     
     /**
@@ -86,11 +86,13 @@ public class SuiButton extends SuiLabel {
         addMouseListener(new ButtonListener());
         if (updateAppearance)
             updateAppearance();
-        
     }
     
     public void updateAppearance() {
         setAppearance(Sui.getSkin().getButtonAppearance(this));
+        //System.out.println("hey "+pack());
+        //if (getWidth()==0 || getHeight()==0)
+            
     }
         
     /**

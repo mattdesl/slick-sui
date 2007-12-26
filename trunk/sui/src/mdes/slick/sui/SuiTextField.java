@@ -6,13 +6,24 @@
 
 package mdes.slick.sui;
 
+import mdes.slick.sui.event.SuiActionEvent;
+import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.SuiKeyAdapter;
+import mdes.slick.sui.event.SuiKeyEvent;
+import mdes.slick.sui.event.SuiKeyListener;
 import org.newdawn.slick.Font;
+import org.newdawn.slick.Input;
 
 /**
  *
  * @author davedes
  */
 public class SuiTextField extends SuiTextComponent {
+    
+    
+    /** The action command, initially null. */
+    private String actionCommand = null;
+    protected SuiKeyListener actionListener = new ActionKeyListener();
     
     private final String COL_CHAR = "w";
     
@@ -32,6 +43,7 @@ public class SuiTextField extends SuiTextComponent {
     public SuiTextField(String text, int cols) {
         this();
         setText(text);
+        this.actionCommand = text;
         Font f = getFont();
         Padding pad = getPadding();
         if (f!=null) {
@@ -49,6 +61,8 @@ public class SuiTextField extends SuiTextComponent {
     }    
     
     SuiTextField(boolean updateAppearance) {
+        addKeyListener(actionListener);
+                
         if (updateAppearance)
             updateAppearance();
     }
@@ -56,11 +70,80 @@ public class SuiTextField extends SuiTextComponent {
     public void updateAppearance() {
         setAppearance(Sui.getSkin().getTextFieldAppearance(this));
     }
+    
+    /**
+     * Sets the action command to be passed to
+     * <tt>SuiActionEvent</tt>s when this ENTER
+     * is pressed on this text field.
+     *
+     * @param t the command
+     */
+    public void setActionCommand(String t) {
+        this.actionCommand = t;
+    }
+    
+    /**
+     * Gets the action command.
+     *
+     * @return the action command
+     */
+    public String getActionCommand() {
+        return actionCommand;
+    }
+    
+    /**
+     * Adds the specified listener to the list.
+     *
+     * @param s the listener to receive events
+     */
+    public synchronized void addActionListener(SuiActionListener s) {
+        listenerList.add(SuiActionListener.class, s);
+    }
+    
+    /**
+     * Removes the specified listener from the list.
+     *
+     * @param s the listener to remove
+     */
+    public synchronized void removeActionListener(SuiActionListener s) {
+        listenerList.remove(SuiActionListener.class, s);
+    }
             
     public int viewToModel(float x, float y) {
         if (getWidth()==0 || getHeight()==0)
             return -1;
         //TODO: support this
         return -1;
+    }
+    
+    /**
+     * Fires an action event with the specified command
+     * to all action listeners registered with this component.
+     *
+     * @param command the action command for the event
+     * @see mdes.slick.sui.event.SuiActionEvent
+     */
+    protected void fireActionPerformed(String command) {
+        SuiActionEvent evt = null;
+        
+        final SuiActionListener[] listeners =
+                 (SuiActionListener[])listenerList.getListeners(SuiActionListener.class);
+        for (int i=0; i<listeners.length; i++) {
+            //lazily create it
+            if (evt==null) {
+                evt = new SuiActionEvent(this, command);
+            }
+            listeners[i].actionPerformed(evt);
+        }
+    }
+    
+    protected class ActionKeyListener extends SuiKeyAdapter {
+        
+        public void keyPressed(SuiKeyEvent e) {
+            if (e.getKeyCode() == Input.KEY_ENTER) {
+                releaseFocus();
+                fireActionPerformed(actionCommand);
+            }
+        }
     }
 }
