@@ -84,7 +84,6 @@ public class SuiLabel extends SuiContainer {
      */
     public SuiLabel(Image image) {
         this(image, null);
-        setSize(image.getWidth(), image.getWidth());
     }
     
     /** Creates a new empty label. */
@@ -114,7 +113,7 @@ public class SuiLabel extends SuiContainer {
      * Packs this label based on current font & text,
      * leaving a space for padding.
      */
-    public void pack() {        
+    public void pack() {
         Font font = getFont();
         float objWidth = 0;
         float objHeight = 0;
