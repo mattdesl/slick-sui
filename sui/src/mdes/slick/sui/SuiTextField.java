@@ -23,13 +23,11 @@ public class SuiTextField extends SuiTextComponent {
     
     /** The action command, initially null. */
     private String actionCommand = null;
-    protected SuiKeyListener actionListener = new FieldKeyListener();
-    
-    private final String COL_CHAR = "w";
-    
+    protected SuiKeyListener keyListener = new FieldKeyListener();
+        
     private char maskCharacter = '*';
     private boolean maskEnabled = false;
-    private String displayText = null;
+    private String maskText = "";
     
     public SuiTextField() {
         this(true);
@@ -65,7 +63,7 @@ public class SuiTextField extends SuiTextComponent {
     }    
     
     SuiTextField(boolean updateAppearance) {
-        addKeyListener(actionListener);
+        addKeyListener(keyListener);
         
         if (updateAppearance)
             updateAppearance();
@@ -125,16 +123,22 @@ public class SuiTextField extends SuiTextComponent {
      * text is sometimes masked 
      */
     public String getDisplayText() {
+        return isMaskEnabled() ? maskText : getText();
+    }
+    
+    protected void textChanged(String oldText) {
+        super.textChanged(oldText);
+        updateMaskText();
+    }
+    
+    private void updateMaskText() {
         String text = getText();
-        
-        if (maskEnabled) { //TODO: cache display text
-            StringBuffer buf = new StringBuffer();
-            for (int i=0; i<text.length(); i++) {
-                buf.append(getMaskCharacter());
-            }
-            text = buf.toString();
+        StringBuffer buf = new StringBuffer();
+        char ch = getMaskCharacter();
+        for (int i=0; i<text.length(); i++) {
+            buf.append(ch);
         }
-        return text;
+        maskText = buf.toString();
     }
     
     /**
@@ -158,21 +162,6 @@ public class SuiTextField extends SuiTextComponent {
         }
     }
     
-    protected class FieldKeyListener extends SuiKeyAdapter {
-        
-        public void keyPressed(SuiKeyEvent e) {
-            int key = e.getKeyCode();
-            if (key == Input.KEY_ENTER) {
-                releaseFocus();
-                fireActionPerformed(actionCommand);
-            } else if (key == Input.KEY_HOME) {
-                setCaretPosition(0);
-            } else if (key == Input.KEY_END) {
-                setCaretPosition(text.length());
-            }
-        }
-    }
-
     public boolean isMaskEnabled() {
         return maskEnabled;
     }
@@ -187,5 +176,21 @@ public class SuiTextField extends SuiTextComponent {
 
     public void setMaskCharacter(char maskCharacter) {
         this.maskCharacter = maskCharacter;
+        updateMaskText();
+    }
+    
+    protected class FieldKeyListener extends SuiKeyAdapter {
+        
+        public void keyPressed(SuiKeyEvent e) {
+            int key = e.getKeyCode();
+            if (key == Input.KEY_ENTER) {
+                releaseFocus();
+                fireActionPerformed(actionCommand);
+            } else if (key == Input.KEY_HOME) {
+                setCaretPosition(0);
+            } else if (key == Input.KEY_END) {
+                setCaretPosition(getText().length());
+            }
+        }
     }
 }

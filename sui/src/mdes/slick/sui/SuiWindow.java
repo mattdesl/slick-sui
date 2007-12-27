@@ -632,6 +632,12 @@ public class SuiWindow extends SuiContainer {
         public void setCloseButton(CloseButton b) {
             this.closeButton = b;
         }
+       
+        public boolean isBorderRendered() {
+            return getWindow() != null 
+                        ? getWindow().isBorderRendered()
+                        : super.isBorderRendered();
+        }
     }
     
     public static class Resizer extends SuiLabel {

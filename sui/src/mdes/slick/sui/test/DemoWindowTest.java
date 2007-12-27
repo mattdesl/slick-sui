@@ -6,6 +6,7 @@
 
 package mdes.slick.sui.test;
 
+import mdes.slick.sui.Sui;
 import mdes.slick.sui.SuiContainer;
 import mdes.slick.sui.SuiDisplay;
 
@@ -38,6 +39,8 @@ public class DemoWindowTest extends BasicGame {
     private SuiDisplay disp;
     
     public void init(GameContainer container) throws SlickException {
+        container.getGraphics().setBackground(Sui.getTheme().getBackground().darker());
+        
         disp = new SuiDisplay(container);
         
         SuiContainer demo = new DemoWindow();

@@ -40,28 +40,29 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         Color old = g.getColor();
         
-        SuiWindow win = (SuiWindow)comp;
-        
         //borders
-        Color light = theme.getSecondaryBorder1();
-        Color dark = theme.getSecondaryBorder1();
-        
-        Rectangle rect = win.getAbsoluteBounds();
-        //TODO: this is a hack, fix it
-        //HACK: fix window title bar (removed) hack
-        if (!win.getTitleBar().isVisible() || !win.containsChild(win.getTitleBar())) {
-            float h = win.getTitleBar().getHeight();
-            rect.setY(rect.getY()+h-1);
-            rect.setHeight(rect.getHeight()-h+1);
+        if (comp.isBorderRendered()) {
+            SuiWindow win = (SuiWindow)comp;
+            Color light = theme.getSecondaryBorder1();
+            Color dark = theme.getSecondaryBorder1();
+
+            Rectangle rect = win.getAbsoluteBounds();
+            //TODO: this is a hack, fix it
+            //HACK: fix window title bar (removed) hack
+            if (!win.getTitleBar().isVisible() || !win.containsChild(win.getTitleBar())) {
+                float h = win.getTitleBar().getHeight();
+                rect.setY(rect.getY()+h-1);
+                rect.setHeight(rect.getHeight()-h+1);
+            }
+
+            float mid = rect.getWidth()/2f;
+
+            grad.setStartColor(light);
+            grad.setEndColor(dark);
+            grad.setStart(-mid, 0);
+            grad.setEnd(mid, 0);
+            g.draw(rect, grad);
         }
-        
-        float mid = rect.getWidth()/2f;
-        
-        grad.setStartColor(light);
-        grad.setEndColor(dark);
-        grad.setStart(-mid, 0);
-        grad.setEnd(mid, 0);
-        g.draw(rect, grad);
     }
 
     public ComponentAppearance getCloseButtonAppearance(SuiButton closeButton) {
@@ -144,7 +145,7 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
 
             Color old = g.getColor();
             SuiWindow.TitleBar t = (SuiWindow.TitleBar)comp;
-
+            
             float x1=t.getAbsoluteX(), y1=t.getAbsoluteY();
             float width=t.getWidth(), height=t.getHeight();
 
@@ -170,16 +171,18 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
             grad.setEnd(mid, 0);
             g.fill(rect, grad);
 
-            //borders
-            Color light = theme.getSecondaryBorder1();
-            Color dark = theme.getSecondaryBorder1();
+            if (t.isBorderRendered()) {
+                //borders
+                Color light = theme.getSecondaryBorder1();
+                Color dark = theme.getSecondaryBorder1();
 
-            grad.setStartColor(light);
-            grad.setEndColor(dark);
-            grad.setStart(-mid, 0);
-            grad.setEnd(mid, 0);
-            g.draw(rect, grad);
-
+                grad.setStartColor(light);
+                grad.setEndColor(dark);
+                grad.setStart(-mid, 0);
+                grad.setEnd(mid, 0);
+                g.draw(rect, grad);
+            }
+            
             //g.setColor(old);
             
             SkinUtil.renderLabelBase(g, t);

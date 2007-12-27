@@ -28,7 +28,9 @@ public class SimpleToolTipAppearance extends SimpleLabelAppearance {
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         super.render(ctx, g, comp, skin, theme);
         
-        g.setColor(theme.getPrimaryBorder2());
-        g.draw(comp.getAbsoluteBounds());
+        if (comp.isBorderRendered()) {
+            g.setColor(theme.getPrimaryBorder2());
+            g.draw(comp.getAbsoluteBounds());
+        }
     }
 }

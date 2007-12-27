@@ -15,12 +15,14 @@ import org.newdawn.slick.Input;
  */
 public abstract class SuiTextComponent extends SuiContainer {
     
-    protected String text = null;
+    private String text = null;
     private boolean editable = true;
     private int caretPos = 0;
     protected SuiKeyListener keyListener = new TextKeyListener();
     protected SuiMouseListener mouseListener = new TextMouseListener();
     private int maxChars = Integer.MAX_VALUE;
+    
+    protected static final String COL_CHAR = "w";
     
     /**
      * Creates a new instance of SuiTextComponent. By default, no call to
@@ -40,7 +42,10 @@ public abstract class SuiTextComponent extends SuiContainer {
     }
     
     public void setCaretPosition(int caretPos) {
+        int old = this.caretPos;
         this.caretPos = caretPos;
+        if (old!=caretPos)
+            caretPositionChanged(old);
     }
         
     public String getText() {
@@ -50,10 +55,29 @@ public abstract class SuiTextComponent extends SuiContainer {
     }
     
     public void setText(String text) {
+        String old = this.text;
         this.text = text;
         if (this.text == null)
             this.text = "";
         caretPos = this.text.length();
+        if (old!=text) {
+            fireStateChanged();
+            textChanged(old);
+        }
+    }
+    
+    /**
+     * Allows subclasses to tap into changed events directly without
+     * the need for listeners.
+     * 
+     * @param oldText the previous value of the text, before it was changed
+     */
+    protected void textChanged(String oldText) {
+        //do nothing
+    }
+    
+    protected void caretPositionChanged(int old) {
+        //do nothing
     }
     
     public void setEditable(boolean editable) {
@@ -123,6 +147,7 @@ public abstract class SuiTextComponent extends SuiContainer {
                 text = "";
             
             String oldText = text;
+            int oldCaret = caretPos;
             
             if ( (c<127) && (c>31) && (text.length() < getMaxChars()) ) {
                 if (caretPos < text.length()) {
@@ -151,8 +176,14 @@ public abstract class SuiTextComponent extends SuiContainer {
                 }
             }
             
-            if (oldText != text) //changed
+            if (oldText != text) { //changed
+                textChanged(oldText);
                 fireStateChanged();
+            }
+            
+            if (oldCaret != caretPos) {
+                caretPositionChanged(oldCaret);
+            }
         }
     }
     

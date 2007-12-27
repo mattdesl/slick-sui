@@ -54,6 +54,8 @@ public abstract class SuiComponent {
     boolean hasFocus = false;
     private Rectangle bounds = new Rectangle(0f,0f,0f,0f);
     private Object skinData = null;
+    
+    private boolean borderVisible = true;
         
     /** The Slick Input fused in this SuiContainer. */
     private Input input;
@@ -1123,5 +1125,23 @@ public abstract class SuiComponent {
 
     public void setRequestFocusEnabled(boolean requestFocusEnabled) {
         this.requestFocusEnabled = requestFocusEnabled;
+    }
+
+    public boolean isBorderRendered() {
+        return borderVisible;
+    }
+
+    /**
+     * Provides a hint for skins as to whether or not this component should 
+     * display its border. The default value is <tt>true</tt>, even if the 
+     * component has no border. It is up to the skin developer to choose whether
+     * or not it is worth their while to implement support for visible borders
+     * on components.
+     *
+     * @param borderVisible <tt>true</tt> if a border should be rendered on this 
+     *          component, assuming it has one defined by the current skin
+     */
+    public void setBorderRendered(boolean borderVisible) {
+        this.borderVisible = borderVisible;
     }
 }
