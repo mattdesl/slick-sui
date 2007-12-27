@@ -67,26 +67,19 @@ public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
         
         Rectangle oldClip = g.getClip();
         
-        g.setColor( hasFocus ? theme.getPrimaryBorder2() : theme.getPrimaryBorder1());
-        g.draw(bounds);
-        
         Font oldFont = g.getFont();
         
         String value = field.getDisplayText();
         Font font = field.getFont();
-        int cursorPos = field.getCaretPosition();
+        int caretPos = field.getCaretPosition();
         Padding pad = field.getPadding();
-        
-        //use empty string to avoid NPE's
-        if (value==null)
-          value="";
         
         //use default font
         if (font==null)
           font=g.getFont();
 
         //current pos
-        int cpos = font.getWidth(value.substring(0, cursorPos));
+        float cpos = font.getWidth(value.substring(0, caretPos));
         float tx = 0;
         if (cpos > field.getWidth()) {
             tx = field.getWidth() - cpos - font.getWidth("_");
@@ -104,7 +97,13 @@ public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
         }
 
         g.translate(-tx, 0);
+        
         g.setFont(oldFont);
         g.setClip(oldClip);
+        
+        if (field.isBorderRendered()) {
+            g.setColor( hasFocus ? theme.getPrimaryBorder2() : theme.getPrimaryBorder1());
+            g.draw(bounds);
+        }
     }
 }

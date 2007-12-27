@@ -166,14 +166,15 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
         grad.setEnd(0, mid*2);
         g.fill(rect, grad);
         
-        if (aRect instanceof RoundedRectangle)
-            g.setAntiAlias(true);
-        
-        grad.setStartColor(enabled ? borderLight : disabledColor);
-        grad.setEndColor(borderDark);
-        grad.setStart(0, -mid);
-        grad.setEnd(0, mid); 
-        g.draw(rect, grad);
+        if (btn.isBorderRendered()) {
+            if (aRect instanceof RoundedRectangle)
+                g.setAntiAlias(true);
+            grad.setStartColor(enabled ? borderLight : disabledColor);
+            grad.setEndColor(borderDark);
+            grad.setStart(0, -mid);
+            grad.setEnd(0, mid); 
+            g.draw(rect, grad);
+        }
         
         g.setAntiAlias(oldAA);        
     }

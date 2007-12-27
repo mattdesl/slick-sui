@@ -38,6 +38,7 @@ public interface SuiSkin {
     public ComponentAppearance getToggleButtonAppearance(SuiToggleButton comp);
     public ComponentAppearance getLabelAppearance(SuiLabel comp);
     public ComponentAppearance getTextFieldAppearance(SuiTextField comp);
+    public ComponentAppearance getTextAreaAppearance(SuiTextArea comp);
     public WindowAppearance    getWindowAppearance(SuiWindow comp);
     public ScrollBarAppearance getScrollBarAppearance(SuiScrollBar comp); 
     public ComponentAppearance getScrollPaneAppearance(SuiScrollPane comp);

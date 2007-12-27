@@ -43,8 +43,10 @@ public class SimpleSliderAppearance extends SimpleContainerAppearance implements
             }
         }
         
-        g.setColor(theme.getPrimaryBorder2());
-        g.draw(bounds);
+        if (slider.isBorderRendered()) {
+            g.setColor(theme.getPrimaryBorder2());
+            g.draw(bounds);
+        }
     }
     
     /**

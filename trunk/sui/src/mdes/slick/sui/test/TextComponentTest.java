@@ -11,6 +11,7 @@ import mdes.slick.sui.SuiButton;
 import mdes.slick.sui.SuiCheckBox;
 import mdes.slick.sui.SuiDisplay;
 import mdes.slick.sui.SuiLabel;
+import mdes.slick.sui.SuiTextArea;
 import mdes.slick.sui.SuiTextField;
 import mdes.slick.sui.event.SuiActionEvent;
 import mdes.slick.sui.event.SuiActionListener;
@@ -18,7 +19,6 @@ import mdes.slick.sui.event.SuiChangeEvent;
 import mdes.slick.sui.event.SuiChangeListener;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -59,9 +59,7 @@ public class TextComponentTest extends BasicGame {
         final char DEFAULT_MASK = '*';
                 
         final SuiTextField field = new SuiTextField("Test", 10);
-        field.setLocation(passBox.getX(), passBox.getY()+passBox.getHeight()+10);        
-        field.setOpaque(true);
-        field.setBackground(Color.blue);
+        field.setLocation(passBox.getX(), passBox.getY()+passBox.getHeight()+10); 
         field.setMaskCharacter(DEFAULT_MASK);
         display.add(field);
         
@@ -105,6 +103,12 @@ public class TextComponentTest extends BasicGame {
        
         //start off with focused field
         field.grabFocus();
+        
+        String longStr = "This is a test text area set to a limit of 350 characters.";
+        SuiTextArea area = new SuiTextArea(longStr, 30, 8);
+        area.setMaxChars(350);
+        area.setLocation(label.getX(), label.getY()+80);
+        display.add(area);
     }
     
     public void update(GameContainer container, int delta) throws SlickException {
