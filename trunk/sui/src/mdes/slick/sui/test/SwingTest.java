@@ -9,6 +9,8 @@ package mdes.slick.sui.test;
 import java.awt.FlowLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -28,6 +30,14 @@ public class SwingTest extends JFrame {
         textArea.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 System.out.println(textArea.getX());
+            }
+        });
+        textArea.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                System.out.println("enter");
+            }
+            public void mouseExited(MouseEvent e) {
+                System.out.println("exit");
             }
         });
         JScrollPane sp = new JScrollPane(textArea);

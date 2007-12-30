@@ -26,7 +26,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 /**
  *
- * @author Matt
+ * @author davedes
  */
 public class SliderTest extends BasicGame {
     
@@ -45,7 +45,6 @@ public class SliderTest extends BasicGame {
     
     public void init(GameContainer container) throws SlickException {
         disp = new SuiDisplay(container);
-                
         SuiSlider slider = new SuiSlider(SuiSlider.HORIZONTAL);
         slider.setBounds(100, 100, 200, 16);
         slider.setValue(0.25f);
@@ -111,7 +110,7 @@ public class SliderTest extends BasicGame {
     
     public void update(GameContainer container, int delta) throws SlickException {
         disp.update(container, delta);
-        System.out.println(disp.getComponentAtMouse());
+        
         if (container.getInput().isKeyPressed(Input.KEY_ESCAPE))
             container.exit();
     }

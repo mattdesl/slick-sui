@@ -22,7 +22,7 @@ import org.newdawn.slick.SlickException;
 /**
  * Stress tests.
  * 
- * @author Matt
+ * @author davedes
  */
 public class StressTest extends BasicGame {
     

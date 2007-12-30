@@ -31,7 +31,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 /**
  *
- * @author Matt
+ * @author davedes
  */
 public class SuiStateTest extends StateBasedGame {
     
