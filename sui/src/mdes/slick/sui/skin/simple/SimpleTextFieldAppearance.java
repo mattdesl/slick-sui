@@ -111,8 +111,4 @@ public class SimpleTextFieldAppearance extends SimpleTextComponentAppearance {
             g.draw(bounds);
         }
     }
-    
-    public int viewToModel(SuiTextComponent comp, float x, float y) {
-        return -1;
-    }
 }
