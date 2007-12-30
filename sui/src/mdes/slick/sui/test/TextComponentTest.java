@@ -27,7 +27,7 @@ import org.newdawn.slick.SlickException;
 
 /**
  *
- * @author Matt
+ * @author davedes
  */
 public class TextComponentTest extends BasicGame {
     

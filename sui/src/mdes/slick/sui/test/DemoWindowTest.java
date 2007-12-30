@@ -19,7 +19,7 @@ import org.newdawn.slick.SlickException;
 
 /**
  *
- * @author Matt
+ * @author davedes
  */
 public class DemoWindowTest extends BasicGame {
     

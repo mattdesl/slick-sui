@@ -40,7 +40,7 @@ import org.newdawn.slick.gui.GUIContext;
 
 /**
  *
- * @author Matt
+ * @author davedes
  */
 public class ThemeDump extends BasicGame {
     

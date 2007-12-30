@@ -25,7 +25,7 @@ import org.newdawn.slick.SlickException;
 
 /**
  *
- * @author Matt
+ * @author davedes
  */
 public class ColorPickerTest extends BasicGame {
     

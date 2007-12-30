@@ -22,7 +22,7 @@ import org.newdawn.slick.SlickException;
 
 /**
  *
- * @author Matt
+ * @author davedes
  */
 public class ConsumeInputTest extends BasicGame {
     
