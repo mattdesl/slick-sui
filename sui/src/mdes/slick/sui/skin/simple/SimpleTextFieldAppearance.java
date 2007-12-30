@@ -20,14 +20,14 @@ import org.newdawn.slick.gui.*;
  *
  * @author davedes
  */
-public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
+public class SimpleTextFieldAppearance extends SimpleTextComponentAppearance {
         
     protected GradientFill grad;
     protected RoundedRectangle roundBounds;
     protected SuiTextField field;
     
     public SimpleTextFieldAppearance(SuiTextField field) {
-        this.field = field;        
+        this.field = field;
         grad = new GradientFill(0f,0f,Color.white,0f,0f,Color.white);
     }
     
@@ -40,7 +40,12 @@ public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
     public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         checkComponent(comp);
         super.install(comp, skin, theme);
-        comp.setPadding(2, 2, 2, 2);
+        comp.setPadding(2, 2, 2, 5);
+    }
+    
+    public void update(GUIContext ctx, int delta, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+        checkComponent(comp);
+        super.update(ctx, delta, comp, skin, theme);
     }
     
     public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
@@ -77,12 +82,12 @@ public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
         //use default font
         if (font==null)
           font=g.getFont();
-
+        
         //current pos
-        float cpos = font.getWidth(value.substring(0, caretPos));
+        float cpos = pad.left+font.getWidth(value.substring(0, caretPos));
         float tx = 0;
-        if (cpos > field.getWidth()) {
-            tx = field.getWidth() - cpos - font.getWidth("_");
+        if (cpos > field.getWidth()-pad.right) {
+            tx = field.getWidth() - cpos - pad.right;
         }
 
         g.translate(tx,0);
@@ -92,8 +97,8 @@ public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
         g.setColor(field.getForeground());
         g.drawString(value, x+pad.left, y+pad.top);
         
-        if (hasFocus) {
-            g.drawString("_", x+pad.left+cpos, y+pad.top);
+        if (hasFocus && renderCaret) {
+            g.fillRect((int)(x+cpos+1), (int)(y+pad.top), 1, font.getLineHeight()-1);
         }
 
         g.translate(-tx, 0);
@@ -105,5 +110,9 @@ public class SimpleTextFieldAppearance extends SimpleComponentAppearance {
             g.setColor( hasFocus ? theme.getPrimaryBorder2() : theme.getPrimaryBorder1());
             g.draw(bounds);
         }
+    }
+    
+    public int viewToModel(SuiTextComponent comp, float x, float y) {
+        return -1;
     }
 }

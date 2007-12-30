@@ -102,6 +102,20 @@ public class SimpleWindowAppearance extends SimpleContainerAppearance implements
     
     protected class ResizerAppearance extends SimpleLabelAppearance {
             
+        public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+            super.install(comp, skin, theme);
+            if (skin instanceof SimpleSkin) {
+                comp.addMouseListener(((SimpleSkin)skin).getResizeCursorListener());
+            }
+        }
+
+        public void uninstall(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+            super.uninstall(comp, skin, theme);
+            if (skin instanceof SimpleSkin) {
+                comp.removeMouseListener(((SimpleSkin)skin).getResizeCursorListener());
+            }
+        }
+        
         public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
             SuiWindow win = ((SuiWindow.Resizer)comp).getWindow();
             if (!win.isResizable())
