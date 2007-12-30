@@ -37,6 +37,10 @@ public abstract class SuiComponent {
     
     boolean debugRender = false;
     
+    /** The parent of this container, used internally. */
+    SuiContainer parent = null;
+    SuiDisplay display = null;
+    
     public static final int DEFAULT_LAYER = 0;
     public static final int PALETTE_LAYER = 100;
     public static final int MODAL_LAYER = 200;
@@ -68,10 +72,7 @@ public abstract class SuiComponent {
     
     /** A type-safe list which holds the different listeners. */
     protected EventListenerList listenerList = new EventListenerList();
-    
-    /** The parent of this container, used internally. */
-    SuiContainer parent = null;
-    
+        
     /** The x position of this container. */
     private float x = 0f;
     
@@ -106,7 +107,7 @@ public abstract class SuiComponent {
     private ComponentAppearance appearance;
     
     private Padding padding = new Padding(0);
-        
+            
     /**
      * Whether this component is ignoring events
      * and letting them pass through to underlying
@@ -247,10 +248,17 @@ public abstract class SuiComponent {
         return zIndex;
     }
     
-    public SuiDisplay getDisplay() {
+    /**
+     * Used internally to determine the display.
+     */
+    protected SuiDisplay findDisplay() {
         if(parent == null) 
             return null;
-        return parent.getDisplay();
+        return parent.getDisplay(); //TODO: cache display
+    }
+    
+    public SuiDisplay getDisplay() {
+        return display;
     }
     
     /**

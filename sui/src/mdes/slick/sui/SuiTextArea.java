@@ -24,7 +24,7 @@ public class SuiTextArea extends SuiTextComponent {
     
     private boolean wrapEnabled = true;
     private boolean wrapDirty = true;
-    
+        
     private int currentLine = 0;
     
     protected SuiKeyListener keyListener = new AreaKeyListener();
@@ -127,8 +127,7 @@ public class SuiTextArea extends SuiTextComponent {
             
             Font font = getFont();
             Padding pad = getPadding();
-            final String text = getText();
-            String value = text;
+            String value = getText();
             
             float maxWidth = getWidth()-pad.left-pad.right;
 
@@ -139,6 +138,20 @@ public class SuiTextArea extends SuiTextComponent {
             int lastLineLen = 0;
             
             float defaultLineHeight = font.getLineHeight();
+            
+            //if we are wrap-disabled
+            if (!isWrapEnabled()) {
+                float yoff = 0f;
+                if (font instanceof AngelCodeFont) {
+                    yoff = ((AngelCodeFont)font).getYOffset(value);
+                }
+                float width = font.getWidth(value);
+                lines.add( new Line(value, yoff, width, defaultLineHeight, 0) );
+                
+                float maxHeight = pad.top + defaultLineHeight + pad.bottom;
+                setHeight(Math.max(getHeight(), maxHeight));
+                return;
+            }
             
             while (value.length() > 0) {
                 String aLine = value;
@@ -191,6 +204,9 @@ public class SuiTextArea extends SuiTextComponent {
             
             if (lines.isEmpty())
                 lines.add( new Line("", 0f, 0f, defaultLineHeight, 0) );
+            
+            float maxHeight = pad.top + defaultLineHeight*lines.size() + pad.bottom;
+            setHeight(Math.max(getHeight(), maxHeight));
         }
     }
     
@@ -305,10 +321,6 @@ public class SuiTextArea extends SuiTextComponent {
 
     public void setWrapEnabled(boolean wrapEnabled) {
         this.wrapEnabled = wrapEnabled;
-    }
-
-    public int viewToModel(float x, float y) {
-        return -1;
     }
     
     protected class AreaKeyListener extends SuiKeyAdapter {

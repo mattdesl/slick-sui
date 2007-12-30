@@ -113,34 +113,6 @@ public class Sui {
     }
     
     /**
-     * A convenience method for initializing the system based on the GUIContext.
-     * 
-     * This is equivalent to:
-     * <pre><code>init(new SuiDisplay(c))<code></pre>
-     * @return a top-level Sui display
-     * @param c the context to initialize with
-     * @throws org.newdawn.slick.SlickException if an error occurred when initializing
-     *
-     * @deprecated no longer needed, will be removed soon
-     */
-    public static SuiDisplay init(GUIContext c) throws SlickException {
-        SuiDisplay d = new SuiDisplay(c);
-        return init(d);
-    }
-    
-    /**
-     * Initializes the system and returns the passed SuiDisplay.
-     * @param d the display to initialize with
-     * @return the passed display, <CODE>d</CODE>
-     * @throws SlickException if an error occurred when initializing
-     *
-     * @deprecated no longer needed, will be removed soon
-     */
-    public static SuiDisplay init(SuiDisplay d) throws SlickException {
-        return d;
-    }
-    
-    /**
      * Returns the current color theme to use when rendering.
      * @return the theme to render with
      * @see mdes.slick.sui.SuiTheme

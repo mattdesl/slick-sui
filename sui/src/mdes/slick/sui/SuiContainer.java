@@ -103,6 +103,7 @@ public class SuiContainer extends SuiComponent {
         if (!containsChild(child)) {
             childrenDirty = true;
             child.parent = this;
+            child.display = this.findDisplay();
             children.add(child);
             layout.doLayout(this);
         }
@@ -123,6 +124,7 @@ public class SuiContainer extends SuiComponent {
         if (!containsChild(child)) {
             childrenDirty = true;
             child.parent = this;
+            child.display = this.findDisplay();
             children.add(index, child);
             layout.doLayout(this);
         }
@@ -140,6 +142,7 @@ public class SuiContainer extends SuiComponent {
         if (contained) {
             childrenDirty = true;
             child.parent = null;
+            child.display = null;
             child.releaseFocus();
             layout.doLayout(this);
         }
@@ -187,6 +190,7 @@ public class SuiContainer extends SuiComponent {
                 childrenDirty = true;
             SuiComponent c = getChild(i);
             c.parent = null;
+            c.display = null;
         }
         children.clear();
     }

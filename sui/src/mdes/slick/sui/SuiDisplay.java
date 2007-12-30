@@ -58,7 +58,7 @@ public class SuiDisplay extends SuiContainer {
         if (context==null)
             throw new IllegalArgumentException("cannot have null context");
         cachedContext = context;
-                
+        
         this.context = context;
         this.input = context.getInput();
         setSize(context.getWidth(), context.getHeight());
@@ -77,7 +77,7 @@ public class SuiDisplay extends SuiContainer {
         
         setFocusable(false);
     }
-    
+        
     protected boolean isConsumingEvents() {
         return false;
     }
@@ -114,6 +114,10 @@ public class SuiDisplay extends SuiContainer {
     }
     
     public SuiDisplay getDisplay() {
+        return this;
+    }
+    
+    protected SuiDisplay findDisplay() {
         return this;
     }
     
@@ -338,29 +342,39 @@ public class SuiDisplay extends SuiContainer {
                         
             SuiComponent oldComp = mouseOver;
             mouseOver = comp;
-              
+            
             //relative positions
             int ox = (int)(oldX-comp.getAbsoluteX());
             int oy = (int)(oldY-comp.getAbsoluteY());
             int nx = (int)(newX-comp.getAbsoluteX());
             int ny = (int)(newY-comp.getAbsoluteY());
+            //TODO: check relative positions for dragging outside of the "comp"
             
-            if (dragComp!=null&&dragComp!=comp&&dragComp.isEnabled()) {
+            
+            //if we are dragging something
+            /*if (dragComp!=null&&dragComp!=comp&&dragComp.isEnabled()) {
                 dragComp.fireMouseEvent(SuiMouseEvent.MOUSE_DRAGGED, dragb, nx, ny, ox, oy, newX, newY);
                 if (dragComp.isConsumingEvents())
                     input.consumeEvent();
                 return;
-            }
+            }*/
             
-            int moveID = dragging ? SuiMouseEvent.MOUSE_DRAGGED : SuiMouseEvent.MOUSE_MOVED;
-            if (comp.isEnabled() || moveID==SuiMouseEvent.MOUSE_MOVED)
+            int moveID;
+            if (dragComp!=null && dragComp.isEnabled() && dragging) {
+                moveID = SuiMouseEvent.MOUSE_DRAGGED;
+                dragComp.fireMouseEvent(moveID, dragb, nx, ny, ox, oy, newX, newY);
+                if (dragComp.isConsumingEvents())
+                    input.consumeEvent();
+            } else {
+                moveID = SuiMouseEvent.MOUSE_MOVED;
                 comp.fireMouseEvent(moveID, dragb, nx, ny, ox, oy, newX, newY);
-            
+            }                
+                      
             //if we should send events to this display
-            if (comp!=SuiDisplay.this && globalEvents
-                    && (SuiDisplay.this.isEnabled() || moveID==SuiMouseEvent.MOUSE_MOVED) ) {
+            if (comp!=SuiDisplay.this && globalEvents && SuiDisplay.this.isEnabled()) {
                 fireMouseEvent(moveID, dragb, nx, ny, ox, oy, newX, newY);
             }
+            
             if (oldComp!=mouseOver) {
                 if (oldComp!=null) {
                     oldComp.fireMouseEvent(SuiMouseEvent.MOUSE_EXITED, dragb, nx, ny, ox, oy, newX, newY);
@@ -619,145 +633,6 @@ public class SuiDisplay extends SuiContainer {
         }
     }
     
-    /*
-    public class SuiToolTip extends SuiPopup {
-        
-        private SuiLabel label;
-        private Color bgFilter = new Color(1f,1f,1f);
-        private Color fgFilter = new Color(0f,0f,0f);
-        private boolean fadeIn = false, fadeOut = false;
-        private float amt = 0.003f;
-        
-        private int current = 0;
-        private SuiContainer over = null;
-        
-        private int lastX = 0;
-        private int lastY = 0;
-                        
-        public SuiToolTip() {
-            super();
-            setVisible(false);
-            
-            label = new SuiLabel();
-            label.setHorizontalPadding(4);
-            label.setVerticalPadding(4);
-            label.setForeground(fgFilter);
-            label.setBackground(bgFilter);
-            label.setLocation(0, 0);
-            label.setHorizontalAlignment(SuiLabel.LEFT_ALIGNMENT);
-            label.setVerticalAlignment(SuiLabel.CENTER_ALIGNMENT);
-            add(label);
-        }
-        
-        public void updateUI(SuiSkin skin) {
-            setUI(skin.getToolTipUI());
-        }
-        
-        public SuiSkin.ToolTipUI getUI() {
-            return (SuiSkin.ToolTipUI)super.getUI();
-        }
-        
-        public void updateComponent(GUIContext c, int delta) {
-            super.updateComponent(c, delta);
-            
-            Input in = c.getInput();
-            
-            int x = in.getMouseX();
-            int y = in.getMouseY();
-            
-            //if it's still at the same position
-            if (x==lastX && y==lastY) {
-                if (over!=null) {
-                    if (!over.isShowing() || !over.contains(x,y)) {
-                        setVisible(false);
-                        over=null;
-                        return;
-                    }
-                }
-                current += delta;
-                if (current >= Sui.getToolTipDelay()) {
-                    current = 0;
-                    if (!isShowing()) {
-                        SuiContainer comp = getDeepestComponentAt(SuiDisplay.this, x, y);
-                        if (comp!=null) {
-                            SuiDisplay.this.showToolTip(comp, x, y);
-                            over = comp;
-                        }
-                    }
-                }
-            } else {
-                if (over==null || !over.contains(x, y) || !over.isShowing()) {
-                    current = 0;
-                    setVisible(false);
-                }
-            }
-            
-            lastX = x;
-            lastY = y;
-            
-            if (fadeIn) {
-                bgFilter.a += delta * amt;
-                fgFilter.a += delta * amt;
-                if (bgFilter.a > 1f || fgFilter.a > 1f) {
-                    bgFilter.a = 1f;
-                    fgFilter.a = 1f;
-                    fadeIn = false;
-                }
-            } else if (fadeOut) {
-                bgFilter.a -= delta * amt;
-                fgFilter.a -= delta * amt;
-                if (bgFilter.a < 0f || fgFilter.a < 0f) {
-                    bgFilter.a = 0f;
-                    fgFilter.a = 0f;
-                    fadeOut = false;
-                    super.setVisible(false);
-                }
-            }
-        }
-
-        public void setVisible(boolean b) {
-            if (b!=isShowing()) {
-                current = 0;
-                if (b && !fadeIn) {
-                    fadeIn = true;
-                    fadeOut = false;
-                    bgFilter.a = 0f;
-                    fgFilter.a = 0f;
-                    super.setVisible(true);
-                } else if (!fadeOut) {
-                    fadeOut = true;
-                    fadeIn = false;
-                    bgFilter.a = 1f;
-                    fgFilter.a = 1f;
-                }
-            }
-        }
-        
-        public SuiLabel getLabel() {
-            return label;
-        }
-        
-        public void setLabel(SuiLabel l) {
-            this.label = l;
-        }
-        
-        public Color getForeground() {
-            return fgFilter;
-        }
-        
-        public Color getBackground() {
-            return bgFilter;
-        }
-        
-        public void setForeground(Color c) {
-            fgFilter = c;
-        }
-        
-        public void setBackground(Color c) {
-            bgFilter = c;
-        }
-    }*/
-
     public SuiToolTip getToolTip() {
         return toolTip;
     }
