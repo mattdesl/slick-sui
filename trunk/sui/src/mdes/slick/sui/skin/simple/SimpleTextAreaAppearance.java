@@ -21,7 +21,7 @@ import org.newdawn.slick.gui.GUIContext;
  *
  * @author davedes
  */
-public class SimpleTextAreaAppearance extends SimpleComponentAppearance {
+public class SimpleTextAreaAppearance extends SimpleTextComponentAppearance {
     
     public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
         super.install(comp, skin, theme);
@@ -69,10 +69,10 @@ public class SimpleTextAreaAppearance extends SimpleComponentAppearance {
             g.drawString(str, (int)startX, (int)lineY);
             
             //if this line is where the caret is at, let's draw it
-            if (hasFocus && linePos == i) {
+            if (hasFocus && linePos == i && renderCaret) {
                 int endIndex = caretPos-offset;
                 float cpos = font.getWidth(str.substring(0, endIndex));
-                g.drawString("_", (int)(startX+cpos), (int)lineY);
+                g.fillRect((int)(startX+cpos+1), (int)lineY, 1, lineHeight-2);
             }
         }
         

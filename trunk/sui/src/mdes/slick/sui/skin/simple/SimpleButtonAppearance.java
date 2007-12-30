@@ -38,7 +38,7 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
         //TODO: add CachedGradientFill
         grad = new GradientFill(0f,0f,Color.white,0f,0f,Color.white);
     }
-        
+            
     /**
      * Used by subclasses to create the bounds (set the corner/segments) of
      * this button. If <tt>null</tt> is returned, we assume the bounds of the
