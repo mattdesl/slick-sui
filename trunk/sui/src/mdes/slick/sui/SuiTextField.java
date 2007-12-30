@@ -110,14 +110,7 @@ public class SuiTextField extends SuiTextComponent {
     public synchronized void removeActionListener(SuiActionListener s) {
         listenerList.remove(SuiActionListener.class, s);
     }
-            
-    public int viewToModel(float x, float y) {
-        if (getWidth()==0 || getHeight()==0)
-            return -1;
-        //TODO: support this
-        return -1;
-    }
-    
+        
     /**
      * Used by skins to render the text in a text field. This
      * text is sometimes masked 

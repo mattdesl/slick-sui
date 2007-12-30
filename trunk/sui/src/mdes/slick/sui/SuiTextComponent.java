@@ -7,6 +7,8 @@
 package mdes.slick.sui;
 
 import mdes.slick.sui.event.*;
+import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.skin.TextComponentAppearance;
 import org.newdawn.slick.Input;
 
 /**
@@ -35,7 +37,43 @@ public abstract class SuiTextComponent extends SuiContainer {
         setFocusable(true);
     }
     
-    public abstract int viewToModel(float x, float y);
+    /**
+     * Gets the current appearance for this text component.
+     *
+     * @return the appearance set for this component
+     * 1.5 feature
+    public TextComponentAppearance getAppearance() {
+        return (TextComponentAppearance)super.getAppearance();
+    }*/
+        
+    /**
+     * Sets the appearance for this text component. If <code>appearance</code> is
+     * not an instance of TextComponentAppearance, an 
+     * <code>IllegalArgumentException</code> is thrown.
+     *
+     * @param appearance the new appearance to set
+     */
+    public void setAppearance(ComponentAppearance appearance) {
+        if (!(appearance instanceof TextComponentAppearance))
+            throw new IllegalArgumentException("must pass instance of text component appearance");
+        super.setAppearance(appearance);
+    }
+    
+    public int viewToModel(float x, float y) {
+        TextComponentAppearance appearance = (TextComponentAppearance)getAppearance();
+        if (appearance!=null) {
+            return appearance.viewToModel(this, x, y);
+        } else 
+            return -1;
+    }
+    
+    public Point modelToView(int pos) {
+        TextComponentAppearance appearance = (TextComponentAppearance)getAppearance();
+        if (appearance!=null) {
+            return appearance.modelToView(this, pos);
+        } else 
+            return null;
+    }
     
     public int getCaretPosition() {
         return caretPos;
