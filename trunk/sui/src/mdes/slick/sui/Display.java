@@ -247,7 +247,7 @@ public class Display extends Container {
     
     void clearActiveWindows() {
         for (int i=0; i<activeWindows.size(); i++) {
-            ((Frame)activeWindows.get(i)).setActive(false);
+            ((Window)activeWindows.get(i)).setActive(false);
         }
         activeWindows.clear();
     }
@@ -488,6 +488,8 @@ public class Display extends Container {
                 dragComp = null;
                 return;
             }
+            dragComp = null;
+            dragging = false;
                         
             Component comp = getDeepestComponentAt(Display.this, x, y, true);
             

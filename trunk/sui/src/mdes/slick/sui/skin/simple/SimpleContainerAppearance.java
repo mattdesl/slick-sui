@@ -20,8 +20,6 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public class SimpleContainerAppearance extends SimpleComponentAppearance {
     
-    //TODO: client properties for square (not round) buttons if desired
-    
     public void render(GUIContext ctx, Graphics g, Component comp, Skin skin, Theme theme) {
         SkinUtil.renderComponentBase(g, comp);
     }

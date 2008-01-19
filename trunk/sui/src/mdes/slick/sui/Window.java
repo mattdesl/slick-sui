@@ -7,7 +7,12 @@
 package mdes.slick.sui;
 
 /**
- *
+ * A class that is used to create layerable window overlays.
+ * <p>
+ * A window is active when one of its children has the focus. A window that is layerable will
+ * change its Z index when focused, bringing the window to the "front". The default layer is 
+ * the layer at which the window should be at.
+ * 
  * @author davedes
  */
 public class Window extends Container {
@@ -31,6 +36,9 @@ public class Window extends Container {
         setAppearance(Sui.getSkin().getWindowAppearance(this));
     }
     
+    /**
+     * Used by displays to activate a window. 
+     */
     protected void setActive(boolean active) {
         this.active = active;
         int z = getDefaultLayer();

@@ -824,11 +824,11 @@ public abstract class Component {
     
     /**
      * Releases the focus on this container and all of its
-     * Frame parents. If this component did not have the 
+     * Window parents. If this component did not have the 
      * focus, no change is made.
      * <p>
      * If the top-level parent of this component is an
-     * instance of Frame, it will be deactivated.
+     * instance of Window, it will be deactivated.
      */
     public void releaseFocus() {
         Display display = getDisplay();
