@@ -1,5 +1,5 @@
 /*
- * DemoWindow.java
+ * DemoFrame.java
  *
  * Created on November 10, 2007, 10:45 PM
  */
@@ -26,12 +26,12 @@ import org.newdawn.slick.Image;
  * 
  * @author davedes
  */
-public class DemoWindow extends Frame {
+public class DemoFrame extends Frame {
     
     /**
-     * Creates a new instance of DemoWindow
+     * Creates a new instance of DemoFrame
      */
-    public DemoWindow() {
+    public DemoFrame() {
         super();
         
         getContentPane().setName("contentPane");

@@ -182,7 +182,7 @@ public class ThemeDump extends BasicGame {
         
         final CheckBox box = new CheckBox("Show Demo Box");
                         
-        demoBox = new DemoWindow();
+        demoBox = new DemoFrame();
         demoBox.setLocation(50, 100);
         demoBox.getCloseButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
