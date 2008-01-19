@@ -8,7 +8,7 @@ All widgets derive from a base `Component` class. A panel, or `Container`, is a 
 
 The top-level container, `Display`, is used to render, update, and gather input for the GUI tree. For most of our tests we will be using a single `Display` instance, but in your final games you may choose to use multiple GUI trees throughout different game states.
 
-Below we have a simple block of code that can be re-used for all simple SUI tests and lessons. It creates an empty display then updates and renders it using Slick's BasicGame class.
+Below we have a simple block of code that can be re-used for most SUI tests and lessons. It creates an empty display then updates and renders it using Slick's BasicGame class. From here, we just need to add components to our display to create our GUI.
 {{{
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.*;
@@ -33,6 +33,10 @@ public class Lesson1 extends BasicGame {
     }
     
     public void init(GameContainer container) throws SlickException {
+        //set up a nice blue background
+        Color background = new Color(71,102,124);
+        container.getGraphics().setBackground(background);        
+
         //we create a Sui display from our Slick container
         display = new Display(container);
     }
@@ -55,3 +59,41 @@ public class Lesson1 extends BasicGame {
 
 = Lesson 1 =
 This lesson explains containers, buttons, labels and layouts.
+
+The first thing we will learn about is a `Container` widget. These are meant to hold child components. With the default skin, a `Container` is initially not renderable. It's width and height are both 0, as well as its (x,y) coordinates (ie: top left). 
+
+After we create our Display, we begin to set up our components. The content panel has a size of 155 by 100 px, a location of (100,100) and a dark gray background color.
+{{{
+         Container content = new Container();
+        content.setSize(155, 100); //sets panel size
+        content.setLocation(100, 100); //sets panel loc relative to parent (display)
+        content.setOpaque(true); //ensures that the background is drawn
+        content.setBackground(Color.darkGray); //sets the background color
+}}}
+
+_Note:_ Component coordinates (x,y) are always relative to the component's parent. If no parent exist, the coordinates are relative to the game container (such as with Displays). The "absolute location" is the sum of all parent locations.
+
+Next we set up a layout for our content panel, which evenly spaces the components horizontally:
+{{{
+         //give our content a row layout that is aligned (horiz) left and (vert) center.
+        RowLayout layout = new RowLayout(true, RowLayout.LEFT, RowLayout.CENTER);
+        content.setLayout(layout);
+}}}
+
+Finally, we finish by adding a button and a label to our content panel. We specifically assign the two components sizes, which are then used by our RowLayout. 
+{{{
+         //add a button to our content panel
+        Button btn = new Button("Clicky");
+        btn.pack(); //pack the button to the text
+        content.add(btn);
+        
+        //add a label to our content panel
+        Label label = new Label("This is a test");
+        label.setForeground(Color.white); //sets the foreground (text) color
+        label.pack(); //pack the label with the current text, font and padding
+        label.setHeight(btn.getHeight()); //set same size between the two components
+        content.add(label); //add the label to this display so it can be rendered
+
+        //add the content panel to the display so it can be rendered
+        display.add(content);
+}}}
