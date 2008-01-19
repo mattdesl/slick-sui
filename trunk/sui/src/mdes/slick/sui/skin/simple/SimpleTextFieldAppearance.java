@@ -6,15 +6,19 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.*;
-import mdes.slick.sui.SuiSkin;
-import mdes.slick.sui.skin.*;
-import mdes.slick.sui.SuiTheme;
-
-import org.newdawn.slick.*;
-import org.newdawn.slick.fills.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.gui.*;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Padding;
+import mdes.slick.sui.Skin;
+import mdes.slick.sui.TextField;
+import mdes.slick.sui.Theme;
+import mdes.slick.sui.skin.SkinUtil;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.RoundedRectangle;
+import org.newdawn.slick.gui.GUIContext;
 
 /**
  *
@@ -24,34 +28,36 @@ public class SimpleTextFieldAppearance extends SimpleTextComponentAppearance {
         
     protected GradientFill grad;
     protected RoundedRectangle roundBounds;
-    protected SuiTextField field;
+    protected TextField field;
     
-    public SimpleTextFieldAppearance(SuiTextField field) {
+    public SimpleTextFieldAppearance(TextField field) {
         this.field = field;
         grad = new GradientFill(0f,0f,Color.white,0f,0f,Color.white);
     }
     
-    protected void checkComponent(SuiComponent comp) {
+    protected void checkComponent(Component comp) {
         if (comp != this.field) 
             throw new IllegalStateException("SimpleSkin's text field appearance " +
                             "only handles the field passed in its constructor");
     }
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void install(Component comp, Skin skin, Theme theme) {
         checkComponent(comp);
         super.install(comp, skin, theme);
         comp.setPadding(2, 2, 2, 5);
     }
     
-    public void update(GUIContext ctx, int delta, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void update(GUIContext ctx, int delta, Component comp, Skin skin, Theme theme) {
         checkComponent(comp);
         super.update(ctx, delta, comp, skin, theme);
     }
     
-    public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void render(GUIContext ctx, Graphics g, Component comp, Skin skin, Theme theme) {
+        super.render(ctx, g, comp, skin, theme);
+        
         checkComponent(comp);
         
-        SuiTextField field = (SuiTextField)comp;
+        TextField field = (TextField)comp;
         boolean hasFocus = field.hasFocus();
         
         SkinUtil.renderComponentBase(g, comp);
@@ -78,10 +84,10 @@ public class SimpleTextFieldAppearance extends SimpleTextComponentAppearance {
         Font font = field.getFont();
         int caretPos = field.getCaretPosition();
         Padding pad = field.getPadding();
-        
+                
         //use default font
         if (font==null)
-          font=g.getFont();
+            font=g.getFont();
         
         //current pos
         float cpos = pad.left+font.getWidth(value.substring(0, caretPos));

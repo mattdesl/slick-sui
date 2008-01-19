@@ -6,11 +6,11 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiSkin;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.SuiToggleButton;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Skin;
+import mdes.slick.sui.Theme;
+import mdes.slick.sui.ToggleButton;
 import mdes.slick.sui.skin.SkinUtil;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -29,9 +29,9 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
     
     protected GradientFill grad;
     protected RoundedRectangle roundBounds;
-    protected SuiButton button;
+    protected Button button;
     
-    public SimpleButtonAppearance(SuiButton button) {
+    public SimpleButtonAppearance(Button button) {
         this.button = button;
         roundBounds = createRoundedBounds();
         
@@ -52,13 +52,13 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
         return new RoundedRectangle(0f,0f,0f,0f,5f,15);
     }
     
-    protected void checkComponent(SuiComponent comp) {
+    protected void checkComponent(Component comp) {
         if (comp != this.button) 
             throw new IllegalStateException("SimpleSkin's button appearance " +
                             "only handles the button passed in its constructor");
     }
         
-    public boolean contains(SuiComponent comp, float x, float y) {
+    public boolean contains(Component comp, float x, float y) {
         checkComponent(comp);
         
         //if we are checking corners
@@ -70,13 +70,13 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
             return comp.inside(x, y);
     }
         
-    public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void render(GUIContext ctx, Graphics g, Component comp, Skin skin, Theme theme) {
         checkComponent(comp);
         
         //renders base color
         SkinUtil.renderComponentBase(g, comp);
         
-        SuiButton btn = (SuiButton)comp;
+        Button btn = (Button)comp;
         
         //renders button state
         Rectangle bounds = btn.getAbsoluteBounds();
@@ -96,8 +96,9 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
     
     /**
      * Renders a button state (only gradient and border) based on the given params.
-     * This method also checks for SuiToggleButton instances. If <tt>aRect</tt>
+     * This method also checks for ToggleButton instances. If <tt>aRect</tt>
      * is null, we will assume the bounds of the passed button.
+     * 
      * 
      * @param g the graphics to render with
      * @param theme the theme we are using
@@ -105,7 +106,7 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
      * @param aRect the rectangle we are drawing with, or null
      * @param grad the gradient fill instance to use
      */
-    static void renderButtonState(Graphics g, SuiTheme theme, SuiButton btn, Rectangle aRect, GradientFill grad) {
+    static void renderButtonState(Graphics g, Theme theme, Button btn, Rectangle aRect, GradientFill grad) {
         Rectangle rect = aRect;
         if (rect==null)
             rect = btn.getAbsoluteBounds();
@@ -117,24 +118,24 @@ public class SimpleButtonAppearance extends SimpleComponentAppearance {
         borderLight = theme.getPrimaryBorder1();
         borderDark = theme.getPrimaryBorder2();
         
-        if (btn instanceof SuiToggleButton && ((SuiToggleButton)btn).isSelected()) {
+        if (btn instanceof ToggleButton && ((ToggleButton)btn).isSelected()) {
             base = theme.getSecondary1();
             lightTop = theme.getSecondary1();
-            lightBot = state==SuiButton.ROLLOVER ? theme.getSecondary1() : theme.getPrimary3();
+            lightBot = state==Button.ROLLOVER ? theme.getSecondary1() : theme.getPrimary3();
         } else {
             switch (state) {
                 default:
-                case SuiButton.UP:
+                case Button.UP:
                     base = theme.getPrimary1();
                     lightTop = theme.getPrimary2();
                     lightBot = theme.getPrimary3();
                     break;
-                case SuiButton.DOWN:
+                case Button.DOWN:
                     base = theme.getSecondary1();
                     lightTop = theme.getSecondary1();
                     lightBot = theme.getSecondary1();
                     break;
-                case SuiButton.ROLLOVER:
+                case Button.ROLLOVER:
                     base = theme.getSecondary1();
                     lightTop = theme.getSecondary2();
                     lightBot = theme.getSecondary3();

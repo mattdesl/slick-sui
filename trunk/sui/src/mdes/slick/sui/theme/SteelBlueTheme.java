@@ -6,7 +6,7 @@
 
 package mdes.slick.sui.theme;
 
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.ColorUIResource;
 
 import org.newdawn.slick.Color;
@@ -15,7 +15,7 @@ import org.newdawn.slick.Color;
  *
  * @author davedes
  */
-public class SteelBlueTheme implements SuiTheme {
+public class SteelBlueTheme implements Theme {
     
     private Color buttonBase2 = new ColorUIResource(154, 174, 193);  
     private Color lightTop2 = new ColorUIResource(213, 219, 229);    

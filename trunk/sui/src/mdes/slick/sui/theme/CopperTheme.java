@@ -6,7 +6,7 @@
 
 package mdes.slick.sui.theme;
 
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.ColorUIResource;
 
 import org.newdawn.slick.Color;
@@ -15,7 +15,7 @@ import org.newdawn.slick.Color;
  *
  * @author davedes
  */
-public class CopperTheme implements SuiTheme {
+public class CopperTheme implements Theme {
     
     private Color activeTitleBar1 = new ColorUIResource(204, 158, 124);
     private Color activeTitleBar2 = new ColorUIResource(170, 173, 175);

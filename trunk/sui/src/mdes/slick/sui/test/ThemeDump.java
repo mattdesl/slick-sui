@@ -12,15 +12,15 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import mdes.slick.sui.Sui;
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiCheckBox;
-import mdes.slick.sui.SuiContainer;
-import mdes.slick.sui.SuiDisplay;
-import mdes.slick.sui.SuiLabel;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.SuiWindow;
-import mdes.slick.sui.event.SuiActionEvent;
-import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.CheckBox;
+import mdes.slick.sui.Container;
+import mdes.slick.sui.Display;
+import mdes.slick.sui.Label;
+import mdes.slick.sui.Theme;
+import mdes.slick.sui.Frame;
+import mdes.slick.sui.event.ActionEvent;
+import mdes.slick.sui.event.ActionListener;
 import mdes.slick.sui.skin.simple.SimpleSkin;
 import mdes.slick.sui.theme.BitterLemonTheme;
 import mdes.slick.sui.theme.CopperTheme;
@@ -57,16 +57,16 @@ public class ThemeDump extends BasicGame {
     
     public static final int COLORS = 17;
     
-    private SuiLabel[] labels = new SuiLabel[COLORS];
-    private SuiLabel[] methodNames = new SuiLabel[COLORS];
+    private Label[] labels = new Label[COLORS];
+    private Label[] methodNames = new Label[COLORS];
     private Color[] colors = new Color[COLORS];
     private String[] methods;
     private ArrayList themes = new ArrayList();
-    private SuiLabel nameLabel;
-    private SuiDisplay display;
+    private Label nameLabel;
+    private Display display;
     private int currentIndex = 0;
-    private SuiButton left, right;
-    private SuiWindow demoBox = null;
+    private Button left, right;
+    private Frame demoBox = null;
     
     private void populateThemes() {
         themes.add(new SteelBlueTheme());
@@ -80,12 +80,12 @@ public class ThemeDump extends BasicGame {
     
     public void init(GameContainer container) throws SlickException {
         //Sui.setSkin(new WireframeSkin());
-        display = new SuiDisplay(container);
+        display = new Display(container);
         display.setSendingGlobalEvents(false);
         display.setFocusable(true);
         
         //setup method names
-        Method[] m = SuiTheme.class.getMethods();
+        Method[] m = Theme.class.getMethods();
         Arrays.sort(m, new Comparator() {
             public int compare(Object o1, Object o2) {
                 return ((Method)o1).getName().compareTo(((Method)o2).getName());
@@ -110,7 +110,7 @@ public class ThemeDump extends BasicGame {
         //    System.out.println("public Color "+methods[i]+"() { return "+var+"; }");
         //}
         
-        class BorderLabel extends SuiLabel {
+        class BorderLabel extends Label {
             public void renderComponent(GUIContext c, Graphics g) {
                 super.renderComponent(c, g);
                 g.setColor(Color.darkGray);
@@ -121,7 +121,7 @@ public class ThemeDump extends BasicGame {
         float startx = 280;
         float starty = 70;
         
-        SuiContainer parent = display;
+        Container parent = display;
         for (int i=0; i<labels.length; i++) {
             methodNames[i] = new BorderLabel();
             methodNames[i].setText(methods[i]);
@@ -137,32 +137,32 @@ public class ThemeDump extends BasicGame {
             parent.add(labels[i]);            
         }
         
-        SuiContainer panel = new SuiContainer();
+        Container panel = new Container();
         
-        left = new SuiButton("Previous");
+        left = new Button("Previous");
         left.pack();
         left.setRequestFocusEnabled(false);
-        left.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
+        left.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 if (currentIndex>0) {
                     currentIndex--;
-                    setTheme((SuiTheme)themes.get(currentIndex));
+                    setTheme((Theme)themes.get(currentIndex));
                     updateButtons();
                 }
             }
         });
         panel.add(left);
         
-        right = new SuiButton("Next");
+        right = new Button("Next");
         right.pack();
         right.setRequestFocusEnabled(false);
         right.setX(left.getWidth()+5);
         right.setHeight(left.getHeight());
-        right.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
+        right.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 if (currentIndex<themes.size()-1) {
                     currentIndex++;
-                    setTheme((SuiTheme)themes.get(currentIndex));
+                    setTheme((Theme)themes.get(currentIndex));
                     updateButtons();
                 }
             }
@@ -174,18 +174,18 @@ public class ThemeDump extends BasicGame {
         panel.setY(starty-panel.getHeight()-5);
         display.add(panel);
         
-        nameLabel = new SuiLabel("No themes found.");
+        nameLabel = new Label("No themes found.");
         nameLabel.pack();
         nameLabel.setLocationRelativeTo(display);
         nameLabel.setY(panel.getY()-nameLabel.getHeight()-5);
         display.add(nameLabel);
         
-        final SuiCheckBox box = new SuiCheckBox("Show Demo Box");
+        final CheckBox box = new CheckBox("Show Demo Box");
                         
         demoBox = new DemoWindow();
         demoBox.setLocation(50, 100);
-        demoBox.getCloseButton().addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
+        demoBox.getCloseButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                box.setSelected(false);
             }
         });
@@ -195,8 +195,8 @@ public class ThemeDump extends BasicGame {
         box.setX(demoBox.getX());
         box.setY(demoBox.getY()-box.getHeight()-5);
         box.setSelected(true);
-        box.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
+        box.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 demoBox.setVisible(box.isSelected());
             }
         });
@@ -204,13 +204,13 @@ public class ThemeDump extends BasicGame {
         display.add(box);
         
         if (Sui.getSkin() instanceof SimpleSkin) {
-            final SuiCheckBox roundBox = new SuiCheckBox("Round Rectangles");
+            final CheckBox roundBox = new CheckBox("Round Rectangles");
             roundBox.pack();
             roundBox.setSelected(true);
             SimpleSkin.setRoundRectanglesEnabled(roundBox.isSelected());
 
-            roundBox.addActionListener(new SuiActionListener() {
-                public void actionPerformed(SuiActionEvent e) {
+            roundBox.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
                     SimpleSkin.setRoundRectanglesEnabled(roundBox.isSelected());
                 }
             });
@@ -226,12 +226,12 @@ public class ThemeDump extends BasicGame {
         populateThemes();
         
         if (!themes.isEmpty()) {
-            setTheme((SuiTheme)themes.get(0));
+            setTheme((Theme)themes.get(0));
         }
         updateButtons();
     }
     
-    private void setTheme(SuiTheme theme) {
+    private void setTheme(Theme theme) {
         if (theme==null)
             return;
         
@@ -288,7 +288,7 @@ public class ThemeDump extends BasicGame {
 
 /* CODE
     import mdes.slick.sui.skin.ColorUIResource;
-    import mdes.slick.sui.theme.SuiTheme;
+    import mdes.slick.sui.theme.Theme;
     import org.newdawn.slick.Color;
  
     private Color activeTitleBar1 = 
@@ -330,13 +330,13 @@ public class ThemeDump extends BasicGame {
 
 
 /*TODO: fix overlap bug
- SuiContainer panel = new SuiContainer();
+ Container panel = new Container();
         
-        final SuiButton left = new SuiButton("Previous");
+        final Button left = new Button("Previous");
         left.pack();
         panel.add(left);
         
-        final SuiButton right = new SuiButton("Next");
+        final Button right = new Button("Next");
         right.pack();
         right.setX(left.getX()+5);
         right.setHeight(left.getHeight());

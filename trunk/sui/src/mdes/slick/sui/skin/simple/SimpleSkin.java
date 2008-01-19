@@ -6,28 +6,30 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiCheckBox;
-import mdes.slick.sui.SuiContainer;
-import mdes.slick.sui.SuiLabel;
-import mdes.slick.sui.SuiScrollBar;
-import mdes.slick.sui.SuiScrollPane;
-import mdes.slick.sui.SuiSlider;
-import mdes.slick.sui.SuiTextField;
-import mdes.slick.sui.SuiToggleButton;
-import mdes.slick.sui.SuiToolTip;
-import mdes.slick.sui.SuiWindow;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.CheckBox;
+import mdes.slick.sui.Container;
+import mdes.slick.sui.Label;
+import mdes.slick.sui.ScrollBar;
+import mdes.slick.sui.ScrollPane;
+import mdes.slick.sui.Slider;
+import mdes.slick.sui.TextField;
+import mdes.slick.sui.ToggleButton;
+import mdes.slick.sui.ToolTip;
+import mdes.slick.sui.Frame;
 import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.skin.FontUIResource;
 import mdes.slick.sui.skin.ImageUIResource;
 import mdes.slick.sui.skin.ScrollBarAppearance;
 import mdes.slick.sui.skin.SliderAppearance;
-import mdes.slick.sui.SuiSkin;
-import mdes.slick.sui.SuiTextArea;
-import mdes.slick.sui.event.SuiMouseAdapter;
-import mdes.slick.sui.event.SuiMouseEvent;
-import mdes.slick.sui.event.SuiMouseListener;
-import mdes.slick.sui.skin.WindowAppearance;
+import mdes.slick.sui.Skin;
+import mdes.slick.sui.TextArea;
+import mdes.slick.sui.Window;
+import mdes.slick.sui.event.MouseAdapter;
+import mdes.slick.sui.event.MouseEvent;
+import mdes.slick.sui.event.MouseListener;
+import mdes.slick.sui.skin.ScrollPaneAppearance;
+import mdes.slick.sui.skin.FrameAppearance;
 
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
@@ -41,7 +43,7 @@ import org.newdawn.slick.util.Log;
  *
  * @author davedes
  */
-public class SimpleSkin implements SuiSkin {
+public class SimpleSkin implements Skin {
     
     private Image checkBoxImage;
     private Image closeButtonImage;
@@ -53,8 +55,8 @@ public class SimpleSkin implements SuiSkin {
     private boolean selectCursorFailed = false;
     private boolean resizeCursorFailed = false;
         
-    private SuiMouseListener selectCursorListener;
-    private SuiMouseListener resizeCursorListener;
+    private MouseListener selectCursorListener;
+    private MouseListener resizeCursorListener;
     
     private static boolean roundRectanglesEnabled = true;
            
@@ -62,10 +64,10 @@ public class SimpleSkin implements SuiSkin {
     private ComponentAppearance containerAppearance = new SimpleContainerAppearance();
     private ComponentAppearance toolTipAppearance = new SimpleToolTipAppearance();
     private ComponentAppearance labelAppearance = new SimpleLabelAppearance();
-    private ComponentAppearance scrollPaneAppearance = new SimpleScrollPaneAppearance();
     private ComponentAppearance textAreaAppearance = new SimpleTextAreaAppearance();
     
-    private WindowAppearance windowAppearance = new SimpleWindowAppearance();
+    private ScrollPaneAppearance scrollPaneAppearance = new SimpleScrollPaneAppearance();
+    private FrameAppearance frameAppearance = new SimpleFrameAppearance();
     private ScrollBarAppearance scrollBarAppearance = new SimpleScrollBarAppearance();
     private SliderAppearance sliderAppearance = new SimpleSliderAppearance();
         
@@ -156,63 +158,67 @@ public class SimpleSkin implements SuiSkin {
         return resizeCursor;
     }
     
-    public SuiMouseListener getSelectCursorListener() {
+    public MouseListener getSelectCursorListener() {
         return selectCursorListener;
     }
 
-    public SuiMouseListener getResizeCursorListener() {
+    public MouseListener getResizeCursorListener() {
         return resizeCursorListener;
     }
     
-    public ComponentAppearance getContainerAppearance(SuiContainer comp) {
+    public ComponentAppearance getContainerAppearance(Container comp) {
         return containerAppearance;
     }
 
-    public ComponentAppearance getCheckBoxAppearance(SuiCheckBox comp) {
+    public ComponentAppearance getCheckBoxAppearance(CheckBox comp) {
         return new SimpleCheckBoxAppearance(comp);
     }
 
-    public WindowAppearance getWindowAppearance(SuiWindow comp) {
-        return windowAppearance;
+    public FrameAppearance getFrameAppearance(Frame comp) {
+        return frameAppearance;
     }
 
-    public ComponentAppearance getButtonAppearance(SuiButton comp) {
+    public ComponentAppearance getButtonAppearance(Button comp) {
         return new SimpleButtonAppearance(comp);
     }
 
-    public ComponentAppearance getToolTipAppearance(SuiToolTip comp) {
+    public ComponentAppearance getToolTipAppearance(ToolTip comp) {
         return toolTipAppearance;
     }
 
-    public ComponentAppearance getLabelAppearance(SuiLabel comp) {
+    public ComponentAppearance getLabelAppearance(Label comp) {
         return labelAppearance;
     }
     
-    public ComponentAppearance getToggleButtonAppearance(SuiToggleButton comp) {
+    public ComponentAppearance getToggleButtonAppearance(ToggleButton comp) {
         return new SimpleButtonAppearance(comp);
     }
 
-    public ScrollBarAppearance getScrollBarAppearance(SuiScrollBar comp) {
+    public ScrollBarAppearance getScrollBarAppearance(ScrollBar comp) {
         return scrollBarAppearance;
     }
 
-    public ComponentAppearance getScrollPaneAppearance(SuiScrollPane comp) {
+    public ScrollPaneAppearance getScrollPaneAppearance(ScrollPane comp) {
         return scrollPaneAppearance;
     }
     
-    public SliderAppearance getSliderAppearance(SuiSlider comp) {
+    public SliderAppearance getSliderAppearance(Slider comp) {
         return sliderAppearance;
     }
     
-    public ComponentAppearance getTextFieldAppearance(SuiTextField comp) {
+    public ComponentAppearance getTextFieldAppearance(TextField comp) {
         return new SimpleTextFieldAppearance(comp);
     }
     
-    public ComponentAppearance getTextAreaAppearance(SuiTextArea comp) {
+    public ComponentAppearance getTextAreaAppearance(TextArea comp) {
         return textAreaAppearance;
     }
     
-    private class CursorListener extends SuiMouseAdapter {
+    public ComponentAppearance getWindowAppearance(Window window) {
+        return containerAppearance;
+    }
+    
+    private class CursorListener extends MouseAdapter {
         
         private Cursor c;
         private boolean failed = false;
@@ -223,17 +229,17 @@ public class SimpleSkin implements SuiSkin {
             this.c = c;
         }
         
-        public void mouseReleased(SuiMouseEvent ev) {
+        public void mouseReleased(MouseEvent ev) {
             dragging = false;
             if (!inside)
                 release();
         }
         
-        public void mouseDragged(SuiMouseEvent ev) {
+        public void mouseDragged(MouseEvent ev) {
             dragging = true;
         }
         
-        public void mouseEntered(SuiMouseEvent ev) {
+        public void mouseEntered(MouseEvent ev) {
             inside = true;
             if (!failed) {
                 try { Mouse.setNativeCursor(c); }
@@ -243,7 +249,7 @@ public class SimpleSkin implements SuiSkin {
             }
         }
         
-        public void mouseExited(SuiMouseEvent ev) {
+        public void mouseExited(MouseEvent ev) {
             inside = false;
             if (!dragging)
                 release();

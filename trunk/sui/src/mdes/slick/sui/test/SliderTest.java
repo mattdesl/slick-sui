@@ -7,15 +7,15 @@
 package mdes.slick.sui.test;
 
 import mdes.slick.sui.Sui;
-import mdes.slick.sui.SuiDisplay;
-import mdes.slick.sui.SuiScrollBar;
-import mdes.slick.sui.SuiSlider;
-import mdes.slick.sui.SuiToggleButton;
-import mdes.slick.sui.SuiWindow;
-import mdes.slick.sui.event.SuiActionEvent;
-import mdes.slick.sui.event.SuiActionListener;
-import mdes.slick.sui.event.SuiMouseAdapter;
-import mdes.slick.sui.event.SuiMouseEvent;
+import mdes.slick.sui.Display;
+import mdes.slick.sui.ScrollBar;
+import mdes.slick.sui.Slider;
+import mdes.slick.sui.ToggleButton;
+import mdes.slick.sui.Frame;
+import mdes.slick.sui.event.ActionEvent;
+import mdes.slick.sui.event.ActionListener;
+import mdes.slick.sui.event.MouseAdapter;
+import mdes.slick.sui.event.MouseEvent;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -41,40 +41,40 @@ public class SliderTest extends BasicGame {
         super("SliderTest");
     }
     
-    SuiDisplay disp = null;
+    Display disp = null;
     
     public void init(GameContainer container) throws SlickException {
-        disp = new SuiDisplay(container);
-        SuiSlider slider = new SuiSlider(SuiSlider.HORIZONTAL);
+        disp = new Display(container);
+        Slider slider = new Slider(Slider.HORIZONTAL);
         slider.setBounds(100, 100, 200, 16);
         slider.setValue(0.25f);
         slider.setThumbSize(.1f);
         disp.add(slider);
         
-        SuiScrollBar bar = new SuiScrollBar(SuiScrollBar.HORIZONTAL);
+        ScrollBar bar = new ScrollBar(ScrollBar.HORIZONTAL);
         bar.setLocation(slider.getX(), slider.getY()+slider.getHeight()+5);
         bar.setSize(slider.getWidth(), 16);
         bar.getSlider().setThumbSize(.10f);
         disp.add(bar);
         
-        SuiSlider slider2 = new SuiSlider(SuiSlider.VERTICAL);
+        Slider slider2 = new Slider(Slider.VERTICAL);
         slider2.setSize(16, 100);
         slider2.setLocation(slider.getX(), slider.getY()+45+slider.getHeight());
         slider2.setThumbSize(.05f);
         disp.add(slider2);
         
-        SuiWindow dragger1 = new SuiWindow("No drag.");
+        Frame dragger1 = new Frame("No drag.");
         dragger1.setBounds(200, 300, 300, 100);
         dragger1.setDraggable(false);
         dragger1.grabFocus();
         disp.add(dragger1);
         
-        SuiWindow dragger2 = new SuiWindow("Drag me!");
+        Frame dragger2 = new Frame("Drag me!");
         dragger2.setBounds(300, 350, 280, 80);
         dragger2.grabFocus();
         disp.add(dragger2);
         
-        final SuiWindow dragger3 = new SuiWindow("Hide me!");
+        final Frame dragger3 = new Frame("Hide me!");
         dragger3.setMinimumSize(150, 50);
         dragger3.getTitleBar().remove(dragger3.getCloseButton());
         dragger3.setBounds(200, 450, 280, 100);
@@ -84,13 +84,13 @@ public class SliderTest extends BasicGame {
         //TODO: fix glitch when setting minimum/max size on window (inproper size)
         //TODO: fix glitch where X isn't painted on close button if its disabled
         dragger3.setGlassPane(true);
-        final SuiToggleButton btn = new SuiToggleButton("Toggle title bar.");
+        final ToggleButton btn = new ToggleButton("Toggle title bar.");
         btn.setSelected(true);
         btn.pack();
         btn.setLocation(10, 10);
-        btn.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
-                SuiWindow.TitleBar bar = dragger3.getTitleBar();
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Frame.TitleBar bar = dragger3.getTitleBar();
                 
                 boolean old = dragger3.isRootPaneCheckingEnabled();
                 dragger3.setRootPaneCheckingEnabled(false);

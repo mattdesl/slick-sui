@@ -6,7 +6,7 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.SuiButton;
+import mdes.slick.sui.Button;
 
 import org.newdawn.slick.geom.RoundedRectangle;
 
@@ -16,7 +16,7 @@ import org.newdawn.slick.geom.RoundedRectangle;
  */
 public class SimpleSquareButtonAppearance extends SimpleButtonAppearance {
     
-    public SimpleSquareButtonAppearance(SuiButton button) {
+    public SimpleSquareButtonAppearance(Button button) {
         super(button);
     }
     

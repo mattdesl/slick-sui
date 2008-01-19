@@ -1,14 +1,14 @@
 package mdes.slick.sui.layout;
 
-import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.Container;
 
 /**
  *
  * @author Dantarion
  */
-public class StaticLayout implements SuiLayout
+public class StaticLayout implements LayoutManager
 {
-	public void doLayout(SuiContainer container)
+	public void doLayout(Container container)
 	{
 		//Don't do anything
 	}

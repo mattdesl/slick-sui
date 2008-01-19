@@ -8,8 +8,8 @@ package mdes.slick.sui;
 
 import javax.swing.event.EventListenerList;
 
-import mdes.slick.sui.event.SuiActionEvent;
-import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.ActionEvent;
+import mdes.slick.sui.event.ActionListener;
 
 import org.lwjgl.Sys;
 import org.newdawn.slick.gui.GUIContext;
@@ -48,7 +48,7 @@ public class Timer {
     //private int direction = ADVANCE;
     
     /** Creates a new instance of Timer */
-    public Timer(int delay, SuiActionListener listener) {
+    public Timer(int delay, ActionListener listener) {
         if (delay<0)
             throw new IllegalArgumentException("delay must be >= 0");
         this.delay = delay;
@@ -63,19 +63,20 @@ public class Timer {
     /**
      * Fires the specified action event to all action listeners
      * in this timer.
-     *
+     * 
+     * 
      * @param command the action command for the event
-     * @see mdes.slick.sui.event.SuiActionEvent
+     * @see mdes.slick.sui.event.ActionEvent
      */
     protected void fireActionPerformed(String command) {
-        SuiActionEvent evt = null;
+        ActionEvent evt = null;
         
-        final SuiActionListener[] listeners =
-                (SuiActionListener[])listenerList.getListeners(SuiActionListener.class);
+        final ActionListener[] listeners =
+                (ActionListener[])listenerList.getListeners(ActionListener.class);
         for (int i=0; i<listeners.length; i++) {
             //lazily create it
             if (evt==null) {
-                evt = new SuiActionEvent(this, command);
+                evt = new ActionEvent(this, command);
             }
             listeners[i].actionPerformed(evt);
         }
@@ -86,8 +87,8 @@ public class Timer {
      *
      * @param s the listener to receive events
      */
-    public synchronized void addActionListener(SuiActionListener s) {
-        listenerList.add(SuiActionListener.class, s);
+    public synchronized void addActionListener(ActionListener s) {
+        listenerList.add(ActionListener.class, s);
     }
     
     /**
@@ -95,8 +96,8 @@ public class Timer {
      *
      * @param s the listener to remove
      */
-    public synchronized void removeActionListener(SuiActionListener s) {
-        listenerList.remove(SuiActionListener.class, s);
+    public synchronized void removeActionListener(ActionListener s) {
+        listenerList.remove(ActionListener.class, s);
     }
     
     public float getPercent() {

@@ -6,37 +6,37 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.event.SuiMouseAdapter;
-import mdes.slick.sui.event.SuiMouseEvent;
-import mdes.slick.sui.event.SuiMouseListener;
+import mdes.slick.sui.event.MouseAdapter;
+import mdes.slick.sui.event.MouseEvent;
+import mdes.slick.sui.event.MouseListener;
 
 /**
  *
  * @author davedes
  */
-public class DraggableContainer extends SuiContainer {
+public class DraggableContainer extends Container {
     
-    protected SuiMouseListener dragListener = new DragListener();
+    protected MouseListener dragListener = new DragListener();
     
     /** Creates a new instance of DraggableContainer */
     public DraggableContainer() {
         addMouseListener(dragListener);
     }
     
-    public SuiMouseListener getDragListener() {
+    public MouseListener getDragListener() {
         return dragListener;
     }
     
-    protected class DragListener extends SuiMouseAdapter {
+    protected class DragListener extends MouseAdapter {
         
         float lastX, lastY;
         
-        public void mousePressed(SuiMouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             lastX = e.getAbsoluteX();
             lastY = e.getAbsoluteY();
         }
         
-        public void mouseDragged(SuiMouseEvent e) {
+        public void mouseDragged(MouseEvent e) {
             float abx = e.getAbsoluteX();
             float aby = e.getAbsoluteY();
             

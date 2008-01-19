@@ -8,11 +8,11 @@ package mdes.slick.sui.skin;
 
 import mdes.slick.sui.Padding;
 import mdes.slick.sui.Sui;
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiCheckBox;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiLabel;
-import mdes.slick.sui.SuiToggleButton;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.CheckBox;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Label;
+import mdes.slick.sui.ToggleButton;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -34,7 +34,7 @@ public class SkinUtil {
     protected SkinUtil() {
     }
     
-    public static boolean installImage(SuiLabel c, Image img) {
+    public static boolean installImage(Label c, Image img) {
         Image compImg = c.getImage();
         if (compImg==null || compImg instanceof ImageUIResource) {
             c.setImage(img);
@@ -42,7 +42,7 @@ public class SkinUtil {
         return compImg != c.getImage();
     }
     
-    public static boolean installColors(SuiComponent c, Color background, Color foreground) {
+    public static boolean installColors(Component c, Color background, Color foreground) {
         Color bg = c.getBackground();
         
         if (bg==null || bg instanceof ColorUIResource) {
@@ -56,7 +56,7 @@ public class SkinUtil {
         return fg!=c.getForeground() || bg!=c.getBackground();
     }
     
-    public static boolean installFont(SuiComponent c, Font f) {
+    public static boolean installFont(Component c, Font f) {
         Font compFont = c.getFont();
         if (compFont==null || compFont==Sui.getDefaultFont() || compFont instanceof FontUIResource) {
             if (f==null)
@@ -66,7 +66,7 @@ public class SkinUtil {
         return compFont != c.getFont();
     }
     
-    public static void renderComponentBase(Graphics g, SuiComponent comp) {
+    public static void renderComponentBase(Graphics g, Component comp) {
         Color background = comp.getBackground();
         boolean opaque = comp.isOpaque();
         if (background!=null && opaque) {
@@ -78,7 +78,7 @@ public class SkinUtil {
         }
     }
     
-    public static void renderLabelBase(Graphics g, SuiLabel label, String str, Image image, float textXOff, float textYOff) { 
+    public static void renderLabelBase(Graphics g, Label label, String str, Image image, float textXOff, float textYOff) { 
         if (image==null && (str==null || str.length()==0))
             return;
         
@@ -124,47 +124,47 @@ public class SkinUtil {
         }
     }
     
-    public static void renderLabelBase(Graphics g, SuiLabel label) {
+    public static void renderLabelBase(Graphics g, Label label) {
         String text = label.getText();
         Image image = label.getImage();
         renderLabelBase(g, label, text, image, TEXT_OFFSET, TEXT_OFFSET);
     }
     
-    public static void renderButtonBase(Graphics g, SuiButton button) {
+    public static void renderButtonBase(Graphics g, Button button) {
         String text = button.getText();
         Image image = getButtonImage(button);
         
-        int textOff = button.getState()==SuiButton.DOWN ? 0 : TEXT_OFFSET;
+        int textOff = button.getState()==Button.DOWN ? 0 : TEXT_OFFSET;
         renderLabelBase(g, button, text, image, textOff, textOff);
     }
     
-    public static void renderCheckBoxBase(Graphics g, SuiCheckBox check) {
+    public static void renderCheckBoxBase(Graphics g, CheckBox check) {
         String text = check.getText();
         Image image = getToggleButtonImage(check);
         
         //box on left side
         int horiz = check.getHorizontalAlignment();
         int vert = check.getVerticalAlignment();
-        int mult = check.getHorizontalBoxPosition()==SuiCheckBox.LEADING ? 1 : -1;
+        int mult = check.getHorizontalBoxPosition()==CheckBox.LEADING ? 1 : -1;
         
         Padding innerPad = check.getInnerPadding();
         float xoff = TEXT_OFFSET;
-        if (horiz==SuiButton.LEFT_ALIGNMENT)
+        if (horiz==Button.LEFT_ALIGNMENT)
             xoff += innerPad.left * mult;
-        else if (horiz==SuiButton.RIGHT_ALIGNMENT)
+        else if (horiz==Button.RIGHT_ALIGNMENT)
             xoff -= innerPad.right * mult;
-        else if (horiz==SuiButton.CENTER_ALIGNMENT) {
+        else if (horiz==Button.CENTER_ALIGNMENT) {
             xoff += check.getBoxWidth() * mult;
         }
         
         float yoff = TEXT_OFFSET;
-        if (vert==SuiButton.TOP_ALIGNMENT)
+        if (vert==Button.TOP_ALIGNMENT)
             yoff += innerPad.top;
-        else if (vert==SuiButton.BOTTOM_ALIGNMENT)
+        else if (vert==Button.BOTTOM_ALIGNMENT)
             yoff -= innerPad.bottom;
         
         //uncomment to get the text "sink in" effect when clicking check box
-        //if (check.getState()==SuiButton.DOWN) {
+        //if (check.getState()==Button.DOWN) {
         //    xoff++;
         //    yoff++;
         //}
@@ -178,16 +178,16 @@ public class SkinUtil {
      * <b>DOWN</b>: getDownImage() if it exists, otherwise getImage()
      * <b>ROLLOVER</b>: getRolloverImage() if it exists, otherwise getImage()
      */
-    public static Image getButtonImage(SuiButton button) {
+    public static Image getButtonImage(Button button) {
         Image downImage = button.getDownImage();
         Image rolloverImage = button.getRolloverImage();
         switch (button.getState()) {
             default:
-            case SuiButton.UP:
+            case Button.UP:
                 return button.isEnabled() ? button.getImage() : button.getDisabledImage();
-            case SuiButton.DOWN:
+            case Button.DOWN:
                 return downImage!=null ? downImage : button.getImage();
-            case SuiButton.ROLLOVER:
+            case Button.ROLLOVER:
                 return rolloverImage!=null ? rolloverImage : button.getImage();
         }
     }
@@ -195,14 +195,14 @@ public class SkinUtil {
     /**
      * Determines the Image to draw based on the given check box state.
      */    
-    public static Image getToggleButtonImage(SuiToggleButton btn) {
+    public static Image getToggleButtonImage(ToggleButton btn) {
         Image img = null;
         
         //if selected (ie: checked)
         if (btn.isSelected()) { 
             if (!btn.isEnabled()) { //disabled selected
                 img = btn.getDisabledSelectedImage();
-            } else if (btn.getState()==SuiButton.ROLLOVER) { //rollover selected
+            } else if (btn.getState()==Button.ROLLOVER) { //rollover selected
                 img = btn.getRolloverSelectedImage();
             } else { //normal selected
                 img = btn.getSelectedImage();
@@ -228,12 +228,12 @@ public class SkinUtil {
     public static float getObjectX(int align, float x, float width, Padding pad, float objWidth) {
         //x position
         switch (align) {
-            case SuiLabel.CENTER_ALIGNMENT:
+            case Label.CENTER_ALIGNMENT:
             default:
                 return x + ( width/2.0f - objWidth/2.0f );
-            case SuiLabel.LEFT_ALIGNMENT:
+            case Label.LEFT_ALIGNMENT:
                 return x + pad.left;
-            case SuiLabel.RIGHT_ALIGNMENT:
+            case Label.RIGHT_ALIGNMENT:
                 return x + width - pad.right - objWidth;
         }
     }
@@ -241,12 +241,12 @@ public class SkinUtil {
     public static float getObjectY(int align, float y, float height, Padding pad, float objHeight) {
         //y position
         switch (align) {
-            case SuiLabel.CENTER_ALIGNMENT:
+            case Label.CENTER_ALIGNMENT:
             default:
                 return Math.max(y, y+(height/2.0f - objHeight/2.0f));
-            case SuiLabel.TOP_ALIGNMENT:
+            case Label.TOP_ALIGNMENT:
                 return y + pad.top;
-            case SuiLabel.BOTTOM_ALIGNMENT:
+            case Label.BOTTOM_ALIGNMENT:
                 return Math.max(y, y+height - pad.bottom - objHeight);
         }
     }

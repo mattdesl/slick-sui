@@ -1,14 +1,14 @@
 package mdes.slick.sui.layout;
 
 import mdes.slick.sui.Padding;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Container;
 
 /**
  * 
  * @author Dantarion
  */
-public class RowLayout implements SuiLayout {
+public class RowLayout implements LayoutManager {
     // Horizontal Alignment Constants
     final public static int LEFT = 0;
     final public static int CENTER = 1;
@@ -56,7 +56,7 @@ public class RowLayout implements SuiLayout {
 	this.horizontal = horizontal;
     }
 
-    public void doLayout(SuiContainer container) {
+    public void doLayout(Container container) {
 	float availibleWidth = LayoutUtil.getAvailibleWidth(container);
 	float availibleHeight = LayoutUtil.getAvailibleHeight(container);
 	float maxChildWidth = LayoutUtil.getMaxChildWidth(container);
@@ -81,7 +81,7 @@ public class RowLayout implements SuiLayout {
 	float spacingtotal = (container.getChildCount() + 1) * spacing;
 
 	for (int i = 0; i < container.getChildCount(); i++) {
-	    SuiComponent child = container.getChild(i);
+	    Component child = container.getChild(i);
 	    if (horizontal) {
 		switch (vAlign) {
 		case BOTTOM:
@@ -151,11 +151,11 @@ public class RowLayout implements SuiLayout {
 	return padding.top;
     }
 
-    private void doHorizontal(SuiContainer container) {
+    private void doHorizontal(Container container) {
 
     }
 
-    private void doVertical(SuiContainer container) {
+    private void doVertical(Container container) {
 
     }
 }

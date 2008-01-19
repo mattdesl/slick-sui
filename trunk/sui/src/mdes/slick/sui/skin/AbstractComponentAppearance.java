@@ -6,9 +6,9 @@
 
 package mdes.slick.sui.skin;
 
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiSkin;
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Skin;
+import mdes.slick.sui.Theme;
 
 /**
  *
@@ -16,13 +16,13 @@ import mdes.slick.sui.SuiTheme;
  */
 public abstract class AbstractComponentAppearance implements ComponentAppearance {
     
-    public boolean contains(SuiComponent comp, float x, float y) {
+    public boolean contains(Component comp, float x, float y) {
         return comp.inside(x, y);
     }
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {    
+    public void install(Component comp, Skin skin, Theme theme) {    
     }
     
-    public void uninstall(SuiComponent comp, SuiSkin skin, SuiTheme theme) {   
+    public void uninstall(Component comp, Skin skin, Theme theme) {   
     }
 }

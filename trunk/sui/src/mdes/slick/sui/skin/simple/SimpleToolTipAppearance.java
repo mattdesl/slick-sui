@@ -6,9 +6,9 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.SuiSkin;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Theme;
+import mdes.slick.sui.Skin;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.gui.GUIContext;
@@ -19,13 +19,13 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public class SimpleToolTipAppearance extends SimpleLabelAppearance {
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void install(Component comp, Skin skin, Theme theme) {
         super.install(comp, skin, theme);
         comp.setOpaque(true);
         comp.getPadding().set(2, 3, 2, 3);
     }
     
-    public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void render(GUIContext ctx, Graphics g, Component comp, Skin skin, Theme theme) {
         super.render(ctx, g, comp, skin, theme);
         
         if (comp.isBorderRendered()) {

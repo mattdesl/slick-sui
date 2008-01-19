@@ -7,14 +7,14 @@
 package mdes.slick.sui.skin.simple;
 
 import mdes.slick.sui.skin.simple.SimpleArrowButton;
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiScrollBar;
-import mdes.slick.sui.SuiSlider;
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.ScrollBar;
+import mdes.slick.sui.Slider;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.ScrollBarAppearance;
 import mdes.slick.sui.skin.SkinUtil;
-import mdes.slick.sui.SuiSkin;
+import mdes.slick.sui.Skin;
 
 /**
  * 
@@ -22,18 +22,18 @@ import mdes.slick.sui.SuiSkin;
  */
 public class SimpleScrollBarAppearance extends SimpleContainerAppearance implements ScrollBarAppearance {
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void install(Component comp, Skin skin, Theme theme) {
         SkinUtil.installFont(comp, ((SimpleSkin)skin).getFont());    
         SkinUtil.installColors(comp, theme.getPrimary1(), theme.getForeground());
     }
     
-    public SuiButton createScrollButton(SuiScrollBar bar, int direction) {
-        SuiButton btn = createSimpleScrollButton(bar, direction);
+    public Button createScrollButton(ScrollBar bar, int direction) {
+        Button btn = createSimpleScrollButton(bar, direction);
         return btn;
     }
     
-    public SuiSlider createSlider(SuiScrollBar bar, int orientation) {
-        SuiSlider slider = new SuiSlider(orientation);
+    public Slider createSlider(ScrollBar bar, int orientation) {
+        Slider slider = new Slider(orientation);
         return slider;
     }
     
@@ -44,20 +44,21 @@ public class SimpleScrollBarAppearance extends SimpleContainerAppearance impleme
      * of the given scroll bar.
      * 
      * 
+     * 
      * @param bar the scroll bar parent
      * @param direction the direction the bar will scroll, either 
-     *      SuiScrollBar.INCREMENT or SuiScrollBar.DECREMENT.
+     *      ScrollBar.INCREMENT or ScrollBar.DECREMENT.
      * @return a new SimpleArrowButton based on the given parameters
      */
-    protected SuiButton createSimpleScrollButton(SuiScrollBar bar, int direction) {
+    protected Button createSimpleScrollButton(ScrollBar bar, int direction) {
         float angle = SimpleArrowButton.getScrollButtonAngle(bar, direction);
         int orientation = bar.getOrientation();
         float size = 0f;
-        if (orientation==SuiScrollBar.HORIZONTAL) {
+        if (orientation==ScrollBar.HORIZONTAL) {
             size = bar.getHeight();
         } else
             size = bar.getWidth();
-        SuiButton btn = new SimpleArrowButton(angle);
+        Button btn = new SimpleArrowButton(angle);
         btn.setSize(size, size);
         return btn;
     }

@@ -13,13 +13,15 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.gui.GUIContext;
 
 /**
- * A SuiButton with an arrow painted on it. The arrow faces in the direction
+ * A Button with an arrow painted on it. The arrow faces in the direction
  * specified (FACE_UP, FACE_LEFT, FACE_DOWN, or FACE_RIGHT). These buttons
  * are typically used in combo boxes and scroll bars.
  * <br /><br /> 
  * This class also has a utility method, 
- * {@link SimpleArrowButton#getScrollButtonAngle(SuiScrollBar, int)}, which determines
+ * {@link SimpleArrowButton#getScrollButtonAngle(ScrollBar, int)}, which determines
  * the arrow angle based on the scroll bar's orientation and the desired scroll direction.
+ * 
+ * 
  * 
  * 
  * 
@@ -27,7 +29,7 @@ import org.newdawn.slick.gui.GUIContext;
  * @deprecated this class is being moved to mdes.slick.sui.skin.simple.SimpleArrowButton 
  *          and will be fixed up to suit nicer aligned arrows
  */
-public class SimpleArrowButton extends SuiButton {
+public class SimpleArrowButton extends Button {
     
     public static final float FACE_UP = 0.0f; 
     public static final float FACE_RIGHT = (float) (Math.PI / 2); 
@@ -115,10 +117,10 @@ public class SimpleArrowButton extends SuiButton {
      *
      * @author davedes
      */
-    public static float getScrollButtonAngle(SuiScrollBar bar, int direction) {
+    public static float getScrollButtonAngle(ScrollBar bar, int direction) {
         int barOrientation = bar.getOrientation();
-        boolean isInc = direction==SuiScrollBar.INCREMENT;
-        if (barOrientation==SuiScrollBar.HORIZONTAL) {
+        boolean isInc = direction==ScrollBar.INCREMENT;
+        if (barOrientation==ScrollBar.HORIZONTAL) {
             return isInc ? FACE_RIGHT : FACE_LEFT;
         } else
             return isInc ? FACE_UP : FACE_DOWN;

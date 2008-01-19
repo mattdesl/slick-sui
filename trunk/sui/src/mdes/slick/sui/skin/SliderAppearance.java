@@ -7,8 +7,8 @@
 package mdes.slick.sui.skin;
 
 import mdes.slick.sui.ScrollConstants;
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiSlider;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Slider;
 
 /**
  *
@@ -19,5 +19,5 @@ public interface SliderAppearance extends ComponentAppearance, ScrollConstants {
     /**
      * This is the knob or thumb button whic appears on the slider.
      */
-    public SuiButton createThumbButton(SuiSlider slider); 
+    public Button createThumbButton(Slider slider); 
 }
