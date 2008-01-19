@@ -18,20 +18,28 @@ public class RowLayout implements LayoutManager {
     final public static int MIDDLE = 1;
     final public static int BOTTOM = 2;
 
-    final public static int AUTOSPACING = -1;
-    private Padding padding = null;
+    final private static int AUTOSPACING = -1;
+    private int vgap = 5;
+    private int hgap = 5;
+    private boolean autoSpacing = true;
     boolean horizontal = false;
-    private int vAlign = TOP;
-    private int hAlign = LEFT;
+    private int vAlign;
+    private int hAlign;
 
     public RowLayout() {
 	this(false);
     }
-
-    public RowLayout(boolean horizontal) {
-	this.horizontal = horizontal;
+    
+    public RowLayout(boolean horizontal, int hAlign, int vAlign) {
+        this.horizontal = horizontal;
+        this.hAlign = hAlign;
+        this.vAlign = vAlign;
     }
 
+    public RowLayout(boolean horizontal) {
+	this(horizontal, TOP, LEFT);
+    }
+    
     public void setVerticalAlignment(int align) {
 	vAlign = align;
     }
@@ -39,15 +47,7 @@ public class RowLayout implements LayoutManager {
     public void setHorizontalAlignment(int align) {
 	hAlign = align;
     }
-
-    public Padding getPadding() {
-	return padding;
-    }
-
-    public void setPadding(Padding padding) {
-	this.padding = padding;
-    }
-
+    
     public boolean isHorizontal() {
 	return horizontal;
     }
@@ -144,11 +144,12 @@ public class RowLayout implements LayoutManager {
     }
 
     private float computeSpacing() {
-	if (this.padding == null)
+	if (this.isAutoSpacing())
 	    return AUTOSPACING;
 	if (horizontal)
-	    return padding.left;
-	return padding.top;
+	    return getHorizontalGap();
+        else
+            return getVerticalGap();
     }
 
     private void doHorizontal(Container container) {
@@ -157,5 +158,29 @@ public class RowLayout implements LayoutManager {
 
     private void doVertical(Container container) {
 
+    }
+
+    public int getVerticalGap() {
+        return vgap;
+    }
+
+    public void setVerticalGap(int vgap) {
+        this.vgap = vgap;
+    }
+
+    public int getHorizontalGap() {
+        return hgap;
+    }
+
+    public void setHorizontalGap(int hgap) {
+        this.hgap = hgap;
+    }
+
+    public boolean isAutoSpacing() {
+        return autoSpacing;
+    }
+
+    public void setAutoSpacing(boolean autoSpacing) {
+        this.autoSpacing = autoSpacing;
     }
 }
