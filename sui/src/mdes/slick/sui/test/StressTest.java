@@ -6,9 +6,9 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiDisplay;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Display;
 import mdes.slick.sui.skin.simple.SimpleSkin;
 
 import org.newdawn.slick.AppGameContainer;
@@ -37,7 +37,7 @@ public class StressTest extends BasicGame {
         super("StressTest");
     }
     
-    private SuiDisplay disp = null;
+    private Display disp = null;
     final float area = 10f;
     float cellWidth;
     float cellHeight;
@@ -48,7 +48,7 @@ public class StressTest extends BasicGame {
     public void init(GameContainer container) throws SlickException {
         container.setShowFPS(false);
         
-        disp = new SuiDisplay(container);
+        disp = new Display(container);
         disp.setSendingGlobalEvents(false);
         
         float width = container.getWidth();
@@ -61,7 +61,7 @@ public class StressTest extends BasicGame {
         
         for (int x=0; x<cols; x++) {
             for (int y=0; y<rows; y++) {
-                SuiComponent btn = new SuiButton();
+                Component btn = new Button();
                 //btn.setOpaque(true);
                 //btn.setBackground(Color.gray);
                 btn.setToolTipText("Button ("+x+", "+y+")");

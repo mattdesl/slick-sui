@@ -7,10 +7,10 @@
 package mdes.slick.sui.skin.simple;
 
 import mdes.slick.sui.Padding;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiSkin;
-import mdes.slick.sui.SuiTextArea;
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Skin;
+import mdes.slick.sui.TextArea;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.SkinUtil;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
@@ -23,14 +23,14 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public class SimpleTextAreaAppearance extends SimpleTextComponentAppearance {
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void install(Component comp, Skin skin, Theme theme) {
         super.install(comp, skin, theme);
         comp.setPadding(2, 2, 2, 2);
         comp.setOpaque(true);
     }
     
-    public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {        
-        SuiTextArea area = (SuiTextArea)comp;
+    public void render(GUIContext ctx, Graphics g, Component comp, Skin skin, Theme theme) {        
+        TextArea area = (TextArea)comp;
         
         SkinUtil.renderComponentBase(g, comp);
         
@@ -60,7 +60,7 @@ public class SimpleTextAreaAppearance extends SimpleTextComponentAppearance {
         int caretPos = area.getCaretPosition();
         
         for(int i=0; i<area.getLineCount(); i++) {
-            SuiTextArea.Line line = area.getLine(i);
+            TextArea.Line line = area.getLine(i);
             int offset = line.offset;
             float yoff = line.yoff;
             float lineHeight = line.height;

@@ -7,8 +7,8 @@
 package mdes.slick.sui.test;
 
 import mdes.slick.sui.Sui;
-import mdes.slick.sui.SuiContainer;
-import mdes.slick.sui.SuiDisplay;
+import mdes.slick.sui.Container;
+import mdes.slick.sui.Display;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -36,14 +36,14 @@ public class DemoWindowTest extends BasicGame {
         super("DemoContainerTest");
     }
     
-    private SuiDisplay disp;
+    private Display disp;
     
     public void init(GameContainer container) throws SlickException {
         container.getGraphics().setBackground(Sui.getTheme().getBackground().darker());
         
-        disp = new SuiDisplay(container);
+        disp = new Display(container);
         
-        SuiContainer demo = new DemoWindow();
+        Container demo = new DemoWindow();
         demo.setLocationRelativeTo(disp);
         
         disp.add(demo);

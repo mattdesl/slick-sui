@@ -7,18 +7,20 @@
 package mdes.slick.sui.test;
 
 import mdes.slick.sui.Sui;
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiCheckBox;
-import mdes.slick.sui.SuiDisplay;
-import mdes.slick.sui.SuiLabel;
-import mdes.slick.sui.SuiTextArea;
-import mdes.slick.sui.SuiTextField;
-import mdes.slick.sui.event.SuiActionEvent;
-import mdes.slick.sui.event.SuiActionListener;
-import mdes.slick.sui.event.SuiChangeEvent;
-import mdes.slick.sui.event.SuiChangeListener;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.CheckBox;
+import mdes.slick.sui.Display;
+import mdes.slick.sui.Label;
+import mdes.slick.sui.ScrollPane;
+import mdes.slick.sui.TextArea;
+import mdes.slick.sui.TextField;
+import mdes.slick.sui.event.ActionEvent;
+import mdes.slick.sui.event.ActionListener;
+import mdes.slick.sui.event.ChangeEvent;
+import mdes.slick.sui.event.ChangeListener;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -42,15 +44,15 @@ public class TextComponentTest extends BasicGame {
         super("TextComponentTest");
     }
     
-    private SuiDisplay display;
+    private Display display;
     
     public void init(GameContainer container) throws SlickException {
         container.getInput().enableKeyRepeat(400, 50);
         container.getGraphics().setBackground(Sui.getTheme().getBackground());
         
-        display = new SuiDisplay(container);
+        display = new Display(container);
                
-        final SuiCheckBox passBox = new SuiCheckBox("Password?");
+        final CheckBox passBox = new CheckBox("Password?");
         passBox.pack();
         passBox.setRequestFocusEnabled(false);
         passBox.setLocation(200, 150);
@@ -58,30 +60,30 @@ public class TextComponentTest extends BasicGame {
         
         final char DEFAULT_MASK = '*';
                 
-        final SuiTextField field = new SuiTextField("Test", 10);
+        final TextField field = new TextField("Test", 10);
         field.setLocation(passBox.getX(), passBox.getY()+passBox.getHeight()+10); 
         field.setMaskCharacter(DEFAULT_MASK);
         display.add(field);
         
-        final SuiButton btn = new SuiButton("OK");
+        final Button btn = new Button("OK");
         btn.pack();
         btn.setLocation(field.getX(), field.getY()+field.getHeight()+10);
         display.add(btn);
         
-        final SuiLabel label = new SuiLabel();
+        final Label label = new Label();
         label.setLocation(btn.getX(), btn.getY()+btn.getHeight()+20);
         display.add(label);
            
         //when check box is changed we change the masking on the field
-        passBox.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {                
+        passBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {                
                 field.setMaskEnabled(passBox.isSelected());
             }
         });
         
         //when ENTER key or OK button is pressed, we show the input
-        SuiActionListener textAction = new SuiActionListener() {
-           public void actionPerformed(SuiActionEvent ev) {
+        ActionListener textAction = new ActionListener() {
+           public void actionPerformed(ActionEvent ev) {
                String text = field.getText();
                if (text.length()==0)
                    return;
@@ -91,8 +93,8 @@ public class TextComponentTest extends BasicGame {
         };
         
         //clear the "You entered" label when we change the text
-        field.addChangeListener(new SuiChangeListener() {
-            public void stateChanged(SuiChangeEvent e) {
+        field.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
                 label.setText(null);
             }
         });
@@ -104,16 +106,21 @@ public class TextComponentTest extends BasicGame {
         //start off with focused field
         field.grabFocus();
         
-        String longStr = "This is a test text area set to a limit of 350 characters.";
-        SuiTextArea area = new SuiTextArea(longStr, 30, 8);
-        area.setMaxChars(350);
-        area.setLocation(label.getX(), label.getY()+80);
-        display.add(area);
+        String longStr = "Hello, feel free to write some stuff here.";
+        TextArea area = new TextArea(longStr, 10, 4);
+        //area.setMaxChars(350);
+                
+        ScrollPane pane = new ScrollPane(area);
+        pane.setLocation(label.getX(), label.getY()+80);
+        pane.setSize(area.getWidth(), area.getHeight());
+        pane.setOpaque(true);
+        pane.setBackground(Color.blue);
+        display.add(pane);
     }
     
     public void update(GameContainer container, int delta) throws SlickException {
         display.update(container, delta);
-        
+                
         if (container.getInput().isKeyPressed(Input.KEY_ESCAPE))
             container.exit();
     }

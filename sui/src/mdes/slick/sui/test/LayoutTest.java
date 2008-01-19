@@ -7,9 +7,9 @@
 package mdes.slick.sui.test;
 
 import mdes.slick.sui.Padding;
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiDisplay;
-import mdes.slick.sui.SuiWindow;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Display;
+import mdes.slick.sui.Frame;
 import mdes.slick.sui.layout.RowLayout;
 
 import org.newdawn.slick.AppGameContainer;
@@ -23,25 +23,25 @@ import org.newdawn.slick.SlickException;
  * @author Dantarion
  */
 public class LayoutTest extends BasicGame {
-    SuiDisplay display;
+    Display display;
 
     public LayoutTest() {
 	super("SuiLayout Test");
     }
 
     public void init(GameContainer container) throws SlickException {
-	display = new SuiDisplay(container);
-	SuiWindow window;
+	display = new Display(container);
+	Frame window;
 	RowLayout layout;
 	//
-	window = new SuiWindow("Auto Spacing Vertical");
+	window = new Frame("Auto Spacing Vertical");
 	layout = new RowLayout();
 	window.setLayout(layout);
 	window.setSize(200, 500);
 	populateWindow(window);
 	display.add(window);
 	
-	window = new SuiWindow("Auto Spacing Horizontal Bottom Center");
+	window = new Frame("Auto Spacing Horizontal Bottom Center");
 	layout = new RowLayout(true);
 	layout.setVerticalAlignment(RowLayout.BOTTOM);
 	layout.setHorizontalAlignment(RowLayout.CENTER);
@@ -50,7 +50,7 @@ public class LayoutTest extends BasicGame {
 	populateWindow(window);
 	display.add(window);
 	
-	window = new SuiWindow("5px Spacing Vertical Center");
+	window = new Frame("5px Spacing Vertical Center");
 	layout = new RowLayout();
 	layout.setPadding(new Padding(5));
 	layout.setHorizontalAlignment(RowLayout.CENTER);
@@ -59,7 +59,7 @@ public class LayoutTest extends BasicGame {
 	populateWindow(window);
 	display.add(window);
 	
-	window = new SuiWindow("5px Spacing Horizonal Bottom Center");
+	window = new Frame("5px Spacing Horizonal Bottom Center");
 	layout = new RowLayout(true);
 	layout.setPadding(new Padding(5));
 	layout.setVerticalAlignment(RowLayout.BOTTOM);
@@ -70,15 +70,15 @@ public class LayoutTest extends BasicGame {
 	display.add(window);
     }
 
-    public void populateWindow(SuiWindow window) {
+    public void populateWindow(Frame window) {
 	window.setSize(200, 500);
 	window.getContentPane().setPadding(5);
-	window.add(new SuiButton("Test 1"));
-	window.add(new SuiButton("Test 2"));
-	window.add(new SuiButton("Wider Button"));
-	window.add(new SuiButton("Test 4"));
-	window.add(new SuiButton("Test 5"));
-	window.add(new SuiButton("Test 6"));
+	window.add(new Button("Test 1"));
+	window.add(new Button("Test 2"));
+	window.add(new Button("Wider Button"));
+	window.add(new Button("Test 4"));
+	window.add(new Button("Test 5"));
+	window.add(new Button("Test 6"));
     }
 
     public void update(GameContainer container, int delta)

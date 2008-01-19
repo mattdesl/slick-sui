@@ -6,11 +6,11 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiContainer;
-import mdes.slick.sui.SuiDisplay;
-import mdes.slick.sui.event.SuiMouseAdapter;
-import mdes.slick.sui.event.SuiMouseEvent;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Container;
+import mdes.slick.sui.Display;
+import mdes.slick.sui.event.MouseAdapter;
+import mdes.slick.sui.event.MouseEvent;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -37,24 +37,24 @@ public class HiddenMenuTest extends BasicGame {
         super("HiddenMenuTest");
     }
     
-    private SuiDisplay display = null;
-    private SuiContainer hiddenPanel;
+    private Display display = null;
+    private Container hiddenPanel;
     private int moveDir = 0;
     private boolean doneMoving = false;
     
     public void init(GameContainer container) throws SlickException {
-        display = new SuiDisplay(container);
+        display = new Display(container);
         display.setSendingGlobalEvents(true);
         
-        final SuiContainer hoverArea = new SuiContainer();
+        final Container hoverArea = new Container();
         //hoverArea.setOpaque(true);
         //hoverArea.setBackground(new Color(.25f, .25f, .85f, .25f));
         hoverArea.setLocation(100, 0);
         hoverArea.setSize(600, 35);
         display.add(hoverArea);
         
-        display.addMouseListener(new SuiMouseAdapter() {
-            public void mouseMoved(SuiMouseEvent e) {
+        display.addMouseListener(new MouseAdapter() {
+            public void mouseMoved(MouseEvent e) {
                 int old = moveDir;
                 
                 if (hoverArea.contains(e.getAbsoluteX(), e.getAbsoluteY())) {
@@ -67,14 +67,14 @@ public class HiddenMenuTest extends BasicGame {
             }
         });
         
-        hiddenPanel = new SuiContainer();
+        hiddenPanel = new Container();
         hiddenPanel.setOpaque(true);
         hiddenPanel.setBackground(Color.white);
         hiddenPanel.setSize(hoverArea.getSize());
         hiddenPanel.setLocation(hoverArea.getLocation());
         display.add(hiddenPanel);
         
-        final SuiButton btn1 = new SuiButton("File");
+        final Button btn1 = new Button("File");
         btn1.pack();
         btn1.setLocation(10, (int)(hiddenPanel.getHeight()/2f-btn1.getHeight()/2f));
         hiddenPanel.add(btn1);

@@ -7,13 +7,13 @@
 package mdes.slick.sui.skin.simple;
 
 import mdes.slick.sui.Point;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiSkin;
-import mdes.slick.sui.SuiTextComponent;
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Skin;
+import mdes.slick.sui.TextComponent;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.Timer;
-import mdes.slick.sui.event.SuiChangeEvent;
-import mdes.slick.sui.event.SuiChangeListener;
+import mdes.slick.sui.event.ChangeEvent;
+import mdes.slick.sui.event.ChangeListener;
 import mdes.slick.sui.skin.TextComponentAppearance;
 import org.lwjgl.input.Cursor;
 import org.newdawn.slick.gui.GUIContext;
@@ -32,8 +32,8 @@ public class SimpleTextComponentAppearance extends SimpleContainerAppearance
     
     protected Timer delayTimer = new Timer(800);
     
-    protected SuiChangeListener change = new SuiChangeListener() {
-        public void stateChanged(SuiChangeEvent e) {
+    protected ChangeListener change = new ChangeListener() {
+        public void stateChanged(ChangeEvent e) {
             still = true;
             delayTimer.restart();
         }
@@ -45,7 +45,7 @@ public class SimpleTextComponentAppearance extends SimpleContainerAppearance
         flashTimer.start();
     }
     
-    public void update(GUIContext ctx, int delta, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void update(GUIContext ctx, int delta, Component comp, Skin skin, Theme theme) {
         super.update(ctx, delta, comp, skin, theme);
         flashTimer.update(ctx, delta);
         delayTimer.update(ctx, delta);
@@ -60,28 +60,28 @@ public class SimpleTextComponentAppearance extends SimpleContainerAppearance
             renderCaret = !renderCaret;
     }
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void install(Component comp, Skin skin, Theme theme) {
         super.install(comp, skin, theme);
         if (skin instanceof SimpleSkin) {
             comp.addMouseListener(((SimpleSkin)skin).getSelectCursorListener());
         }
-        ((SuiTextComponent)comp).addChangeListener(change);
+        ((TextComponent)comp).addChangeListener(change);
     }
     
-    public void uninstall(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void uninstall(Component comp, Skin skin, Theme theme) {
         super.uninstall(comp, skin, theme);
         if (skin instanceof SimpleSkin) {
             comp.removeMouseListener(((SimpleSkin)skin).getSelectCursorListener());
         }
-        ((SuiTextComponent)comp).removeChangeListener(change);
+        ((TextComponent)comp).removeChangeListener(change);
     }
     
     
-    public int viewToModel(SuiTextComponent comp, float x, float y) { 
+    public int viewToModel(TextComponent comp, float x, float y) { 
         return -1;
     }
     
-    public Point modelToView(SuiTextComponent comp, int pos) {
+    public Point modelToView(TextComponent comp, int pos) {
         return null;
     }
 }

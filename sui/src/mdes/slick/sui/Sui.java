@@ -28,12 +28,12 @@ public class Sui {
     /**
      * The current theme to render with.
      */
-    private static SuiTheme theme = new SteelSepiaTheme();
+    private static Theme theme = new SteelSepiaTheme();
     
     /**
      * The current pluggable skin.
      */
-    private static SuiSkin skin = new SimpleSkin();
+    private static Skin skin = new SimpleSkin();
             
     /**
      * The maximum delay for tooltips.
@@ -81,12 +81,12 @@ public class Sui {
      * 
      * @param c the component tree to update
      */
-    public static void updateComponentTreeSkin(SuiComponent comp) {
+    public static void updateComponentTreeSkin(Component comp) {
         if (comp==null)
             return;
         comp.updateAppearance();
-        if (comp instanceof SuiContainer) {
-            SuiContainer c = (SuiContainer)comp;
+        if (comp instanceof Container) {
+            Container c = (Container)comp;
             for (int i=0; i<c.getChildCount(); i++) {
                 updateComponentTreeSkin(c.getChild(i));
             }
@@ -100,12 +100,12 @@ public class Sui {
      * 
      * @param c the component tree to update
      */
-    public static void updateComponentTreeTheme(SuiComponent comp) {
+    public static void updateComponentTreeTheme(Component comp) {
         if (comp==null)
             return;
         comp.setAppearance(comp.getAppearance());
-        if (comp instanceof SuiContainer) {
-            SuiContainer c = (SuiContainer)comp;
+        if (comp instanceof Container) {
+            Container c = (Container)comp;
             for (int i=0; i<c.getChildCount(); i++) {
                 updateComponentTreeTheme(c.getChild(i));
             }
@@ -114,20 +114,22 @@ public class Sui {
     
     /**
      * Returns the current color theme to use when rendering.
+     * 
      * @return the theme to render with
-     * @see mdes.slick.sui.SuiTheme
+     * @see mdes.slick.sui.Theme
      */
-    public static SuiTheme getTheme() {
+    public static Theme getTheme() {
         return theme;
     }
 
     /**
      * Sets the new color theme to use when rendering.
      * 
+     * 
      * @param aTheme the new theme
-     * @see mdes.slick.sui.SuiTheme
+     * @see mdes.slick.sui.Theme
      */
-    public static void setTheme(SuiTheme t) {
+    public static void setTheme(Theme t) {
         if (t==null)
             throw new IllegalArgumentException("theme cannot be null");
         theme = t;
@@ -137,7 +139,7 @@ public class Sui {
      * Returns the current skin used for rendering.
      * @return the current skin
      */
-    public static SuiSkin getSkin() {
+    public static Skin getSkin() {
         return skin;
     }
 
@@ -153,7 +155,7 @@ public class Sui {
      * @throws SlickException if there was a problem uninstalling 
      * the old skin or reinstalling the new skin
      */
-    public static void setSkin(SuiSkin s) throws SlickException {
+    public static void setSkin(Skin s) throws SlickException {
         if (s==null)
             throw new IllegalArgumentException("skin cannot be null");
         if (skin!=null)

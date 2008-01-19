@@ -6,7 +6,7 @@
 
 package mdes.slick.sui.theme;
 
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.ColorUIResource;
 
 import org.newdawn.slick.Color;
@@ -15,7 +15,7 @@ import org.newdawn.slick.Color;
  *
  * @author davedes
  */
-public class SteelAcidTheme implements SuiTheme {
+public class SteelAcidTheme implements Theme {
     private Color activeTitleBar1 = new ColorUIResource(154, 186, 33);
     private Color activeTitleBar2 = new ColorUIResource(226, 234, 195);
     private Color background = new ColorUIResource(248, 250, 239);

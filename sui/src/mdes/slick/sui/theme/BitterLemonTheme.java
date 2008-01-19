@@ -6,7 +6,7 @@
 
 package mdes.slick.sui.theme;
 
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.ColorUIResource;
 
 import org.newdawn.slick.Color;
@@ -15,7 +15,7 @@ import org.newdawn.slick.Color;
  *
  * @author Matt
  */
-public class BitterLemonTheme implements SuiTheme {
+public class BitterLemonTheme implements Theme {
     
     private Color activeTitleBar1 = new ColorUIResource(195, 221, 95);
     private Color activeTitleBar2 = new ColorUIResource(150, 153, 155);

@@ -6,12 +6,12 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiCheckBox;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.CheckBox;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.SkinUtil;
-import mdes.slick.sui.SuiSkin;
+import mdes.slick.sui.Skin;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -31,12 +31,12 @@ public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
     
     private boolean drawOutline = true;
     
-    public SimpleCheckBoxAppearance(SuiCheckBox checkBox) {
+    public SimpleCheckBoxAppearance(CheckBox checkBox) {
         super(checkBox);
         this.roundBoxBounds = createRoundedBoxBounds();
     }
     
-    public void install(SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void install(Component comp, Skin skin, Theme theme) {
         super.install(comp, skin, theme);
         if (skin instanceof SimpleSkin)
             this.defaultImage = ((SimpleSkin)skin).getCheckBoxImage();
@@ -52,11 +52,11 @@ public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
         return new RoundedRectangle(0f,0f,0f,0f,3f,50);
     }
         
-    public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
+    public void render(GUIContext ctx, Graphics g, Component comp, Skin skin, Theme theme) {
         //makes sure it's the same as what we're attached to
         checkComponent(comp);
         
-        SuiCheckBox check = (SuiCheckBox)comp;
+        CheckBox check = (CheckBox)comp;
         Rectangle cachedRect = null;
         boolean roundRectEnabled = SimpleSkin.isRoundRectanglesEnabled();
         
@@ -77,7 +77,7 @@ public class SimpleCheckBoxAppearance extends SimpleButtonAppearance {
             boolean oldAA = g.isAntiAlias();
             Color back;
 
-            if (check.getState()!=SuiButton.UP) //hover
+            if (check.getState()!=Button.UP) //hover
                 back = theme.getPrimary1();
             else //still
                 back = theme.getPrimary3();

@@ -8,11 +8,11 @@ package mdes.slick.sui.test;
 
 import mdes.slick.sui.DraggableContainer;
 import mdes.slick.sui.Sui;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiContainer;
-import mdes.slick.sui.SuiDisplay;
-import mdes.slick.sui.SuiTheme;
-import mdes.slick.sui.SuiWindow;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Container;
+import mdes.slick.sui.Display;
+import mdes.slick.sui.Theme;
+import mdes.slick.sui.Frame;
 import mdes.slick.sui.skin.simple.SimpleColorPicker;
 import mdes.slick.sui.theme.CopperTheme;
 import org.newdawn.slick.AppGameContainer;
@@ -42,13 +42,13 @@ public class ColorPickerTest extends BasicGame {
         super("ColorPickerTest");
     }
     
-    private SuiDisplay disp;
+    private Display disp;
     private SimpleColorPicker picker;
-    private SuiWindow window;
+    private Frame window;
     private DraggableContainer dragger;
     
-    private SuiTheme theme1;
-    private SuiTheme theme2;
+    private Theme theme1;
+    private Theme theme2;
         
     public void init(GameContainer container) throws SlickException {
         container.getGraphics().setBackground(new Color(90,163,245));
@@ -57,7 +57,7 @@ public class ColorPickerTest extends BasicGame {
         theme2 = new CopperTheme();
         Sui.setTheme(theme1);
         
-        disp = new SuiDisplay(container);
+        disp = new Display(container);
         
         picker = new SimpleColorPicker();
         picker.setGlassPane(true);
@@ -70,13 +70,13 @@ public class ColorPickerTest extends BasicGame {
         dragger.setLocation(200, 230);
         dragger.add(picker);
         
-        window = new SuiWindow("Choose a Color");
+        window = new Frame("Choose a Color");
         window.setSize(picker.getWidth()+5, picker.getHeight()+window.getTitleBar().getHeight());
         window.setResizable(false);
         window.setLocation(200, 230);
         window.setVisible(false);
         
-        SuiContainer pane = new SuiContainer();
+        Container pane = new Container();
         pane.setOpaque(true);
         pane.setBackground(picker.getSelectedColor());
         pane.setSize(200, 100);
@@ -92,7 +92,7 @@ public class ColorPickerTest extends BasicGame {
         disp.update(container, delta);
         
         //gets the component directly under the mouse
-        SuiComponent comp = disp.getComponentAtMouse();
+        Component comp = disp.getComponentAtMouse();
                 
         if (container.getInput().isKeyPressed(Input.KEY_ESCAPE))
             container.exit();
@@ -135,7 +135,7 @@ public class ColorPickerTest extends BasicGame {
                 picker.setToolTipText("Drag me!");
             }
         } else if (key == Input.KEY_T) {
-            SuiTheme nt = theme1;
+            Theme nt = theme1;
             if (Sui.getTheme()==theme1)
                 nt = theme2;
             Sui.setTheme(nt);

@@ -7,14 +7,14 @@
 package mdes.slick.sui.skin.simple;
 
 import mdes.slick.sui.Padding;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiContainer;
-import mdes.slick.sui.SuiLabel;
-import mdes.slick.sui.event.SuiChangeEvent;
-import mdes.slick.sui.event.SuiChangeListener;
-import mdes.slick.sui.event.SuiMouseAdapter;
-import mdes.slick.sui.event.SuiMouseEvent;
-import mdes.slick.sui.event.SuiMouseListener;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Container;
+import mdes.slick.sui.Label;
+import mdes.slick.sui.event.ChangeEvent;
+import mdes.slick.sui.event.ChangeListener;
+import mdes.slick.sui.event.MouseAdapter;
+import mdes.slick.sui.event.MouseEvent;
+import mdes.slick.sui.event.MouseListener;
 import mdes.slick.sui.skin.ImageUIResource;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -23,15 +23,15 @@ import org.newdawn.slick.Image;
  *
  * @author davedes
  */
-public class SimpleColorPicker extends SuiContainer {
+public class SimpleColorPicker extends Container {
     
-    private SuiLabel svPane;
-    private SuiLabel svCursor;
-    private SuiLabel huePane;
-    private SuiLabel hueCursor;
+    private Label svPane;
+    private Label svCursor;
+    private Label huePane;
+    private Label hueCursor;
     
-    private SuiLabel colorBox;
-    private SuiLabel colorHex;
+    private Label colorBox;
+    private Label colorHex;
     
     private Color defaultColor = new Color(255, 0, 0);
     
@@ -69,8 +69,8 @@ public class SimpleColorPicker extends SuiContainer {
         //hue slider
         huePane = new ColorPane(huePaneImg);
         
-        SuiMouseListener hueDrag = new HueCursorDrag();
-        SuiMouseListener svDrag = new SVCursorDrag();
+        MouseListener hueDrag = new HueCursorDrag();
+        MouseListener svDrag = new SVCursorDrag();
         
         //draggable cursors
         svCursor = new ColorCursor(svCursorImg);
@@ -82,14 +82,14 @@ public class SimpleColorPicker extends SuiContainer {
         huePane.addMouseListener(hueDrag);
         
         //box and hex val
-        colorBox = new SuiLabel();
+        colorBox = new Label();
         colorBox.setOpaque(true);
         colorBox.setBackground(getSelectedColor());
         colorBox.setSize(13, 13);
         
         //make it one column extra
-        colorHex = new SuiLabel("#FFFFFFF");
-        colorHex.setHorizontalAlignment(SuiLabel.LEFT_ALIGNMENT);
+        colorHex = new Label("#FFFFFFF");
+        colorHex.setHorizontalAlignment(Label.LEFT_ALIGNMENT);
         colorHex.pack();
         colorHex.setText("#"+toHex(selectedColor));        
         
@@ -321,27 +321,27 @@ public class SimpleColorPicker extends SuiContainer {
         return HEX.charAt((b-b%16)/16) + "" + HEX.charAt(b%16);
     }
     
-    public SuiLabel getSvPane() {
+    public Label getSvPane() {
         return svPane;
     }
 
-    public SuiLabel getSvCursor() {
+    public Label getSvCursor() {
         return svCursor;
     }
 
-    public SuiLabel getHuePane() {
+    public Label getHuePane() {
         return huePane;
     }
 
-    public SuiLabel getHueCursor() {
+    public Label getHueCursor() {
         return hueCursor;
     }
 
-    public SuiLabel getColorBoxLabel() {
+    public Label getColorBoxLabel() {
         return colorBox;
     }
 
-    public SuiLabel getColorHexLabel() {
+    public Label getColorHexLabel() {
         return colorHex;
     }
     
@@ -350,8 +350,8 @@ public class SimpleColorPicker extends SuiContainer {
      *
      * @param s the listener to receive events
      */
-    public synchronized void addChangeListener(SuiChangeListener s) {
-        listenerList.add(SuiChangeListener.class, s);
+    public synchronized void addChangeListener(ChangeListener s) {
+        listenerList.add(ChangeListener.class, s);
     }
     
     /**
@@ -359,40 +359,41 @@ public class SimpleColorPicker extends SuiContainer {
      *
      * @param s the listener to remove
      */
-    public synchronized void removeChangeListener(SuiChangeListener s) {
-        listenerList.remove(SuiChangeListener.class, s);
+    public synchronized void removeChangeListener(ChangeListener s) {
+        listenerList.remove(ChangeListener.class, s);
     }
     
     /**
      * Fires a change event to all action listeners
      * in this component.
-     *
-     * @see mdes.slick.sui.event.SuiChangeEvent
+     * 
+     * 
+     * @see mdes.slick.sui.event.ChangeEvent
      */
     protected void fireStateChanged() {
-        SuiChangeEvent evt = null;
+        ChangeEvent evt = null;
         
-        final SuiChangeListener[] listeners =
-                (SuiChangeListener[])listenerList.getListeners(SuiChangeListener.class);
+        final ChangeListener[] listeners =
+                (ChangeListener[])listenerList.getListeners(ChangeListener.class);
         for (int i=0; i<listeners.length; i++) {
             //lazily create it
             if (evt==null) {
-                evt = new SuiChangeEvent(this);
+                evt = new ChangeEvent(this);
             }
             listeners[i].stateChanged(evt);
         }
     }
     
-    protected class SVCursorDrag extends SuiMouseAdapter {
-        public void mousePressed(SuiMouseEvent e) {
+    protected class SVCursorDrag extends MouseAdapter {
+        public void mousePressed(MouseEvent e) {
             process(e);
         }
         
-        public void mouseDragged(SuiMouseEvent e) {
+        public void mouseDragged(MouseEvent e) {
             process(e);
         }
         
-        private void process(SuiMouseEvent e) {
+        private void process(MouseEvent e) {
             float abx = e.getAbsoluteX();
             float aby = e.getAbsoluteY();
             float x = abx - getSvPane().getAbsoluteX();
@@ -406,17 +407,17 @@ public class SimpleColorPicker extends SuiContainer {
         }
     }
     
-    protected class HueCursorDrag extends SuiMouseAdapter {
+    protected class HueCursorDrag extends MouseAdapter {
         
-        public void mousePressed(SuiMouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             process(e);
         }
         
-        public void mouseDragged(SuiMouseEvent e) {
+        public void mouseDragged(MouseEvent e) {
             process(e);
         }
         
-        private void process(SuiMouseEvent e) {
+        private void process(MouseEvent e) {
             float aby = e.getAbsoluteY();
             float ny = aby-getHuePane().getAbsoluteY()+getHuePane().getY();
             
@@ -427,7 +428,7 @@ public class SimpleColorPicker extends SuiContainer {
         }
     }
     
-    protected class ColorPane extends SuiLabel {
+    protected class ColorPane extends Label {
         
         public ColorPane(Image paneImg) {
             super(paneImg);
@@ -435,13 +436,13 @@ public class SimpleColorPicker extends SuiContainer {
         }
     }
     
-    protected class ColorCursor extends SuiLabel {
+    protected class ColorCursor extends Label {
         
         public ColorCursor(Image cursorImg) {
             super(cursorImg);
             setOpaque(false);
             setBackground(null);
-            setZIndex(SuiComponent.DRAG_LAYER);
+            setZIndex(Component.DRAG_LAYER);
             setSize(cursorImg.getWidth(), cursorImg.getHeight());
         }
     }

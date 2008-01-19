@@ -6,12 +6,12 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.SuiDisplay;
-import mdes.slick.sui.SuiLabel;
-import mdes.slick.sui.SuiWindow;
-import mdes.slick.sui.event.SuiMouseAdapter;
-import mdes.slick.sui.event.SuiMouseEvent;
-import mdes.slick.sui.event.SuiMouseListener;
+import mdes.slick.sui.Display;
+import mdes.slick.sui.Label;
+import mdes.slick.sui.Frame;
+import mdes.slick.sui.event.MouseAdapter;
+import mdes.slick.sui.event.MouseEvent;
+import mdes.slick.sui.event.MouseListener;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -37,26 +37,26 @@ public class ConsumeInputTest extends BasicGame {
         super("ConsumeInputTest");
     }
     
-    private SuiDisplay disp;
+    private Display disp;
     
     public void init(GameContainer container) throws SlickException {
-        disp = new SuiDisplay(container);
+        disp = new Display(container);
         disp.setSendingGlobalEvents(false);
         disp.setName("display");
 
-        SuiMouseListener press = new SuiMouseAdapter() {
-            public void mousePressed(SuiMouseEvent e) {
+        MouseListener press = new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
                 System.out.println("Press From sui: "+e);
             }
-            public void mouseReleased(SuiMouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 System.out.println("Release From Sui: "+e);
             }
-            public void mouseDragged(SuiMouseEvent e) {
+            public void mouseDragged(MouseEvent e) {
                 System.out.println("Drag from Sui: "+e);
             }
         };
         
-        SuiLabel label = new SuiLabel("Testeroo") {
+        Label label = new Label("Testeroo") {
             protected boolean isConsumingEvents() {
                 return true;
             }
@@ -69,7 +69,7 @@ public class ConsumeInputTest extends BasicGame {
         label.addMouseListener(press);
         disp.add(label);
         
-        SuiWindow win = new SuiWindow("Test") {
+        Frame win = new Frame("Test") {
             protected boolean isConsumingEvents() {
                 return true;
             }

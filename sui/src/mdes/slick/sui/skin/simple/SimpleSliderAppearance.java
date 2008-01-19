@@ -6,13 +6,13 @@
 
 package mdes.slick.sui.skin.simple;
 
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiComponent;
-import mdes.slick.sui.SuiSlider;
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Component;
+import mdes.slick.sui.Slider;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.SkinUtil;
 import mdes.slick.sui.skin.SliderAppearance;
-import mdes.slick.sui.SuiSkin;
+import mdes.slick.sui.Skin;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -26,8 +26,8 @@ import org.newdawn.slick.gui.GUIContext;
  */
 public class SimpleSliderAppearance extends SimpleContainerAppearance implements SliderAppearance {
         
-    public void render(GUIContext ctx, Graphics g, SuiComponent comp, SuiSkin skin, SuiTheme theme) {
-        SuiSlider slider = (SuiSlider)comp;
+    public void render(GUIContext ctx, Graphics g, Component comp, Skin skin, Theme theme) {
+        Slider slider = (Slider)comp;
          
         SkinUtil.renderComponentBase(g, slider);
         Rectangle bounds = slider.getAbsoluteBounds();
@@ -52,8 +52,8 @@ public class SimpleSliderAppearance extends SimpleContainerAppearance implements
     /**
      * This is the knob or thumb button whic appears on the slider.
      */
-    public SuiButton createThumbButton(SuiSlider slider) {
-        SuiButton btn = new SuiButton() {
+    public Button createThumbButton(Slider slider) {
+        Button btn = new Button() {
             public void updateAppearance() {
                 setAppearance(new SimpleButtonAppearance(this) {
                     protected RoundedRectangle createRoundedBounds() {

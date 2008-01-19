@@ -27,7 +27,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import mdes.slick.sui.SuiTheme;
+import mdes.slick.sui.Theme;
 import mdes.slick.sui.skin.ColorUIResource;
 
 import org.newdawn.slick.Color;
@@ -47,7 +47,7 @@ public class XMLThemeIO {
     
     private static Color defaultColor = new ColorUIResource(Color.white);
     
-    public static SuiTheme read(InputStream in) throws IOException {
+    public static Theme read(InputStream in) throws IOException {
         try { 
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.parse(in);
@@ -65,7 +65,7 @@ public class XMLThemeIO {
         }
     }
     
-    public static SuiTheme read(String str) throws IOException {
+    public static Theme read(String str) throws IOException {
         return read(ResourceLoader.getResourceAsStream(str));
     }
     
@@ -78,7 +78,7 @@ public class XMLThemeIO {
      * </theme></pre>
      *
      */  
-    public static SuiTheme read(Element element) throws IOException {
+    public static Theme read(Element element) throws IOException {
         if (!"theme".equals(element.getNodeName())) {
             throw new IOException("not a sui theme file");
         }
@@ -119,7 +119,7 @@ public class XMLThemeIO {
         final Color titleBar2 = getColor(map, "titleBar2");
           
         //return new class
-        SuiTheme theme = new SuiTheme() {
+        Theme theme = new Theme() {
             public String getName() { return name; }
             public Color getActiveTitleBar1() { return activeTitleBar1; }
             public Color getActiveTitleBar2() { return activeTitleBar2; }
@@ -180,7 +180,7 @@ public class XMLThemeIO {
         catch (Exception e) { return -1; }
     }
         
-    public static void write(OutputStream out, SuiTheme theme) throws IOException {
+    public static void write(OutputStream out, Theme theme) throws IOException {
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance()
                     .newDocumentBuilder();
@@ -212,7 +212,7 @@ public class XMLThemeIO {
     }
     //TODO: exception thing with setSkin??
     
-    public static Element themeToElement(Document document, SuiTheme theme) {
+    public static Element themeToElement(Document document, Theme theme) {
         Element root = document.createElement("theme");
         
         Method[] methods = theme.getClass().getMethods();
@@ -264,7 +264,7 @@ public class XMLThemeIO {
         
         //write(out, new SteelBlueTheme());
         
-        //SuiTheme t = read("res/steelBlue.xml");
+        //Theme t = read("res/steelBlue.xml");
         
     }
 }

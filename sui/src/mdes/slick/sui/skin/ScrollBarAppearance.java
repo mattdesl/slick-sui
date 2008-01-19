@@ -7,9 +7,9 @@
 package mdes.slick.sui.skin;
 
 import mdes.slick.sui.ScrollConstants;
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiScrollBar;
-import mdes.slick.sui.SuiSlider;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.ScrollBar;
+import mdes.slick.sui.Slider;
 
 /**
  * ScrollBarAppearance defines the appearance for a scroll bar.
@@ -28,18 +28,20 @@ public interface ScrollBarAppearance extends ComponentAppearance, ScrollConstant
      * @param direction the direction the button will scroll
      * @return the new scroll button
      */
-    public SuiButton createScrollButton(SuiScrollBar bar, int direction);
+    public Button createScrollButton(ScrollBar bar, int direction);
     
     /**
      * Creates a slider used by the scroll bar as a "track" with a thumb button.
-     * If the returned SuiSlider's orientation doesn't match that of the given
-     * SuiScrollBar, an IllegalArgumentException will be thrown when this appearance
+     * If the returned Slider's orientation doesn't match that of the given
+     * ScrollBar, an IllegalArgumentException will be thrown when this appearance
      * is installed on a scroll bar.
-     *
+     * 
+     * 
+     * 
      * @param bar the bar to create the slider for
      * @param orientation the orientation (matching that of the passed scroll bar) that
      *      the slider should use
      * @return the new slider
      */
-    public SuiSlider createSlider(SuiScrollBar bar, int orientation);
+    public Slider createSlider(ScrollBar bar, int orientation);
 }

@@ -6,12 +6,12 @@
 
 package mdes.slick.sui.test;
 
-import mdes.slick.sui.SuiButton;
-import mdes.slick.sui.SuiContainer;
-import mdes.slick.sui.SuiDisplay;
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Container;
+import mdes.slick.sui.Display;
 import mdes.slick.sui.Timer;
-import mdes.slick.sui.event.SuiActionEvent;
-import mdes.slick.sui.event.SuiActionListener;
+import mdes.slick.sui.event.ActionEvent;
+import mdes.slick.sui.event.ActionListener;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -38,39 +38,39 @@ public class TimerTest extends BasicGame {
         super("TimerTest");
     }
     
-    private SuiDisplay disp;
+    private Display disp;
     private Timer timer = new Timer(1500);
-    private SuiContainer panel;
+    private Container panel;
     
     public void init(GameContainer container) throws SlickException {
-        disp = new SuiDisplay(container);
+        disp = new Display(container);
         
         timer.setRepeats(true);
         
-        SuiButton btn = new SuiButton("Start Timer");
+        Button btn = new Button("Start Timer");
         btn.pack();
         btn.setLocation(200, 200);
-        btn.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 timer.start();
             }
         });
         disp.add(btn);
         btn.setToolTipText("This starts the timer.");
         
-        SuiButton btn2 = new SuiButton("Stop Timer");
+        Button btn2 = new Button("Stop Timer");
         btn2.pack();
         btn2.setWidth(btn.getWidth());
         btn2.setLocation(btn.getX(), btn.getY()+btn2.getHeight()+5);
-        btn2.addActionListener(new SuiActionListener() {
-            public void actionPerformed(SuiActionEvent e) {
+        btn2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 timer.stop();
             }
         });
         disp.add(btn2);
         btn2.setToolTipText("This stops the timer.");
         
-        panel = new SuiContainer();
+        panel = new Container();
         panel.setOpaque(true);
         panel.setBackground(Color.blue);
         panel.setBounds(btn.getX()+btn.getWidth()+25, 5, 50, 50);

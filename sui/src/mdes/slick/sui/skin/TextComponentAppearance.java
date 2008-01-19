@@ -7,7 +7,7 @@
 package mdes.slick.sui.skin;
 
 import mdes.slick.sui.Point;
-import mdes.slick.sui.SuiTextComponent;
+import mdes.slick.sui.TextComponent;
 
 /**
  *
@@ -15,6 +15,6 @@ import mdes.slick.sui.SuiTextComponent;
  */
 public interface TextComponentAppearance extends ComponentAppearance {
     
-    public int viewToModel(SuiTextComponent comp, float x, float y);
-    public Point modelToView(SuiTextComponent comp, int pos);
+    public int viewToModel(TextComponent comp, float x, float y);
+    public Point modelToView(TextComponent comp, int pos);
 }
