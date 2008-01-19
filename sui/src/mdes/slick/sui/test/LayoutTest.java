@@ -52,7 +52,7 @@ public class LayoutTest extends BasicGame {
 	
 	window = new Frame("5px Spacing Vertical Center");
 	layout = new RowLayout();
-	layout.setPadding(new Padding(5));
+	layout.setVerticalGap(5);
 	layout.setHorizontalAlignment(RowLayout.CENTER);
 	window.setLayout(layout);
 	window.setSize(200, 500);
@@ -61,7 +61,7 @@ public class LayoutTest extends BasicGame {
 	
 	window = new Frame("5px Spacing Horizonal Bottom Center");
 	layout = new RowLayout(true);
-	layout.setPadding(new Padding(5));
+	layout.setHorizontalGap(5);
 	layout.setVerticalAlignment(RowLayout.BOTTOM);
 	layout.setHorizontalAlignment(RowLayout.CENTER);
 	window.setLayout(layout);

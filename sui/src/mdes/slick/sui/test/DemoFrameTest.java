@@ -1,5 +1,5 @@
 /*
- * DemoWindowTest.java
+ * DemoFrameTest.java
  *
  * Created on November 10, 2007, 10:45 PM
  */
@@ -21,18 +21,18 @@ import org.newdawn.slick.SlickException;
  *
  * @author davedes
  */
-public class DemoWindowTest extends BasicGame {
+public class DemoFrameTest extends BasicGame {
     
     public static void main(String[] args) throws Exception {
-        AppGameContainer app = new AppGameContainer(new DemoWindowTest());
+        AppGameContainer app = new AppGameContainer(new DemoFrameTest());
         app.setDisplayMode(800,600,false);
         app.start();
     }
     
     /**
-     * Creates a new instance of DemoWindowTest
+     * Creates a new instance of DemoFrameTest
      */
-    public DemoWindowTest() {
+    public DemoFrameTest() {
         super("DemoContainerTest");
     }
     
@@ -43,7 +43,7 @@ public class DemoWindowTest extends BasicGame {
         
         disp = new Display(container);
         
-        Container demo = new DemoWindow();
+        Container demo = new DemoFrame();
         demo.setLocationRelativeTo(disp);
         
         disp.add(demo);
