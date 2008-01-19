@@ -81,7 +81,7 @@ Next we set up a layout for our content panel, which evenly spaces the component
         content.setLayout(layout);
 }}}
 
-Finally, we finish by adding a button and a label to our content panel. We specifically assign the two components sizes, which are then used by our RowLayout. 
+Finally, we finish by initializing and adding a button and label to our content panel. 
 {{{
          //add a button to our content panel
         Button btn = new Button("Clicky");
