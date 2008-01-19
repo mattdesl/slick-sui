@@ -1,0 +1,9 @@
+#summary Simple lessons for SUI beginners.
+
+_Sui_ is a GUI toolkit that should be familiar to users of other toolkits, such as Swing/AWT. These lessons assume the reader has prior knowledge of the Slick API and a general understanding of GUI toolkits.
+
+= Lesson 1: The Basics =
+
+All widgets derive from a base `Component` class. A panel, or `Container`, is a widget that can hold child components. Most SUI components tend to extend `Container`.
+
+The top-level container, `Display`, is used to render, update, and gather input for the GUI tree. For most of our tests we will be using a single `Display` instance, but in your final games you may choose to use multiple GUI trees throughout different game states.
