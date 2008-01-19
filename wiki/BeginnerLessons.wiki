@@ -98,3 +98,6 @@ Finally, we finish by initializing and adding a button and label to our content 
         //add the content panel to the display so it can be rendered
         display.add(content);
 }}}
+
+Here is our finished product:
+[http://img406.imageshack.us/img406/6017/lesson1jf3.jpg]
