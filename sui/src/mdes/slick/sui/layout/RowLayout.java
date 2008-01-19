@@ -1,8 +1,8 @@
 package mdes.slick.sui.layout;
 
-import mdes.slick.sui.Padding;
 import mdes.slick.sui.Component;
 import mdes.slick.sui.Container;
+import mdes.slick.sui.Dimension;
 
 /**
  * 
@@ -57,7 +57,7 @@ public class RowLayout implements LayoutManager {
     }
 
     public void doLayout(Container container) {
-	float availibleWidth = LayoutUtil.getAvailibleWidth(container);
+        float availibleWidth = LayoutUtil.getAvailibleWidth(container);
 	float availibleHeight = LayoutUtil.getAvailibleHeight(container);
 	float maxChildWidth = LayoutUtil.getMaxChildWidth(container);
 	float maxChildHeight = LayoutUtil.getMaxChildHeight(container);
@@ -82,6 +82,7 @@ public class RowLayout implements LayoutManager {
 
 	for (int i = 0; i < container.getChildCount(); i++) {
 	    Component child = container.getChild(i);
+            
 	    if (horizontal) {
 		switch (vAlign) {
 		case BOTTOM:
