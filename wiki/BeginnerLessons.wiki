@@ -58,7 +58,7 @@ public class Lesson1 extends BasicGame {
 
 
 = Lesson 1 =
-In this lesson we will learn about containers, buttons, labels and layouts. We will create a panel that contains a button and a label and we will give it a RowLayout to evenly space the two child components.
+In this lesson we'll learn about containers, buttons, labels and layouts. We will create a panel that contains a button and a label and we will give it a RowLayout to evenly space the two child components.
 You can see the full source for the lesson [http://slick-sui.googlecode.com/svn/trunk/sui/src/mdes/slick/sui/test/Lesson1.java here].
 
 The first thing we will learn about is a `Container` widget. These are meant to hold child components. With the default skin, a `Container` is initially not renderable and its bounds (x, y, width, height) are all set to zero.
@@ -99,5 +99,13 @@ Finally, we finish by initializing and adding a button and label to our content 
         display.add(content);
 }}}
 
-Here is our finished product:
 [http://img406.imageshack.us/img406/6017/lesson1jf3.jpg]
+
+= Lesson 2 = 
+In this lesson we'll take a look at events, frames, check boxes and draggable windows.
+
+= Lesson 3 = 
+In this lesson we'll learn about text components, sliders, and tooltips.
+
+= Lesson 4 = 
+In this lesson we'll learn about basic skin and theme manipulation.
