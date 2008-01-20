@@ -15,7 +15,10 @@ import mdes.slick.sui.event.*;
 import mdes.slick.sui.layout.*;
 
 /**
- * This lesson explains containers, buttons, labels and layouts.
+ * In this lesson we will learn about containers, buttons, labels and layouts. 
+ * We will create a panel that contains a button and a label and we will 
+ * give it a RowLayout to evenly space the two child components.
+ *
  * @author davedes
  */
 public class Lesson1 extends BasicGame {
@@ -34,9 +37,10 @@ public class Lesson1 extends BasicGame {
     }
     
     public void init(GameContainer container) throws SlickException {
+        //set up a nice blue background
         Color background = new Color(71,102,124);
         container.getGraphics().setBackground(background);
-        
+
         //we create a Sui display from our Slick container
         display = new Display(container);
         
@@ -47,7 +51,7 @@ public class Lesson1 extends BasicGame {
         content.setOpaque(true); //ensures that the background is drawn
         content.setBackground(Color.darkGray); //sets the background color
         
-        //give our content a vertical layout
+        //give our content a row layout that is aligned (horiz) left and (vert) center.
         RowLayout layout = new RowLayout(true, RowLayout.LEFT, RowLayout.CENTER);
         content.setLayout(layout);
         
@@ -57,7 +61,7 @@ public class Lesson1 extends BasicGame {
         content.add(btn);
         
         //add a label to our content panel
-        Label label = new Label("This is a test.");
+        Label label = new Label("This is a test");
         label.setForeground(Color.white); //sets the foreground (text) color
         label.pack(); //pack the label with the current text, font and padding
         label.setHeight(btn.getHeight()); //set same size between the two components
