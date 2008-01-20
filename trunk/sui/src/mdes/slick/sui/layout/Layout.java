@@ -1,12 +1,11 @@
 package mdes.slick.sui.layout;
 
-import mdes.slick.sui.SuiContainer;
+import mdes.slick.sui.Container;
 
 /**
  *
  * @author Dantarion
  */
-public interface SuiLayout
-{
-	public void doLayout(SuiContainer container);
+public interface Layout {
+    public void doLayout(Container container);
 }
