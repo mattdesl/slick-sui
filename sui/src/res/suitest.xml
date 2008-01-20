@@ -1,0 +1,37 @@
+<!-- A SUI skin file. -->
+<skin id="Bubble Skin" >
+    <textures big="true">
+        <sheet id="blue" ref="ui_blue.png" />
+        <sheet id="red" ref="ui_red.png" />
+        <sheet id="silver" ref="ui_silver.png" />
+        
+        <!-- Bound checking is optional. -->
+        <bounds ref="bounds.png" r="255" g="255" b="255" a="255" />
+        
+        <!-- The first declared sheet is defaulted unless specified. -->
+        <defaultSheet id="red" />
+    </textures>
+    
+    <resources>
+        <object id="OK_CLOSE" value="true" />
+        <font id="simple" type="AngelCodeFont" fnt="verdana.fnt" img="verdana.png" />
+    </resources>
+    
+    <appearances>
+        <component id="button" rect="0 0 100 100">
+            <part align="top left" rect="0 0 2 4">
+                <state type="pressed" rect="0 0 2 4" />
+                <state type="released" rect="10 10 25 43" />
+                <state type="rollover" rect="55 25 45 73" />
+            </part>
+            <part align="left" rect="0 0 2 4">
+                <state type="pressed" rect="0 0 2 4" />
+            </part>
+            <part align="center" rect="0 0 2 4">
+                <state type="pressed" rect="0 0 2 4" />
+            </part>
+            ...
+        </component>
+        ... repeat for other components
+    </appearances>    
+</skin>

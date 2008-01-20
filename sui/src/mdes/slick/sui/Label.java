@@ -100,6 +100,7 @@ public class Label extends Container {
     
     public void updateAppearance() { 
         setAppearance(Sui.getSkin().getLabelAppearance(this)); 
+        setPreferredSize(getPackedSize());
     }
     
     public void setImageFilter(Color filter) {
@@ -114,10 +115,11 @@ public class Label extends Container {
      * Packs this label based on current font & text,
      * leaving a space for padding.
      */
-    public void pack() {
+    protected Dimension getPackedSize() {
         Font font = getFont();
         float objWidth = 0;
         float objHeight = 0;
+        Dimension d = new Dimension();
         
         if (getImage()!=null) {
             objWidth = getImage().getWidth();
@@ -130,8 +132,13 @@ public class Label extends Container {
         }
         
         Padding padding = getPadding();
-        setWidth(padding.left + objWidth + padding.right);
-        setHeight(padding.top + objHeight + padding.bottom);
+        d.width = padding.left + objWidth + padding.right;
+        d.height = padding.top + objHeight + padding.bottom;
+        return d;
+    }
+    
+    public void pack() {
+        setSize(getPackedSize());
     }
     
     public void setFont(Font f) {

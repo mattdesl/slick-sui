@@ -60,7 +60,7 @@ public class Button extends Label {
         this();
         setText(text);
         actionCommand = text;
-        pack(); //TODO: remove pack here
+        pack();
     }
     
     /**
@@ -91,9 +91,7 @@ public class Button extends Label {
     
     public void updateAppearance() {
         setAppearance(Sui.getSkin().getButtonAppearance(this));
-        //System.out.println("hey "+pack());
-        //if (getWidth()==0 || getHeight()==0)
-            
+        setPreferredSize(getPackedSize());     
     }
         
     /**

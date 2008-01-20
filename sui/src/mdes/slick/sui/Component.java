@@ -116,8 +116,7 @@ public abstract class Component {
     private Dimension cachedSize = new Dimension();
     private Point cachedLocation = new Point();
     private Point cachedAbsoluteLocation = new Point();
-    
-    
+    private Dimension preferredSize = new Dimension();
     
     /**
      * Whether this component is ignoring events
@@ -1216,7 +1215,17 @@ public abstract class Component {
         this.sizeChanged = sizeChanged;
     }
     
+    //TODO: fix crappy polling stuff
     void pollEnded() {
         this.sizeChanged = false;
+    }
+    
+    public Dimension getPreferredSize() {
+        return preferredSize;
+    }
+    
+    //used by layouts
+    public void setPreferredSize(Dimension preferredSize) {
+        this.preferredSize = preferredSize;
     }
 }

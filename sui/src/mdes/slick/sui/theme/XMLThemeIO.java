@@ -156,6 +156,9 @@ public class XMLThemeIO {
         String gstr = e.getAttribute("g");
         String bstr = e.getAttribute("b");
         String astr = e.getAttribute("a");
+        boolean hasAlpha = true;
+        if (astr.length()==0)
+            hasAlpha = false;
         
         //first try to parse all as ints
         try { 
@@ -163,14 +166,14 @@ public class XMLThemeIO {
                     Integer.parseInt(rstr),
                     Integer.parseInt(gstr),
                     Integer.parseInt(bstr),
-                    Integer.parseInt(astr)); 
+                    hasAlpha ? Integer.parseInt(astr) : 255); 
         } catch (NumberFormatException exc) {
             //if that fails, try all floats
             color = new ColorUIResource(
                     Float.parseFloat(rstr),
                     Float.parseFloat(gstr),
                     Float.parseFloat(bstr),
-                    Float.parseFloat(astr));
+                    hasAlpha ? Float.parseFloat(astr) : 1f);
         }
         return color;
     }
