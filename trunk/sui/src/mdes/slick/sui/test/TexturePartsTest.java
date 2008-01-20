@@ -35,6 +35,7 @@ public class TexturePartsTest extends BasicGame {
     private Sheet sheet = null;
     private Mask mask = null;
     private boolean hover = false;
+    private int sizeMode = 0;
     
     public void init(GameContainer container) throws SlickException {
         container.getGraphics().setBackground(Color.lightGray);
@@ -77,19 +78,38 @@ public class TexturePartsTest extends BasicGame {
         g.drawString("Press space to toggle size change", 10, 25);
         if (hover)
             g.drawString("Mouse over!", 10, 40);
+        
+        g.drawString("Individual Parts:", x, y-15);
         parts.draw1(g, x, y, width, height, 0);
-        mask.image.draw(40, y);
-        parts.draw1(g, 40, y+defHeight+10, defWidth, defHeight, 5);
+        
+        
+        int px = 40;
+        g.drawString("Full Image:", px, y-15);
+        parts.area.draw(px, y);
+        
+        g.drawString("Exploded:", px, y+defHeight+5);
+        parts.draw1(g, px, y+defHeight+20, defWidth, defHeight, 5);
+        
+        /*for (int x1=0; x1<10; x1++) {
+            for (int y1=0; y1<10; y1++) {
+                parts.draw1(g, 50+x1*width, 50+y1*height, width, height, 0);
+            }
+        }*/
     }
     
     public void keyPressed(int key, char c) {
         if (key == Input.KEY_SPACE) {
-            if (width==defWidth) {
-                width*=2;
-                height*=2;
+            sizeMode++;
+            if (sizeMode==1) {
+                width = defWidth/2;
+                height = defHeight/2;
+            } else if (sizeMode==2) {
+                width = defWidth*2;
+                height = defHeight*2;
             } else {
                 width = defWidth;
                 height = defHeight;
+                sizeMode = 0;
             }
         }
     }
