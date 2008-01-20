@@ -90,6 +90,8 @@ public class TexturePartsTest extends BasicGame {
         g.drawString("Exploded:", px, y+defHeight+5);
         parts.draw1(g, px, y+defHeight+20, defWidth, defHeight, 5);
         
+        //parts.area.draw(x, y, width, height);
+        
         /*for (int x1=0; x1<10; x1++) {
             for (int y1=0; y1<10; y1++) {
                 parts.draw1(g, 50+x1*width, 50+y1*height, width, height, 0);
