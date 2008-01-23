@@ -20,7 +20,7 @@ public class CheckBox extends ToggleButton {
     
     private float boxHeight, boxWidth;
     private Padding outerPadding = new Padding();
-    
+   
     public static final int LEADING = 0;
     public static final int TRAILING = 1;
     
