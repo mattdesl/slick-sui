@@ -7,7 +7,7 @@
 package mdes.slick.sui.test;
 
 import mdes.slick.sui.Sui;
-import mdes.slick.sui.Button;
+import mdes.slick.sui.*;
 import mdes.slick.sui.CheckBox;
 import mdes.slick.sui.Display;
 import mdes.slick.sui.Label;
@@ -38,7 +38,7 @@ public class TextComponentTest extends BasicGame {
         app.setDisplayMode(800,600,false);
         app.start();
     }
-    
+   
     /** Creates a new instance of TextComponentTest */
     public TextComponentTest() {
         super("TextComponentTest");
@@ -106,15 +106,23 @@ public class TextComponentTest extends BasicGame {
         //start off with focused field
         field.grabFocus();
         
-        String longStr = "Hello, feel free to write some stuff here.";
-        TextArea area = new TextArea(longStr, 10, 4);
+        String longStr = "Hello, feel free to write some stuff here. Hello, feel free to write some stuff here. Hello, feel free to write some stuff here. Hello, feel free to write some stuff here. Hello, feel free to write some stuff here. Hello, feel free to write some stuff here.";
+        TextArea area = new TextArea(longStr, 10, 6);
+        //area.setBackground(Color.red);
+        //area.setOpaque(true);
         //area.setMaxChars(350);
                 
         ScrollPane pane = new ScrollPane(area);
         pane.setLocation(label.getX(), label.getY()+80);
         pane.setSize(area.getWidth(), area.getHeight());
-        pane.setOpaque(true);
-        pane.setBackground(Color.blue);
+        //pane.setOpaque(true);
+        //pane.setBackground(Color.green);
+        /*ScrollBar bar = new ScrollBar(ScrollBar.VERTICAL);
+        bar.setLocation(100, 100);
+        bar.setSize(16, 100);
+        bar.getSlider().setThumbSize(.10f);
+        bar.setBackground(Color.blue);
+        bar.setOpaque(true);*/
         display.add(pane);
     }
     

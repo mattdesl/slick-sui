@@ -58,6 +58,8 @@ public class SimpleScrollBarAppearance extends SimpleContainerAppearance impleme
             size = bar.getHeight();
         } else
             size = bar.getWidth();
+        if (size==0)
+            size = ScrollBar.DEFAULT_SIZE;
         Button btn = new SimpleArrowButton(angle);
         btn.setSize(size, size);
         return btn;

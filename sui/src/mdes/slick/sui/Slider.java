@@ -244,18 +244,19 @@ public class Slider extends Container implements ScrollConstants {
     }
     
     public void setValue(float value) {
+        float old = this.value;
         if(value > 1) 
             value = 1;
         if(value < 0)
             value = 0;
         this.value = value;
-
-        if(orientation==HORIZONTAL) 
-            thumbButton.setX(value*(getWidth()-thumbButton.getWidth()));
-        else
-            thumbButton.setY(value*(getHeight()-thumbButton.getHeight()));
-        
-        fireStateChanged();
+        if (old!=this.value) {
+            if(orientation==HORIZONTAL) 
+                thumbButton.setX(value*(getWidth()-thumbButton.getWidth()));
+            else
+                thumbButton.setY(value*(getHeight()-thumbButton.getHeight()));
+            fireStateChanged();
+        }
     }
     
     public float getValue() {
@@ -453,11 +454,19 @@ public class Slider extends Container implements ScrollConstants {
             if (orientation==HORIZONTAL) {
                 float x = abx-lastX;
                 x = thumbButton.getX()+x;
-                setValue(x/(getWidth()-thumbButton.getWidth()));
+                float s = getWidth()-thumbButton.getWidth();
+                if (s==0)
+                    setValue(0f);
+                else
+                    setValue(x/s);
             } else {
                 float y = aby-lastY;
                 y = thumbButton.getY()+y;
-                setValue(y/(getHeight()-thumbButton.getHeight()));
+                float s = getHeight()-thumbButton.getHeight();
+                if (s==0)
+                    setValue(0f);
+                else 
+                    setValue(y/s);
             }
             
             lastX = abx;

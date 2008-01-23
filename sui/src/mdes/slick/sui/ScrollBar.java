@@ -144,29 +144,11 @@ public class ScrollBar extends Container implements ScrollConstants {
         slider.addMouseWheelListener(incDecListener);
         slider.getThumbButton().addMouseWheelListener(incDecListener);
         addMouseWheelListener(incDecListener);
-
+        
         updateWidth();
         updateHeight();
     }
-    
-    /**
-     * Adds the specified listener to the list.
-     *
-     * @param s the listener to receive events
-     */
-    public synchronized void addChangeListener(ChangeListener s) {
-        listenerList.add(ChangeListener.class, s);
-    }
-    
-    /**
-     * Removes the specified listener from the list.
-     *
-     * @param s the listener to remove
-     */
-    public synchronized void removeChangeListener(ChangeListener s) {
-        listenerList.remove(ChangeListener.class, s);
-    }
-            
+                
     /**
      * Gets the "increment" button.
      * 
@@ -188,6 +170,10 @@ public class ScrollBar extends Container implements ScrollConstants {
     }
                 
     private void updateWidth() {
+        if (getWidth()==0) {
+            setWidth(DEFAULT_SIZE);
+            return;
+        }
         if (orientation==HORIZONTAL) {
             incButton.setX(getWidth()-incButton.getWidth());
             slider.setX(decButton.getWidth());
@@ -203,6 +189,10 @@ public class ScrollBar extends Container implements ScrollConstants {
     }
     
     private void updateHeight() {
+        if (getHeight()==0) {
+            setHeight(DEFAULT_SIZE);
+            return;
+        }
         if (orientation==HORIZONTAL) {
             incButton.setHeight(Math.min(getHeight(), incButton.getHeight()));
             decButton.setHeight(Math.min(getHeight(), decButton.getHeight()));
@@ -244,7 +234,13 @@ public class ScrollBar extends Container implements ScrollConstants {
     }
     
     public void scrollByUnit(int direction) {
-        float size = scrollSpace + slider.getThumbButton().getWidth() / slider.getWidth();
+        float size;
+        if (orientation==VERTICAL) {
+            direction *= -1;
+            size = scrollSpace + slider.getThumbButton().getHeight() / slider.getHeight();
+        } else
+            size = scrollSpace + slider.getThumbButton().getWidth() / slider.getWidth();
+        
         if (direction==DECREMENT)
             setValue(getValue() - size);
         else
