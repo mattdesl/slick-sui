@@ -53,7 +53,7 @@ public class SliderTest extends BasicGame {
         
         ScrollBar bar = new ScrollBar(ScrollBar.HORIZONTAL);
         bar.setLocation(slider.getX(), slider.getY()+slider.getHeight()+5);
-        bar.setSize(slider.getWidth(), 16);
+        bar.setSize(100, 16);
         bar.getSlider().setThumbSize(.10f);
         disp.add(bar);
         
@@ -61,7 +61,7 @@ public class SliderTest extends BasicGame {
         slider2.setSize(16, 100);
         slider2.setLocation(slider.getX(), slider.getY()+45+slider.getHeight());
         slider2.setThumbSize(.05f);
-        disp.add(slider2);
+        //disp.add(slider2);
         
         Frame dragger1 = new Frame("No drag.");
         dragger1.setBounds(200, 300, 300, 100);

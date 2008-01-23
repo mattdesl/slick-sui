@@ -23,12 +23,13 @@ public class ScrollPane extends Container implements ScrollConstants {
     public static final int SCROLLBAR_NEVER = 20;
     
     private int horizontalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
-    private int verticalScrollBarPolicy = SCROLLBAR_AS_NEEDED;
+    private int verticalScrollBarPolicy = SCROLLBAR_ALWAYS;
     
     private ScrollBar horizontalScrollBar = null;
     private ScrollBar verticalScrollBar = null;
     
     private Component view = null;
+    private Container viewport = new Container();
     
     public static final int CORNER_SIZE = 16;
     
@@ -42,12 +43,33 @@ public class ScrollPane extends Container implements ScrollConstants {
         if (view!=null) {
             this.view = view;
             view.setLocation(0f, 0f);
-            add(view);
+            viewport.add(view);
+            viewport.setLocation(-1f, -1f);
+            add(viewport);
         }
     }
     
     public ScrollPane() {
         this(null);
+    }
+    
+    public void setWidth(float w) {
+        super.setWidth(w);
+        float o = 0;
+        if (verticalScrollBar.isVisible())
+            o = verticalScrollBar.getWidth();
+        viewport.setWidth(w - o);
+        verticalScrollBar.setLocation(w-verticalScrollBar.getWidth(), 0);
+        //TODO: set minimum size of component
+    }
+    
+    public void setHeight(float h) {
+        super.setHeight(h);
+        float o = 0;
+        if (horizontalScrollBar.isVisible())
+            o = horizontalScrollBar.getHeight();
+        viewport.setHeight(h);
+        horizontalScrollBar.setLocation(0, h-horizontalScrollBar.getHeight());
     }
     
     /**
@@ -97,11 +119,11 @@ public class ScrollPane extends Container implements ScrollConstants {
         
         //de-init components
         if (horizontalScrollBar!=null) {
-            horizontalScrollBar.removeChangeListener(horizListener);
+            horizontalScrollBar.getSlider().removeChangeListener(horizListener);
             remove(horizontalScrollBar);
         }
         if (verticalScrollBar!=null) {
-            verticalScrollBar.removeChangeListener(vertListener);
+            verticalScrollBar.getSlider().removeChangeListener(vertListener);
             remove(verticalScrollBar);
         }
         
@@ -125,20 +147,20 @@ public class ScrollPane extends Container implements ScrollConstants {
             throw new IllegalArgumentException("incorrect scroll bar orientation passed to the scroll pane");
         
         horizontalScrollBar.setValue(0f);
-        horizontalScrollBar.addChangeListener(horizListener);
+        horizontalScrollBar.getSlider().addChangeListener(horizListener);
         verticalScrollBar.setValue(0f);
-        verticalScrollBar.addChangeListener(vertListener);
+        verticalScrollBar.getSlider().addChangeListener(vertListener);
+        add(horizontalScrollBar);
+        add(verticalScrollBar);
         
         updateScrollBarShowing();
     }
-    
+        
     public void updateComponent(GUIContext ctx, int delta) {
         super.updateComponent(ctx, delta);
         
         if (view!=null) {
-            if (view.isSizeChanged()) {
-                updateScrollBarShowing();
-            }
+            updateScrollBarShowing();
         }
     }
     
@@ -153,7 +175,23 @@ public class ScrollPane extends Container implements ScrollConstants {
         horizontalScrollBar.setWidth(getWidth()-corner);
         verticalScrollBar.setHeight(getHeight()-corner);
         
-        System.out.println(horiz+" "+vert);
+        float width = viewport.getWidth();
+        float height = viewport.getHeight();
+        
+        if (vert) //vertical exists
+            viewport.setWidth(getWidth()-verticalScrollBar.getWidth());
+        else
+            viewport.setWidth(getWidth());
+        if (horiz)
+            viewport.setHeight(getHeight()-horizontalScrollBar.getHeight());
+        else
+            viewport.setHeight(getHeight());
+        
+        //horizontalScrollBar.getSlider().setThumbSize()
+        if (view!=null) {
+            verticalScrollBar.getSlider().setThumbSize(getHeight()/view.getHeight());
+            horizontalScrollBar.getSlider().setThumbSize(getWidth()/view.getWidth());
+        }
     }
     
     protected boolean isHorizontalScrollBarNeeded() {
@@ -172,15 +210,20 @@ public class ScrollPane extends Container implements ScrollConstants {
     
     protected class HorizontalChangeListener implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
-            System.out.println("horiz");
-            updateScrollBarShowing();
+            //System.out.println("horiz");
+            //updateScrollBarShowing();
+            
         }
     }
     
     protected class VerticalChangeListener implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
-            System.out.println("vert");
-            updateScrollBarShowing();
+            if (view!=null) {
+                float y = Math.min(view.getHeight(), verticalScrollBar.getValue()*-view.getHeight());
+                System.out.println(y);
+                view.setY(y);
+            }
+            //updateScrollBarShowing();
         }
     }
 }

@@ -24,7 +24,9 @@ public class TextArea extends TextComponent {
     
     private boolean wrapEnabled = true;
     private boolean wrapDirty = true;
-        
+    private Dimension minSize = new Dimension();
+    private boolean resizing = true;
+    
     private int currentLine = 0;
     
     protected KeyListener keyListener = new AreaKeyListener();
@@ -70,6 +72,7 @@ public class TextArea extends TextComponent {
                 height = oneRow * getLineCount();               
             }
             setSize(width, height);
+            getMinimumSize().setSize(width, height);
         }
     }
     
@@ -100,6 +103,13 @@ public class TextArea extends TextComponent {
     protected void textChanged(String oldText) {
         super.textChanged(oldText);
         wrapDirty = true;
+    }
+    public void setAutoResize(boolean resizing) {
+        this.resizing = resizing;
+    }
+    
+    public boolean isAutoResize() {
+        return resizing;
     }
     
     protected void caretPositionChanged() {
@@ -147,11 +157,15 @@ public class TextArea extends TextComponent {
                 if (font instanceof AngelCodeFont) {
                     yoff = ((AngelCodeFont)font).getYOffset(value);
                 }
+                //TODO: add '\n' support for non-wrapped text
                 float width = font.getWidth(value);
                 lines.add( new Line(value, yoff, width, defaultLineHeight, 0) );
                 
                 float maxHeight = pad.top + defaultLineHeight + pad.bottom;
-                setHeight(Math.max(getHeight(), maxHeight));
+                if (resizing) {
+                    setHeight(Math.max(getMinimumSize().height, maxHeight));
+                    setWidth(Math.max(getMinimumSize().width, pad.left+width+pad.right));
+                }
                 return;
             }
             
@@ -208,7 +222,9 @@ public class TextArea extends TextComponent {
                 lines.add( new Line("", 0f, 0f, defaultLineHeight, 0) );
             
             float maxHeight = pad.top + defaultLineHeight*lines.size() + pad.bottom;
-            setHeight(Math.max(getHeight(), maxHeight));
+            if (resizing) {
+                setHeight(Math.max(getMinimumSize().height, maxHeight));
+            }
         }
     }
     
@@ -389,5 +405,13 @@ public class TextArea extends TextComponent {
             setText(text);
             setCaretPosition(caretPos);
         }
+    }
+
+    public Dimension getMinimumSize() {
+        return minSize;
+    }
+
+    public void setMinimumSize(Dimension minSize) {
+        this.minSize = minSize;
     }
 }
