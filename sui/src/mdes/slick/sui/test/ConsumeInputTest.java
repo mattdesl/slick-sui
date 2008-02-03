@@ -6,12 +6,15 @@
 
 package mdes.slick.sui.test;
 
+import mdes.slick.sui.Button;
+import mdes.slick.sui.Container;
 import mdes.slick.sui.Display;
-import mdes.slick.sui.Label;
-import mdes.slick.sui.Frame;
+import mdes.slick.sui.Sui;
+import mdes.slick.sui.ToggleButton;
+import mdes.slick.sui.event.ActionEvent;
+import mdes.slick.sui.event.ActionListener;
 import mdes.slick.sui.event.MouseAdapter;
 import mdes.slick.sui.event.MouseEvent;
-import mdes.slick.sui.event.MouseListener;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -44,7 +47,43 @@ public class ConsumeInputTest extends BasicGame {
         disp.setSendingGlobalEvents(false);
         disp.setName("display");
 
-        MouseListener press = new MouseAdapter() {
+        container.getGraphics().setBackground(Sui.getTheme().getBackground());
+        
+        Container c = new Container();
+        c.setSize(200, 200);
+        c.setLocation(100, 150);
+        c.setOpaque(true);
+        c.setBackground(Color.lightGray);
+        
+        final ToggleButton ena = new ToggleButton("Toggle Enable");
+        ena.pack();
+        ena.setSelected(true);
+        ena.setLocation(10, 10);
+        c.add(ena);
+        
+        final Button btn = new Button("Test");
+        btn.pack();
+        btn.setLocation(ena.getWidth()+ena.getX()+5, 10);
+        
+        ena.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                btn.setEnabled(ena.isSelected());
+            }
+        });
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("button press");
+            }
+        });
+        c.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                System.out.println("mouse press");
+            }
+        });
+        c.add(btn);
+        disp.add(c);
+        
+        /*MouseListener press = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 System.out.println("Press From sui: "+e);
             }
@@ -78,7 +117,7 @@ public class ConsumeInputTest extends BasicGame {
         win.setSize(200, 200);
         win.setLocation(200, 200);
         win.getTitleBar().addMouseListener(press);
-        //disp.add(win);
+        //disp.add(win);*/
     }
     
     public void update(GameContainer container, int delta) throws SlickException {
@@ -97,6 +136,6 @@ public class ConsumeInputTest extends BasicGame {
     }
     
     public void mouseReleased(int button, int x, int y) {
-        System.out.println("Release from slick: "+x+", "+y);
+       System.out.println("Release from slick: "+x+", "+y);
     }
 }
