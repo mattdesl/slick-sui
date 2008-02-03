@@ -436,7 +436,7 @@ public class Display extends Container {
                 return;
             }
             
-            if (comp.isFocusable()) {
+            if (comp.isFocusable() && isEnabled()) {
                 if (comp.isRequestFocusEnabled())
                     comp.grabFocus();
             } else {
@@ -451,9 +451,9 @@ public class Display extends Container {
             bdown = true;
             if (comp.isEnabled()) {
                 comp.fireMouseEvent(MouseEvent.MOUSE_PRESSED, button, nx, ny, x, y);
-                if (comp.isConsumingEvents())
-                    input.consumeEvent();
             }
+            if (comp.isConsumingEvents())
+                input.consumeEvent();
             
             if (comp!=Display.this&&globalEvents && Display.this.isEnabled()) {
                 fireMouseEvent(MouseEvent.MOUSE_PRESSED, button, nx, ny, x, y);
@@ -480,9 +480,9 @@ public class Display extends Container {
                 int ny = (int)(y-dragComp.getAbsoluteY());
                 if (dragComp.isEnabled()) {
                     dragComp.fireMouseEvent(MouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
-                    if (dragComp.isConsumingEvents())
-                        input.consumeEvent();
                 }
+                if (dragComp.isConsumingEvents())
+                    input.consumeEvent();
                 if (dragComp!=Display.this&&globalEvents && Display.this.isEnabled())
                     fireMouseEvent(MouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
                 dragComp = null;
@@ -506,9 +506,9 @@ public class Display extends Container {
             
             if (comp.isEnabled()) {
                 comp.fireMouseEvent(MouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
-                if (comp.isConsumingEvents())
-                    input.consumeEvent();
             }
+            if (comp.isConsumingEvents())
+                input.consumeEvent();
             
             if (comp!=Display.this&&globalEvents && Display.this.isEnabled())
                 fireMouseEvent(MouseEvent.MOUSE_RELEASED, button, nx, ny, x, y);
