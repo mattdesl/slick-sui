@@ -47,7 +47,12 @@ public class TextComponentTest extends BasicGame {
     private Display display;
     
     public void init(GameContainer container) throws SlickException {
-        container.getInput().enableKeyRepeat(400, 50);
+        //we no longer use Slick's key repeat
+        //container.getInput().enableKeyRepeat(400, 50);
+        
+        //instead we will use the TextComponent key repeat with STANDARD delays
+        TextComponent.enableDefaultKeyRepeat();
+        
         container.getGraphics().setBackground(Sui.getTheme().getBackground());
         
         display = new Display(container);
