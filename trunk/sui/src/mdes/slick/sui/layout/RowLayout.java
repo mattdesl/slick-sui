@@ -18,9 +18,9 @@ public class RowLayout implements LayoutManager {
     final public static int MIDDLE = 1;
     final public static int BOTTOM = 2;
 
-    final public static int AUTOSPACING = Integer.MIN_VALUE;
+    final public static float AUTOSPACING = Float.MIN_VALUE;
     
-    private int spacing = AUTOSPACING;
+    private float spacing = AUTOSPACING;
     boolean horizontal = false;
     private int vAlign;
     private int hAlign;
@@ -37,7 +37,7 @@ public class RowLayout implements LayoutManager {
         this(horizontal, hAlign, vAlign, AUTOSPACING);
     }
     
-    public RowLayout(boolean horizonta, int hAlign, int vAlign, int spacing) {
+    public RowLayout(boolean horizonta, int hAlign, int vAlign, float spacing) {
         this.horizontal = horizontal;
         this.hAlign = hAlign;
         this.vAlign = vAlign;
@@ -152,11 +152,11 @@ public class RowLayout implements LayoutManager {
      * Sets the pixel spacing between components, or uses automatic spacing
      * if the spacing is equal to RowLayout.AUTOSPACING.
      */
-    public void setSpacing(int gap) {
-        this.spacing = gap;
+    public void setSpacing(float spacing) {
+        this.spacing = spacing;
     }
     
-    public int getSpacing() {
+    public float getSpacing() {
         return spacing;
     }
 
