@@ -1,8 +1,8 @@
 package mdes.slick.sui.layout;
 
+import mdes.slick.sui.Padding;
 import mdes.slick.sui.Component;
 import mdes.slick.sui.Container;
-import mdes.slick.sui.Dimension;
 
 /**
  * 
@@ -18,10 +18,9 @@ public class RowLayout implements LayoutManager {
     final public static int MIDDLE = 1;
     final public static int BOTTOM = 2;
 
-    final private static int AUTOSPACING = -1;
-    private int vgap = 5;
-    private int hgap = 5;
-    private boolean autoSpacing = true;
+    final public static int AUTOSPACING = Integer.MIN_VALUE;
+    
+    private int spacing = AUTOSPACING;
     boolean horizontal = false;
     private int vAlign;
     private int hAlign;
@@ -30,16 +29,21 @@ public class RowLayout implements LayoutManager {
 	this(false);
     }
     
-    public RowLayout(boolean horizontal, int hAlign, int vAlign) {
-        this.horizontal = horizontal;
-        this.hAlign = hAlign;
-        this.vAlign = vAlign;
-    }
-
     public RowLayout(boolean horizontal) {
 	this(horizontal, TOP, LEFT);
     }
     
+    public RowLayout(boolean horizontal, int hAlign, int vAlign) {
+        this(horizontal, hAlign, vAlign, AUTOSPACING);
+    }
+    
+    public RowLayout(boolean horizonta, int hAlign, int vAlign, int spacing) {
+        this.horizontal = horizontal;
+        this.hAlign = hAlign;
+        this.vAlign = vAlign;
+        this.spacing = spacing;
+    }
+
     public void setVerticalAlignment(int align) {
 	vAlign = align;
     }
@@ -47,7 +51,7 @@ public class RowLayout implements LayoutManager {
     public void setHorizontalAlignment(int align) {
 	hAlign = align;
     }
-    
+
     public boolean isHorizontal() {
 	return horizontal;
     }
@@ -57,7 +61,7 @@ public class RowLayout implements LayoutManager {
     }
 
     public void doLayout(Container container) {
-        float availibleWidth = LayoutUtil.getAvailibleWidth(container);
+	float availibleWidth = LayoutUtil.getAvailibleWidth(container);
 	float availibleHeight = LayoutUtil.getAvailibleHeight(container);
 	float maxChildWidth = LayoutUtil.getMaxChildWidth(container);
 	float maxChildHeight = LayoutUtil.getMaxChildHeight(container);
@@ -65,9 +69,10 @@ public class RowLayout implements LayoutManager {
 	float totalChildHeight = LayoutUtil.getChildrenHeight(container);
 	float startX = container.getPadding().left;
 	float startY = container.getPadding().top;
-	float spacing = computeSpacing();
+	float spacing = getSpacing();
 
 	if (spacing == AUTOSPACING) {
+            spacing = -1;
 	    if (horizontal) {
 		spacing = (availibleWidth - totalChildWidth)
 			/ (container.getChildCount() + 1);
@@ -82,7 +87,6 @@ public class RowLayout implements LayoutManager {
 
 	for (int i = 0; i < container.getChildCount(); i++) {
 	    Component child = container.getChild(i);
-            
 	    if (horizontal) {
 		switch (vAlign) {
 		case BOTTOM:
@@ -143,14 +147,17 @@ public class RowLayout implements LayoutManager {
 
 	}
     }
-
-    private float computeSpacing() {
-	if (this.isAutoSpacing())
-	    return AUTOSPACING;
-	if (horizontal)
-	    return getHorizontalGap();
-        else
-            return getVerticalGap();
+    
+    /**
+     * Sets the pixel spacing between components, or uses automatic spacing
+     * if the spacing is equal to RowLayout.AUTOSPACING.
+     */
+    public void setSpacing(int gap) {
+        this.spacing = gap;
+    }
+    
+    public int getSpacing() {
+        return spacing;
     }
 
     private void doHorizontal(Container container) {
@@ -159,29 +166,5 @@ public class RowLayout implements LayoutManager {
 
     private void doVertical(Container container) {
 
-    }
-
-    public int getVerticalGap() {
-        return vgap;
-    }
-
-    public void setVerticalGap(int vgap) {
-        this.vgap = vgap;
-    }
-
-    public int getHorizontalGap() {
-        return hgap;
-    }
-
-    public void setHorizontalGap(int hgap) {
-        this.hgap = hgap;
-    }
-
-    public boolean isAutoSpacing() {
-        return autoSpacing;
-    }
-
-    public void setAutoSpacing(boolean autoSpacing) {
-        this.autoSpacing = autoSpacing;
     }
 }
