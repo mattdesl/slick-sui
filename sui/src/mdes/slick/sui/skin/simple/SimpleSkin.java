@@ -30,6 +30,7 @@ import mdes.slick.sui.event.MouseEvent;
 import mdes.slick.sui.event.MouseListener;
 import mdes.slick.sui.skin.ScrollPaneAppearance;
 import mdes.slick.sui.skin.FrameAppearance;
+import mdes.slick.sui.List;
 
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
@@ -216,6 +217,10 @@ public class SimpleSkin implements Skin {
     
     public ComponentAppearance getWindowAppearance(Window window) {
         return containerAppearance;
+    }
+    
+    public ComponentAppearance getListAppearance(List comp) {
+	return containerAppearance;
     }
     
     private class CursorListener extends MouseAdapter {
