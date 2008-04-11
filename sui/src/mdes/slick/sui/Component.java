@@ -17,7 +17,6 @@ import mdes.slick.sui.event.MouseListener;
 import mdes.slick.sui.event.MouseWheelEvent;
 import mdes.slick.sui.event.MouseWheelListener;
 import mdes.slick.sui.skin.ComponentAppearance;
-import mdes.slick.sui.Theme;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -140,7 +139,7 @@ public abstract class Component {
      * <p>This method is typically called from the constructor of a 
      * subclass. It is usually implemented in the following manner:
      * <pre><code>public void updateAppearance() {
-     *     setAppearance(Sui.getSkin().getXXXAppearance());
+     *     setAppearance(Sui.getSkin().getXXXAppearance(this));
      * }</code></pre>
      * Where <code>getXXXAppearance</code> represents the component 
      * appearance (such as getButtonAppearance).
@@ -183,6 +182,9 @@ public abstract class Component {
      * @param s the listener to receive events
      */
     public synchronized void addMouseListener(MouseListener s) {
+	if (s == null) {
+	    return;
+	}
         listenerList.add(MouseListener.class, s);
     }
     
@@ -430,9 +432,8 @@ public abstract class Component {
     }
     
     /**
-     * Called to update this component. By default, this method will
-     * render the current appearance if it exists and is enabled. 
-     *
+     * Called to update this component. By default, this method does
+     * nothing.
      *
      * @param container the GUIContext we are rendering to
      * @param delta the delta time (in ms)
