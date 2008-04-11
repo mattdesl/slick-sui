@@ -178,15 +178,25 @@ public class Container extends Component {
     }
     
     /**
-     * Whether this container contains the specified Container.
+     * Whether this container contains the specified Component.
      * 
      * 
-     * @param c the container to check against
+     * @param c the componenet to check against
      * @return <tt>true</tt> if this container contains the specified
-     * 			Container
+     * 			component
      */
     public boolean containsChild(Component c) {
         return children.contains(c); //TODO: use binarySearch(c,zcomp) if not dirty
+    }
+    
+    /**
+     * Gets the index of the specified child Component.
+     * 
+     * @param c The component to check against
+     * @return The child index, or -1 if it was not found
+     */
+    public int getChildIndex(Component c) {
+	return children.indexOf(c);
     }
     
     /**
