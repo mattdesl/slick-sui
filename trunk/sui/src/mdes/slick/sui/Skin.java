@@ -6,7 +6,11 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.skin.*;
+import mdes.slick.sui.skin.ComponentAppearance;
+import mdes.slick.sui.skin.FrameAppearance;
+import mdes.slick.sui.skin.ScrollBarAppearance;
+import mdes.slick.sui.skin.ScrollPaneAppearance;
+import mdes.slick.sui.skin.SliderAppearance;
 
 import org.newdawn.slick.SlickException;
 
@@ -44,4 +48,5 @@ public interface Skin {
     public ScrollBarAppearance  getScrollBarAppearance(ScrollBar comp); 
     public ScrollPaneAppearance getScrollPaneAppearance(ScrollPane comp);
     public SliderAppearance     getSliderAppearance(Slider comp);
+    public ComponentAppearance	getListAppearance(List comp);
 }
