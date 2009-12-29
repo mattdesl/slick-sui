@@ -10,11 +10,12 @@ import mdes.slick.sui.event.ChangeEvent;
 import mdes.slick.sui.event.ChangeListener;
 import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.skin.ScrollPaneAppearance;
+
 import org.newdawn.slick.gui.GUIContext;
 
 /**
  *
- * @author davedes
+ * @author davedes and Olivier Arteau
  */
 public class ScrollPane extends Container implements ScrollConstants {
     
@@ -210,20 +211,21 @@ public class ScrollPane extends Container implements ScrollConstants {
     
     protected class HorizontalChangeListener implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
-            //System.out.println("horiz");
-            //updateScrollBarShowing();
-            
+            float x =
+        	-horizontalScrollBar.getValue()*
+        	(view.getWidth() - (getWidth() - ((isVerticalScrollBarNeeded()) ? CORNER_SIZE : 0)));
+            view.setX(x);
         }
     }
     
     protected class VerticalChangeListener implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
             if (view!=null) {
-                float y = Math.min(view.getHeight(), verticalScrollBar.getValue()*-view.getHeight());
-                System.out.println(y);
+        	float y =
+        	    -verticalScrollBar.getValue()*
+        	    (view.getHeight() - (getHeight() - ((isHorizontalScrollBarNeeded()) ? CORNER_SIZE : 0)));
                 view.setY(y);
             }
-            //updateScrollBarShowing();
         }
     }
 }
