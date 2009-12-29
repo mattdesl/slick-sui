@@ -8,6 +8,7 @@ package mdes.slick.sui;
 
 import mdes.slick.sui.event.ChangeEvent;
 import mdes.slick.sui.event.ChangeListener;
+import mdes.slick.sui.event.ResizeListener;
 import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.skin.ScrollPaneAppearance;
 
@@ -36,14 +37,18 @@ public class ScrollPane extends Container implements ScrollConstants {
     
     protected ChangeListener horizListener = new HorizontalChangeListener();
     protected ChangeListener vertListener = new VerticalChangeListener();
+    protected ResizeListener resizeListener = new ResizeListenerHandle();
     
     private Dimension lastSize = null;
+    private boolean autoScrolling = true;
     
     public ScrollPane(Component view) {
         this(true);
         if (view!=null) {
             this.view = view;
             view.setLocation(0f, 0f);
+            if (autoScrolling)
+        	view.addResizeListener(resizeListener);
             viewport.add(view);
             viewport.setLocation(-1f, -1f);
             add(viewport);
@@ -54,6 +59,36 @@ public class ScrollPane extends Container implements ScrollConstants {
         this(null);
     }
     
+    /**
+     * Return if the auto scrolling is activated.
+     * 
+     * @return
+     */
+    
+    public boolean isAutoScrolling() {
+        return autoScrolling;
+    }
+
+    /**
+     * Define if the ScrollPane will automaticly scroll when the size of 
+     * the view is changed.<br/>
+     * <br/> 
+     * Note : It will only auto scroll if the scrollbar was previously at the
+     * maximum value. 
+     *  
+     * @param autoScrolling
+     */
+    
+    public void setAutoScrolling(boolean autoScrolling) {
+	if (autoScrolling && !this.autoScrolling) {
+	    view.addResizeListener(resizeListener);
+	} else if (!autoScrolling && this.autoScrolling) {
+	    view.removeResizeListener(resizeListener);
+	}
+	
+        this.autoScrolling = autoScrolling;
+    }
+
     public void setWidth(float w) {
         super.setWidth(w);
         float o = 0;
@@ -155,6 +190,8 @@ public class ScrollPane extends Container implements ScrollConstants {
         add(verticalScrollBar);
         
         updateScrollBarShowing();
+        
+        // Adds resize listener to the view component /
     }
         
     public void updateComponent(GUIContext ctx, int delta) {
@@ -192,6 +229,17 @@ public class ScrollPane extends Container implements ScrollConstants {
         if (view!=null) {
             verticalScrollBar.getSlider().setThumbSize(getHeight()/view.getHeight());
             horizontalScrollBar.getSlider().setThumbSize(getWidth()/view.getWidth());
+            
+            float toScrollX = (view.getWidth() - (getWidth() - ((isVerticalScrollBarNeeded()) ? CORNER_SIZE : 0)));
+            float toScrollY = (view.getHeight() - (getHeight() - ((isHorizontalScrollBarNeeded()) ? CORNER_SIZE : 0)));
+            
+            if (toScrollX != 0) {
+                horizontalScrollBar.setValue(-view.getX() / toScrollX);
+            } 
+            
+            if (toScrollY != 0) {
+        	verticalScrollBar.setValue(-view.getY() / toScrollY);
+            }
         }
     }
     
@@ -214,6 +262,7 @@ public class ScrollPane extends Container implements ScrollConstants {
             float x =
         	-horizontalScrollBar.getValue()*
         	(view.getWidth() - (getWidth() - ((isVerticalScrollBarNeeded()) ? CORNER_SIZE : 0)));
+            
             view.setX(x);
         }
     }
@@ -224,8 +273,32 @@ public class ScrollPane extends Container implements ScrollConstants {
         	float y =
         	    -verticalScrollBar.getValue()*
         	    (view.getHeight() - (getHeight() - ((isHorizontalScrollBarNeeded()) ? CORNER_SIZE : 0)));
+        	
                 view.setY(y);
             }
         }
+    }
+    
+    /**
+     * On resize handle to make the ScrollPane automaticly scroll when the
+     * scrolling is at the maximum.
+     *
+     * @author Olivier Arteau
+     */
+    
+    protected class ResizeListenerHandle implements ResizeListener {
+	public void sizeChanged(Component c, float oldWidth, float oldHeight) {
+	    if (verticalScrollBar.getValue() == 1.0f ||
+	       (verticalScrollBar.getValue() == 0 && view.getHeight()<getHeight())) {
+		updateScrollBarShowing();
+		verticalScrollBar.setValue(1);
+	    }
+	    
+	    if ((horizontalScrollBar.getValue() == 1 ||
+		(horizontalScrollBar.getValue() == 0 && view.getWidth()<getWidth()))) {
+		updateScrollBarShowing();
+		horizontalScrollBar.setValue(1);
+	    }
+	}
     }
 }

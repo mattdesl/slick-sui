@@ -16,6 +16,7 @@ import mdes.slick.sui.event.MouseEvent;
 import mdes.slick.sui.event.MouseListener;
 import mdes.slick.sui.event.MouseWheelEvent;
 import mdes.slick.sui.event.MouseWheelListener;
+import mdes.slick.sui.event.ResizeListener;
 import mdes.slick.sui.skin.ComponentAppearance;
 
 import org.newdawn.slick.Color;
@@ -231,6 +232,24 @@ public abstract class Component {
      */
     public synchronized void removeControllerListener(ControllerListener s) {
         listenerList.remove(ControllerListener.class, s);
+    }
+    
+    /**
+     * Adds the specified listener to the list.
+     *
+     * @param s the listener to remove
+     */
+    public synchronized void addResizeListener(ResizeListener s) {
+        listenerList.add(ResizeListener.class, s);
+    }
+    
+    /**
+     * Removes the specified listener from the list.
+     *
+     * @param s the listener to remove
+     */
+    public synchronized void removeResizeListener(ResizeListener s) {
+        listenerList.remove(ResizeListener.class, s);
     }
     
     /**
@@ -638,6 +657,18 @@ public abstract class Component {
         return (parent==null) ? y : y+parent.getAbsoluteY();
     }
     
+    public Point getLocation() {
+        cachedLocation.x = getX();
+        cachedLocation.y = getY();
+        return cachedLocation;
+    }
+    
+    public Point getAbsoluteLocation() {
+        cachedAbsoluteLocation.x = getAbsoluteX();
+        cachedAbsoluteLocation.y = getAbsoluteY();
+        return cachedAbsoluteLocation;
+    }
+    
     /**
      * Sets the bounds of this Container.
      * <p>
@@ -665,6 +696,9 @@ public abstract class Component {
         return bounds;
     }
     
+    // Flag to prevent a double call of the resize event when calling setSize method. //
+    private boolean isChanging = false;
+    
     /**
      * Sets the size of this Container.
      * 
@@ -673,8 +707,14 @@ public abstract class Component {
      * @param height the height of this component
      */
     public void setSize(float width, float height) {
-        setWidth(width);
+	isChanging = true;
+	float oldWidth = getWidth(), oldHeight = getHeight();
+	
+	setWidth(width);
         setHeight(height);
+        
+        fireResizeEvent(oldWidth, oldHeight);
+        isChanging = false;
     }
     
     public void setSize(Dimension d) {
@@ -687,18 +727,6 @@ public abstract class Component {
         return cachedSize;
     }
     
-    public Point getLocation() {
-        cachedLocation.x = getX();
-        cachedLocation.y = getY();
-        return cachedLocation;
-    }
-    
-    public Point getAbsoluteLocation() {
-        cachedAbsoluteLocation.x = getAbsoluteX();
-        cachedAbsoluteLocation.y = getAbsoluteY();
-        return cachedAbsoluteLocation;
-    }
-    
     /**
      * Sets the height of this Container.
      * 
@@ -706,12 +734,17 @@ public abstract class Component {
      * @param height the height of this component
      */
     public void setHeight(float height) {
-        float old = this.height;
+	float oldHeight = getHeight();
+	
+	float old = this.height;
         this.height = height;
         if (old != this.width) {
             sizeChanged = true;
             onResize();
         }
+        
+        if (!isChanging)
+            fireResizeEvent(getWidth(), oldHeight);
     }
     
     /**
@@ -721,12 +754,17 @@ public abstract class Component {
      * @param width the width of this component
      */
     public void setWidth(float width) {
-        float old = this.width;
+	float oldWidth = getWidth();
+	
+	float old = this.width;
         this.width = width;
         if (old != this.width) {
             sizeChanged = true;
             onResize();
         }
+        
+        if (!isChanging)
+            fireResizeEvent(oldWidth, getHeight());
     }
     
     /**
@@ -1167,6 +1205,27 @@ public abstract class Component {
                     break;
             }
         }
+    }
+    
+    /**
+     * Fires the specified controller event to all controller
+     * listeners in this component.
+     * 
+     * 
+     * @param oldWidth
+     * 		Old width of the component
+     * 
+     * @param oldHeight
+     * 		Old height of the component
+     * 
+     */
+    
+    protected void fireResizeEvent(float oldWidth, float oldHeight) {
+	final ResizeListener[] listeners = (ResizeListener[])listenerList.getListeners(ResizeListener.class);
+	
+	for (int i=0; i<listeners.length; i++) {
+	    listeners[i].sizeChanged(this, oldWidth, oldHeight);
+	}
     }
     
     public void onResize() {
