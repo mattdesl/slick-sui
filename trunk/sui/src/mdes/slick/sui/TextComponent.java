@@ -6,9 +6,17 @@
 
 package mdes.slick.sui;
 
-import mdes.slick.sui.event.*;
+import mdes.slick.sui.event.ChangeEvent;
+import mdes.slick.sui.event.ChangeListener;
+import mdes.slick.sui.event.KeyAdapter;
+import mdes.slick.sui.event.KeyEvent;
+import mdes.slick.sui.event.KeyListener;
+import mdes.slick.sui.event.MouseAdapter;
+import mdes.slick.sui.event.MouseEvent;
+import mdes.slick.sui.event.MouseListener;
 import mdes.slick.sui.skin.ComponentAppearance;
 import mdes.slick.sui.skin.TextComponentAppearance;
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.gui.GUIContext;
 
@@ -21,6 +29,7 @@ public abstract class TextComponent extends Container {
     private String text = null;
     private boolean editable = true;
     private int caretPos = 0;
+    private SelectionRange selectionRange = new SelectionRange(0,0);
     protected KeyListener keyListener = new TextKeyListener();
     protected MouseListener mouseListener = new TextMouseListener();
     private int maxChars = Integer.MAX_VALUE;
@@ -74,6 +83,8 @@ public abstract class TextComponent extends Container {
     
     public int viewToModel(float x, float y) {
         TextComponentAppearance appearance = (TextComponentAppearance)getAppearance();
+        
+        System.out.println(x + "," + y);
         if (appearance!=null) {
             return appearance.viewToModel(this, x, y);
         } else 
@@ -298,6 +309,7 @@ public abstract class TextComponent extends Container {
     
     private int key;
     private char c;
+    private boolean isShiftPress = false;
     
     private void doRepeat() {
         if (!isEditable())
@@ -310,31 +322,90 @@ public abstract class TextComponent extends Container {
         int oldCaret = caretPos;
 
         if ( (c<127) && (c>31) && (text.length() < getMaxChars()) ) {
-            if (caretPos < text.length()) {
-                text = text.substring(0, caretPos) + c + text.substring(caretPos);
-            } else {
-                text = text.substring(0, caretPos) + c;
-            }
-            caretPos++;
-        } else if (key == Input.KEY_LEFT) {
-            if (caretPos > 0)
-                caretPos--;
-        } else if (key == Input.KEY_RIGHT) {
-            if (caretPos < text.length())
+            if (selectionRange.getEndIndex() == selectionRange.getStartIndex()) {
+                if (caretPos < text.length()) {
+                    text = text.substring(0, caretPos) + c + text.substring(caretPos);
+                } else {
+                    text = text.substring(0, caretPos) + c;
+                }
                 caretPos++;
-        } else if (key == Input.KEY_BACK) {
-            if ((caretPos>0) && (text.length()>0)) {
+            } else {
+        	text = text.substring(0, selectionRange.getStartIndex()) + c + text.substring(selectionRange.getEndIndex());
+        	caretPos = selectionRange.getStartIndex()+1;
+            }
+            
+            this.selectionRange.setStartIndex(caretPos);
+            this.selectionRange.setEndIndex(caretPos);
+        } else if (key == Input.KEY_LEFT) {
+            if (!isShiftPress) {
+                if (caretPos > 0)
+                    caretPos--;
+                
+                this.selectionRange.setStartIndex(caretPos);
+                this.selectionRange.setEndIndex(caretPos);
+            } else {
+        	if (caretPos == selectionRange.getEndIndex()) {
+        	    if (selectionRange.getStartIndex() > 0) {
+        		selectionRange.setStartIndex(selectionRange.getStartIndex() - 1);
+        	    }
+        	} else {
+        	    selectionRange.setEndIndex(selectionRange.getEndIndex() - 1);
+        	}
+            }
+        } else if (key == Input.KEY_RIGHT) {
+            if (!isShiftPress) {
                 if (caretPos < text.length())
-                    text = text.substring(0, caretPos-1) + text.substring(caretPos);
-                else
-                    text = text.substring(0, caretPos-1);
-                caretPos--;
+                    caretPos++;
+                
+                this.selectionRange.setStartIndex(caretPos);
+                this.selectionRange.setEndIndex(caretPos);
+            } else {
+        	if (caretPos == selectionRange.getStartIndex()) {
+        	    if (selectionRange.getEndIndex() < text.length()) {
+        		selectionRange.setEndIndex(selectionRange.getEndIndex() + 1);
+        	    }
+        	} else {
+        	    selectionRange.setStartIndex(selectionRange.getStartIndex() + 1);
+        	}
+            }
+        } else if (key == Input.KEY_BACK) {
+            if (selectionRange.getEndIndex() == selectionRange.getStartIndex()) {
+                if ((caretPos>0) && (text.length()>0)) {
+                    if (caretPos < text.length())
+                        text = text.substring(0, caretPos-1) + text.substring(caretPos);
+                    else
+                        text = text.substring(0, caretPos-1);
+                    caretPos--;
+                }
+            } else {
+        	text = text.substring(0,selectionRange.getStartIndex()) + text.substring(selectionRange.getEndIndex());
+        	caretPos = selectionRange.getStartIndex();
+        	
+        	this.selectionRange.setStartIndex(caretPos);
+                this.selectionRange.setEndIndex(caretPos);
             }
         } else if (key == Input.KEY_DELETE) {
-            if (caretPos < text.length()) {
-                text = text.substring(0, caretPos) + text.substring(caretPos+1);
+            if (selectionRange.getEndIndex() == selectionRange.getStartIndex()) {
+                if (caretPos < text.length()) {
+                    text = text.substring(0, caretPos) + text.substring(caretPos+1);
+                }
+            } else {
+        	text = text.substring(0,selectionRange.getStartIndex()) + text.substring(selectionRange.getEndIndex());
+        	caretPos = selectionRange.getStartIndex();
+        	
+        	this.selectionRange.setStartIndex(caretPos);
+                this.selectionRange.setEndIndex(caretPos);
+            }
+        } else if (key == Input.KEY_END) {
+            if (isShiftPress) {
+        	selectionRange.setEndIndex(text.length());
+            }
+        } else if (key == Input.KEY_HOME) {
+            if (isShiftPress) {
+        	selectionRange.setStartIndex(0);
             }
         }
+        
         doRepeatImpl(key, c);
 
         if (oldText != text) { //changed
@@ -351,11 +422,24 @@ public abstract class TextComponent extends Container {
         //do nothing
     }
     
+    public SelectionRange getSelectionRange() {
+        return selectionRange;
+    }
+
+    public void setSelectionRange(int startIndex, int endIndex) {
+        this.selectionRange.setStartIndex(startIndex);
+        this.selectionRange.setEndIndex(endIndex);
+    }
+
     protected class TextKeyListener extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
             key = e.getKeyCode();
             c = e.getKeyChar();
             doRepeat();
+            
+            if (key == Input.KEY_LSHIFT || key == Input.KEY_RSHIFT) {
+        	isShiftPress = true;
+            }
             
             if (keyRepeating) {
                 keyRepeats.restart();
@@ -363,6 +447,10 @@ public abstract class TextComponent extends Container {
         }
         
         public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == Input.KEY_LSHIFT || e.getKeyCode() == Input.KEY_RSHIFT) {
+        	isShiftPress = false;
+            }
+            
             if (e.getKeyCode()==key) {
                 keyRepeats.stop();
             }
@@ -375,10 +463,72 @@ public abstract class TextComponent extends Container {
             if (!isEditable())
                 return;
             
+            System.out.println("Click");
             int pos = viewToModel(e.getX(), e.getY());
             if (pos>=0) {
                 setCaretPosition(pos);
+                selectionRange.setStartIndex(pos);
+                selectionRange.setEndIndex(pos);
             }
         }
+        
+        public void mouseDragged(MouseEvent e) {
+            if (!isEditable())
+                return;
+            
+            System.out.println("Move");
+            int pos = viewToModel(e.getX(), e.getY());
+            if (pos>=0) {
+        	if (pos < getCaretPosition()) {
+        	    selectionRange.setStartIndex(pos);
+        	} else {
+        	    selectionRange.setEndIndex(pos);
+        	}
+            }
+        }
+        
+        public void mouseReleased(MouseEvent e) {
+            if (!isEditable())
+                return;
+            
+            System.out.println("Finish");
+            int pos = viewToModel(e.getX(), e.getY());
+            if (pos>=0) {
+        	if (pos < getCaretPosition()) {
+        	    selectionRange.setStartIndex(pos);
+        	} else {
+        	    selectionRange.setEndIndex(pos);
+        	}
+            }
+        }
+    }
+    
+    public class SelectionRange {
+	private int startIndex = 0;
+	private int endIndex = 0;
+	
+	public SelectionRange(int startIndex, int endIndex) {
+	    this.startIndex = startIndex;
+	    this.endIndex = endIndex;
+	}
+	
+	public int getStartIndex() {
+	    return startIndex;
+	}
+	public void setStartIndex(int startIndex) {
+	    this.startIndex = startIndex;
+	    debug();
+	}
+	public int getEndIndex() {
+	    return endIndex;
+	}
+	public void setEndIndex(int endIndex) {
+	    this.endIndex = endIndex;
+	    debug();
+	}
+	
+	private void debug() {
+	    System.out.println("Selection Range " + startIndex + "," + endIndex);
+	}
     }
 }
