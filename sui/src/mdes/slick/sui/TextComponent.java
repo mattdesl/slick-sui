@@ -84,7 +84,6 @@ public abstract class TextComponent extends Container {
     public int viewToModel(float x, float y) {
         TextComponentAppearance appearance = (TextComponentAppearance)getAppearance();
         
-        System.out.println(x + "," + y);
         if (appearance!=null) {
             return appearance.viewToModel(this, x, y);
         } else 
@@ -463,7 +462,6 @@ public abstract class TextComponent extends Container {
             if (!isEditable())
                 return;
             
-            System.out.println("Click");
             int pos = viewToModel(e.getX(), e.getY());
             if (pos>=0) {
                 setCaretPosition(pos);
@@ -476,7 +474,6 @@ public abstract class TextComponent extends Container {
             if (!isEditable())
                 return;
             
-            System.out.println("Move");
             int pos = viewToModel(e.getX(), e.getY());
             if (pos>=0) {
         	if (pos < getCaretPosition()) {
@@ -491,7 +488,6 @@ public abstract class TextComponent extends Container {
             if (!isEditable())
                 return;
             
-            System.out.println("Finish");
             int pos = viewToModel(e.getX(), e.getY());
             if (pos>=0) {
         	if (pos < getCaretPosition()) {
